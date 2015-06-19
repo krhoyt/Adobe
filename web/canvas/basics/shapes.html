@@ -1,0 +1,93 @@
+<html>
+<head>
+
+<title>Drawing</title>
+
+<script src="scripts/jquery-1.5.min.js"></script>
+<script src="scripts/shapes.js"></script>
+
+<script>
+// Finish: Random shapes
+$( document ).ready( function() {
+	
+	var canvas = document.getElementById( 'canvas' );	
+	var context = null;
+	
+	if( canvas.getContext )
+	{
+		context = canvas.getContext( '2d' );
+			
+		context.fillStyle = '#AABBCC';
+		context.fillRect( 0, 0, 200, 150 );
+		context.fillStyle = '#FFFFFF';
+		context.fillRect( 5, 5, 190, 140 );
+		
+		$( '#canvas' ).click( function( evt ) {
+			var shape = Math.floor( Math.random() * 8 );
+			var radius = Math.sqrt( 2500 );
+
+			context.fillStyle = '#FFFFFF';
+			context.fillRect( 5, 5, 190, 140 );
+			context.strokeStyle = '#6688AA';
+			context.lineWidth = 2;		
+			
+			switch( shape )
+			{
+				case 0:
+					dashTo( context, 30, 75, 160, 75, 6, 7 );					
+					break;
+					
+				case 1:
+					context.fillStyle = 'rgba( 170, 187, 204, 0.5 )';
+					drawBurst( context, 95, 75, 8, 25, 50, 90 );
+					context.fill();
+					break;	
+					
+				case 2:
+					context.fillStyle = 'rgba( 170, 187, 204, 0.5 )';
+					drawGear( context, 95, 75, 12, 40, 50, 0, 6, 10 );
+					break;							
+					
+				case 3:				
+					context.fillStyle = 'rgba( 170, 187, 204, 0.5 )';
+					drawOval( context, 95, 75, radius, radius / 1.5 );
+					context.fill();					
+					break;
+					
+				case 4:				
+					context.fillStyle = 'rgba( 170, 187, 204, 0.5 )';
+					drawPoly( context, 95, 75, 6, 50, 90 );
+					context.fill();					
+					break;
+					
+				case 5:				
+					context.fillStyle = 'rgba( 170, 187, 204, 0.5 )';
+					drawRoundRect( context, 45, 31, 100, 88, 15 );
+					context.fill();					
+					break;
+					
+				case 6:				
+					context.fillStyle = 'rgba( 170, 187, 204, 0.5 )';
+					drawStar( context, 95, 80, 5, 25, 50, 90 );
+					context.fill();					
+					break;
+					
+				case 7:				
+					context.fillStyle = 'rgba( 170, 187, 204, 0.5 )';
+					drawWedge( context, 95, 75, 0, 60, 50, 50 );
+					context.fill();					
+					break;
+			}
+		} );
+	}
+	
+} );
+</script>
+
+</head>
+<body>
+
+<canvas id="canvas" width="200" height="150"></canvas>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Map Gap</title>
+
+<!-- Tell mobile browser how to display content -->
+<meta name="viewport" content="width=320; user-scalable=no"/>
+
+<!-- Styles -->
+<link href="mapgap.css" rel="stylesheet" type="text/css" />
+
+<!-- PhoneGap/Cordova -->
+<!-- ESRI JavaScript API -->
+<script src="cordova-1.6.1.js" type="text/javascript"></script>
+<script src="http://serverapi.arcgisonline.com/jsapi/arcgis/?v=2.7" type="text/javascript"></script>
+
+<!-- Bulk of the application logic -->
+<script src="mapgap.js" type="text/javascript"></script>
+
+<!-- Estracted logic for easy explaination -->
+<script type="text/javascript">
+// Constants
+var BASEMAP_URL = 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer';
+var DEFAULT_ZOOM = 10;
+
+// Global variable for map
+var map = null;
+
+// Load required ESRI libraries
+dojo.require( 'esri.map' );
+dojo.addOnLoad( doEsriLoad );
+
+// Called when ESRI libraries have loaded
+// Configures map display
+function doEsriLoad() 
+{
+	var basemap = null;	
+	
+	// Handle mouse or touch depending on device
+	touch = ( 'ontouchstart' in document.documentElement ) ? true : false;		
+	
+	// Basemap
+	basemap = new esri.layers.ArcGISTiledMapServiceLayer( BASEMAP_URL );	
+	
+	// Map
+	map = new esri.Map( 'map', {
+		isClickRecenter: true,
+		slider: false
+	} );
+    map.addLayer( basemap );
+
+	// Map events
+	// Notably when the map tiles are loaded
+	dojo.connect( map, 'onLoad', doMapLoad );
+	dojo.connect( map, 'onPanEnd', doChangeEnd );
+	dojo.connect( map, 'onZoomEnd', doChangeEnd );	
+}
+
+// Called when the map tiles are loaded
+// Adds prepopulated markers to map
+// Gets the device geolocation data
+function doMapLoad()
+{
+	// Listen for user interaction on camera icon
+	// Will trigger image access adaptive to the device
+	camera = document.querySelector( '#camera' );
+	camera.addEventListener( touch ? 'touchstart' : 'mousedown', doCameraDown );	
+	
+	// Add prepopulated markers
+	// Could come from server or file
+	addMarkers();
+	
+	// Watch geolocation per W3C specification
+	// Not PhoneGap (though they look identical
+	navigator.geolocation.getCurrentPosition( doPositionSuccess, doPositionError, {
+		enableHighAccuracy: false
+	} );
+}
+
+// Called when the device cannot access location data
+// Bad programmer just dumps to message console
+function doPositionError( error )
+{
+	console.log( 'Position error: ' + error.message );	
+}
+
+// Called when the device has location data
+// Zoom and center the map based on current location
+function doPositionSuccess( position ) 
+{
+	var latitude = null;
+	var longitude = null;
+	var point = null;
+
+	// Get location data from geolocation event
+	latitude = position.coords.latitude;
+	longitude = position.coords.longitude;
+
+	// Plot point on map
+	// Center and zoom on that point
+	point = new esri.geometry.Point( longitude, latitude );
+	point = esri.geometry.geographicToWebMercator( point );
+	map.centerAndZoom( point, DEFAULT_ZOOM );
+}
+</script>
+
+</head>
+<body>
+
+<!-- Map -->
+<div id="map"></div>
+
+<!-- Animated photo bar for location -->
+<div id="bar">
+	<div id="title"></div>
+    <div id="photos">
+    	<img id="camera" src="new.photo.png" width="75" height="75"/>
+    </div>
+    <img id="arrow" src="arrow.png" width="26" height="14"/>
+</div>
+
+<!-- Hidden working area for image scaling -->
+<div id="working">
+	<input id="file" type="file"/> 
+	<img id="capture"/> 
+</div>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+This is a growing collection of canvas examples I continue to accumulate, refine, and expand upon for demonstration and exploration purposes.  Much of the initial inspiration comes from a tutorial on canvas located at the Mozilla Developer Center (https://developer.mozilla.org/en/canvas_tutorial).  Where applicable/possible, I have formatted the code, and injected the use of jQuery as my preferred library for the samples.  This set of examples is designed to accompany a presentation on exploring what canvas has to offer (http://www.slideshare.net/khoyt/exploring-canvas).
+
+animation.html - Uses a tween library to move an image across the canvas. Click once for start. Click again for end. Click again to run.
+cap.html - Demonstration of the types of line caps (butt, round, square).
+context.html - Basic template for instantiating and accessing a canvas.
+curves.html - Quadratic and cubic curves. Each point can be manipulated directly via drag/drop.
+drawing.html - Draws a path that follows the mouse. Changes color for each line.
+fill.html - Shows filling rectangles with solid colors (credit: Mozilla).
+images.html - Shows different means of getting an image onto the canvas. Click images and buttons to draw.
+interaction.html - Basic interaction on the canvas. Drag/drop either handle to redraw dashed path.
+interval.html - Using setInterval() for animation of the Earth around the Sun (credit: Mozilla).
+joints.html - Demonstrates the types of joints that can be used (round, bevel, miter, credit: Mozilla).
+jqplot.html - Example of instantiating a basic chart using the jqPlot library.
+linear.html - Demonstrates applying linear gradients to strokes and fills (credit: Mozilla).
+methods.html - A list of the methods available on the canvas DOM object, and context JavaScript object.
+miter.html - Demonstrates the miter limit property for paths (credit: Mozilla). Lower number by one or two and update.
+paths.html - Shows how to draw basic paths (credit: Mozilla).  The result is a happy face.
+pixels.html - Painting on the canvas using an image as a brush. Drag/drop image to paint.
+plotkit.html - Example of instantiating a basic chart using the PlotKit library.
+radial.html - Demonstrates using radial fills on canvas (credit: Mozilla). Note inner and outer circles.
+rgraph.html - Animates a chart with random data by shifting the source array and refreshing the canvas. Uses RGraph library.
+rotation.html - Shows the use of the rotation transform on the canvas to draw a ticking clock (credit: Mozilla)
+saving.html - Uses Canvas2Image to encode the contents of the canvas to an image and prompts the user to save the file.
+shapes.html - Shows the use of a small shape drawing library I created. Click on the canvas to refresh shape.
+slicing.html - Uses the drawImage() method to selectively copy pixels of an image and composite them with another.
+stroke.html - Basic example of how to draw paths, using a colorful display for each path (credit: Mozilla).
+text.html - Uses the canvas to draw text and apply a drop shadow. Drop shadow is universal in this example.
+transparency.html - Shows using RGBA to fill rectangles with varying degrees of transparency (credit: Mozilla).

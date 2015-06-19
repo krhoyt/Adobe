@@ -1,0 +1,45 @@
+@font-face {
+	font-family: droid;
+	src: url( 'DroidSans.ttf' );
+}
+
+body {
+	background-color: #5C6367;	
+	cursor: default;
+	margin: 0px;
+	padding: 0px;
+
+	-webkit-user-select: none;
+}
+
+canvas {
+	height: 100%;		
+	width: 100%; 
+}
+
+#check {
+	bottom: 29px;
+	left: 15px;
+	position: absolute;	
+}
+
+#field {
+	background-image: url( 'grass.jpg' );
+	background-repeat: repeat;
+	bottom: 94px;
+	box-shadow: 0px 10px 20px rgba( 0, 0, 0, 0.60 );
+	left: 0px;
+	position: absolute;
+	right: 0px;
+	top: 0px;	
+}
+
+#prompt {
+	bottom: 0px;
+	color: #FFF;
+	font-family: droid;
+	font-size: 28px;	
+	left: 62px;
+	line-height: 88px;
+	position: absolute;
+}

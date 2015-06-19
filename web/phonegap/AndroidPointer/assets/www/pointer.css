@@ -1,0 +1,22 @@
+#arrow {
+	position: absolute;
+	width: 142px;
+	height: 320px;
+	bottom: -57px;
+	left: 89px;
+	background-image: url( images/arrow.png );
+	background-repeat: no-repeat;
+    -webkit-transform-origin: 71px 263px; 			
+}
+
+body {
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;	
+}
+
+#container {
+	overflow: hidden;
+	width: 100%;
+	height: 100%;	
+}

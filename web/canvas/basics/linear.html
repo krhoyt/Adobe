@@ -1,0 +1,46 @@
+<html>
+<head>
+
+<title>Linear Gradient</title>
+
+<script src="scripts/jquery-1.5.min.js"></script>
+
+<script>
+$( document ).ready( function() {
+	
+	var canvas = document.getElementById( 'canvas' );
+	var ctx = null;
+	var fill = null;	
+	var stroke = null;
+	
+	if( canvas.getContext )
+	{
+		ctx = canvas.getContext( '2d' );
+		
+		fill = ctx.createLinearGradient( 0, 0, 0, 150 );
+		fill.addColorStop( 0, '#00ABEB' );
+		fill.addColorStop( 0.5, '#FFF' );
+		fill.addColorStop( 0.5, '#66CC00' );
+		fill.addColorStop( 1, '#FFF' );
+
+		stroke = ctx.createLinearGradient(0,50,0,95);
+		stroke.addColorStop( 0.5, '#000' );
+		stroke.addColorStop( 1, 'rgba( 0, 0, 0, 0 )' );
+
+		ctx.fillStyle = fill;
+		ctx.strokeStyle = stroke;
+  
+		ctx.fillRect( 10, 10, 130, 130 );
+		ctx.strokeRect( 50, 50, 50, 50 );
+	}
+	
+} );
+</script>
+
+</head>
+<body>
+
+<canvas id="canvas" width="150" height="150"></canvas> 
+
+</body>
+</html>

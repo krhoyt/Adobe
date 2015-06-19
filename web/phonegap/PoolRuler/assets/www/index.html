@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>PoolMate</title>
+
+<style type="text/css">
+#picture {
+	left: 0px;
+	position: absolute;
+	top: 0px;	
+}
+</style>
+
+<script src="cordova-1.6.1.js" type="text/javascript"></script>
+<script src="deflate.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+var picture = null;
+var samples = null;
+var sensor = null;
+	
+function doAccelerationError() 
+{
+	console.log( 'Accelerometer error' );
+}
+	
+function doAccelerationSuccess( acceleration )
+{
+	var degrees = null;
+	
+	if( acceleration.y < 0 )
+	{
+		degrees = 90 - Math.abs( acceleration.y * 90 );
+	} else {
+		degrees = 90 + ( acceleration.y * 90 );	
+	}
+	
+	samples.push( {
+		angle: degrees,
+		timestamp: acceleration.timestamp 
+	} );
+	document.querySelector( '#tilt' ).innerHTML = degrees;
+}
+	
+function doBodyLoad()
+{	
+	document.addEventListener( 'deviceready', doDeviceReady, false );
+	document.addEventListener( 'touchmove', doTouchMove, false );			
+}
+	
+function doDeviceReady() 
+{
+	document.querySelector( '#picture' ).onclick = doPictureClick;	
+}
+
+function doFile( file )
+{
+	alert( 'Got file: ' + file.size );
+	reader = new FileReader();
+	reader.onloadend = doFileLoad;
+	reader.readAsDataURL( file );	
+}
+
+function doFileEntry( fileEntry ) 
+{
+	alert( 'Got file entry.' );
+	fileEntry.file( doFile, doFileError );
+}
+
+function doFileError( error )
+{
+	alert( error.code );
+}
+
+function doFileLoad( evt )
+{
+	alert( 'File loaded.' );
+	// alert( evt.target.result.charAt( 0 ) );
+}
+
+function doPictureClick()
+{
+	samples = new Array();
+
+	/*
+	sensor = navigator.accelerometer.watchAcceleration( 
+		doAccelerationSuccess, 
+		doAccelerationError, 
+		{
+			frequency: 500
+		} 
+	);	
+	*/
+	
+	navigator.camera.getPicture( 
+		doPictureSuccess, 
+		doPictureError, 
+		{
+			quality: 50,
+			destinationType: Camera.DestinationType.DATA_URL,
+			sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+			allowEdit: false,
+			encodingType: Camera.EncodingType.JPEG
+		} 
+	);
+}
+
+function doPictureError()
+{
+	console.log( 'Picture error' );
+}
+
+function doPictureSuccess( uri )
+{
+	// navigator.accelerometer.clearWatch( sensor );
+	// sensor = null;
+
+	alert( uri.substring( 0, 100 ) );
+	
+	// alert( 'Getting file system' );	
+	// window.resolveLocalFileSystemURI( uri, doFileEntry, doFileError );
+
+	/*
+	 * TODO: Scale picture to fit screen
+	if( picture == null )
+	{
+		picture = new Image();
+		picture.id = 'picture';		
+	}
+
+	picture.src = uri;
+	
+	document.body.appendChild( picture );	
+	*/
+}
+
+function doReaderLoad( evt ) 
+{
+	alert( evt.target.result.charCodeAt( 0 ) );
+	console.log( 'File read success: ' + evt.target.result );	
+}
+
+function doRequestReady( evt ) 
+{
+	if( xhr.readyState == 4 )
+	{
+		alert( xhr.responseText.charCodeAt( 6 ) );
+	}
+}
+
+function doTouchMove( evt ) 
+{ 
+	evt.preventDefault(); 
+}
+</script>
+
+</head>
+<body onLoad="doBodyLoad();">
+
+<input id="picture" type="button" value="Select image..."/>
+<div id="tilt"></div>
+
+</body>
+</html>

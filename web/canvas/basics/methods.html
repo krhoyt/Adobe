@@ -1,0 +1,51 @@
+<html>
+<head>
+
+<title>Methods</title>
+
+<script src="scripts/jquery-1.5.min.js"></script>
+
+<script>
+var canvas = null;
+var context = null;
+
+$( document ).ready( function() {
+	canvas = document.getElementById( 'canvas' );
+	context = canvas.getContext( '2d' );	
+	
+	$( 'select' ).change( function() {
+		if( $( this ).attr( 'value' ) == 'canvas' )
+		{
+			dump( canvas );	
+		} else { 
+			dump( context );
+		}
+	} );
+	dump( canvas );
+} );
+
+function dump( target )
+{
+	$( '#list' ).empty();
+	
+	for( method in target )
+	{
+		$( '#list' ).append( method + '<br>' );
+	}	
+}
+</script>
+
+</head>
+<body>
+
+<select>
+	<option value="canvas" selected>Canvas</option>
+	<option value="context">Context</option>
+</select>
+
+<div id="list"></div>
+
+<canvas id="canvas" width="100" height="100"></canvas>
+
+</body>
+</html>

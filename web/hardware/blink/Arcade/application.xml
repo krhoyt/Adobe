@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/3.2">
+	<id>com.adobe.khoyt.Arcade</id>
+	<name>
+		<text xml:lang="en">Arcade Button</text>
+	</name>
+	<versionNumber>1.0.0</versionNumber>
+	<filename>Arcade Button</filename>
+	<description>
+		<text xml:lang="en">Presents an arcade button to control a physical LED.</text>
+	</description>
+	<initialWindow>
+		<content>index.html</content>
+		<title>Arcade Button</title>
+		<systemChrome>standard</systemChrome>
+		<transparent>false</transparent>
+		<visible>true</visible>
+		<minimizable>true</minimizable>
+		<maximizable>false</maximizable>
+		<resizable>false</resizable>
+		<width>500</width>
+		<height>500</height>
+	</initialWindow>
+</application>

@@ -1,0 +1,19 @@
+.capture {
+	position: absolute;
+	border: 10px solid #FFF;
+	visibility: hidden;
+	-webkit-box-shadow: 2px 2px 4px 4px rgba( 128, 128, 128, 0.20 );
+	-webkit-transform: rotate( 7deg );		
+}
+
+#btnCamera {
+	left: 10px;
+	right: 10px;
+	bottom: 66px;	
+}
+
+#btnGallery {
+	left: 10px;
+	right: 10px;
+	bottom: 10px;	
+}

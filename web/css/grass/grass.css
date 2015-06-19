@@ -1,0 +1,108 @@
+body {
+	overflow: hidden;	
+}
+
+#between {
+	background: -moz-linear-gradient( 
+		top,  
+		rgba( 6, 29, 68, 1 ) 0%,
+		rgba( 18, 44, 86, 1 ) 12%,		
+		rgba( 78, 83, 117, 1 ) 38%,
+		rgba( 222, 117, 116, 1 ) 63%,				
+		rgba( 255, 199, 70, 1 ) 88%,		 
+		rgba( 251, 216, 0, 1 ) 100%
+	);
+	background: -o-linear-gradient( 
+		top,  
+		rgba( 6, 29, 68, 1 ) 0%,
+		rgba( 18, 44, 86, 1 ) 12%,		
+		rgba( 78, 83, 117, 1 ) 38%,
+		rgba( 222, 117, 116, 1 ) 63%,				
+		rgba( 255, 199, 70, 1 ) 88%,		 
+		rgba( 251, 216, 0, 1 ) 100%
+	);	
+	background: -webkit-linear-gradient( 
+		top, 
+		rgba( 6, 29, 68, 1 ) 0%,
+		rgba( 18, 44, 86, 1 ) 12%,		
+		rgba( 78, 83, 117, 1 ) 38%,
+		rgba( 222, 117, 116, 1 ) 63%,				
+		rgba( 255, 199, 70, 1 ) 88%,		 
+		rgba( 251, 216, 0, 1 ) 100%
+	);
+	bottom: 0px;
+	left: 0px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	-moz-transition: opacity 4s ease-in-out;
+	-o-transition: opacity 4s ease-in-out;	
+	-webkit-transition: opacity 4s ease-in-out;	
+}
+
+#day {
+	background: -moz-linear-gradient( 
+		top,  
+		rgba( 16, 146, 222, 1 ) 0%, 
+		rgba( 123, 199, 255, 1 ) 100%
+	);
+	background: -o-linear-gradient( 
+		top,  
+		rgba( 16, 146, 222, 1 ) 0%, 
+		rgba( 123, 199, 255, 1 ) 100%
+	);	
+	background: -webkit-linear-gradient( 
+		top, 
+		rgba( 16, 146, 222, 1 ) 0%, 
+		rgba( 123, 199, 255, 1 ) 100% 
+	);
+	bottom: 0px;
+	left: 0px;
+	opacity: 1;
+	overflow: hidden;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	-moz-transition: opacity 4s ease-in-out;
+	-o-transition: opacity 4s ease-in-out;	
+	-webkit-transition: opacity 4s ease-in-out;
+}
+
+#grass {
+	bottom: 0px;
+	height: 270px;
+	left: 0px;
+	overflow: hidden;
+	position: absolute;
+	right: 0px;
+}
+
+#night {
+	background: -moz-linear-gradient( 
+		top,  
+		rgba( 2, 10, 47, 1 ) 0%,
+		rgba( 45, 71, 148, 1 ) 100%  
+	);
+	background: -o-linear-gradient( 
+		top,  
+		rgba( 2, 10, 47, 1 ) 0%,
+		rgba( 45, 71, 148, 1 ) 100%  
+	);	
+	background: -webkit-linear-gradient( 
+		top, 
+		rgba( 2, 10, 47, 1 ) 0%,
+		rgba( 45, 71, 148, 1 ) 100%  
+	);
+	bottom: 0px;
+	left: 0px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	-moz-transition: opacity 4s ease-in-out;
+	-o-transition: opacity 4s ease-in-out;	
+	-webkit-transition: opacity 4s ease-in-out;	
+}

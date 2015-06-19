@@ -1,0 +1,57 @@
+<html>
+<head>
+
+<title>Reset the Notes Storage</title>
+
+<script type="text/javascript">
+var MILLIS_PER_DAY = 86400000;
+
+function doLoad()
+{
+	var notes = null;
+	
+	window.localStorage.clear();	
+
+	notes = new Array();
+	
+	notes.push( {
+		content: 'You and Your Heart\nby Jack Johnson\n\nWatch you when you say, what you are\nAnd when you blame everyone, you broke again\nWatch you change the frame or watch you when you\nTake your aim at the sum of everything',
+		modified: true,
+		saved: new Date( 2010, 3, 6 ).getTime() + Math.round( Math.random() * MILLIS_PER_DAY )
+	} );	
+	
+	notes.push( {
+		content: 'Won\'t Back Down\nby Mat Kearney\n\nAnd you woke the morning up\nRunning off my darkest night\nThe longest fight I\'ve seen\nHere goes a chance I know\nCashing in on all my chips\nLet all my ships come fly',
+		modified: true,
+		saved: new Date( 2006, 3, 18 ).getTime() + Math.round( Math.random() * MILLIS_PER_DAY )
+	} );		
+	
+	notes.push( {
+		content: 'Ants Marching\nby Dave Matthews Band\n\nHe wakes up in the morning\nDoes his teeth bite to eat and he\'s rolling\nNever changes a thing\nThe week ends the week begins\nShe thinks, we look at each other\nWondering what the other is thinking\nBut we never say a thing\nThese crimes between us grow deeper',
+		modified: true,
+		saved: new Date( 1995, 2, 26 ).getTime() + Math.round( Math.random() * MILLIS_PER_DAY )
+	} );	
+	
+	notes.push( {
+		content: 'Over the Rainbow\nby Israel Kamakawiwo\'ole\n\nSomewhere over the rainbow\nWay up high\nAnd the dreams that you dreamed of\nOnce in a lullaby\nSomewhere over the rainbow\nBlue birds fly\nAnd the dreams you dreamed of\nDreams really do come true\nSomeday I\'ll wish upon a star\nWake up where the clouds are far behind me\nWhere trouble melts like lemon drops\nHigh above the chimney tops\nthat\'s where you\'ll find me\nSomewhere over the rainbow bluebirds fly\nAnd the dream that you dare to, why, oh why can\'t I?',
+		modified: true,
+		saved: new Date( 1993, 10, 1 ).getTime() + Math.round( Math.random() * MILLIS_PER_DAY )
+	} );		
+	
+	notes.push( {
+		content: 'Wild World\nby Cat Stevens\n\nNow, that I\'ve lost everything to you\nYou say you wanna start something new\nAnd it\'s breaking my heart you\'re leavin\', baby, I\'m grievin\'\nBut if you wanna leave, take good care\nHope you have a lot of nice things to wear\nBut then a lot of nice things turn bad out there',
+		modified: true,
+		saved: new Date( 1970, 10, 23 ).getTime() + Math.round( Math.random() * MILLIS_PER_DAY )
+	} );		
+
+	window.localStorage.notes = JSON.stringify( notes );
+}
+</script>
+
+</head>
+<body onload="doLoad();">
+
+Reset complete.
+
+</body>
+</html>

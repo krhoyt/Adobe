@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application 
+	xmlns="http://ns.adobe.com/air/application/3.0">
+
+	<id>com.adobe.khoyt.Golf</id>
+	<name>
+		<text xml:lang="en">Golf</text>
+	</name>
+    <versionNumber>1.0.0</versionNumber>
+    <versionLabel>1.0</versionLabel>
+	<filename>Golf</filename>
+	<description>
+		<text xml:lang="en">Uses Adobe AIR to talk to the serial port.</text>
+	</description>
+	<initialWindow>
+		<content>golf.html</content>
+		<title>Golf</title>
+		<systemChrome>standard</systemChrome>
+		<transparent>false</transparent>
+		<visible>true</visible>
+		<minimizable>false</minimizable>
+		<maximizable>false</maximizable>
+		<resizable>false</resizable>
+		<width>480</width>
+		<height>320</height>
+	</initialWindow>
+
+</application>

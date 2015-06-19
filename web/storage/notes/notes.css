@@ -1,0 +1,282 @@
+.close {
+	background-image: url( search.close.png );
+	height: 30px;
+	position: absolute;	
+	right: 0px;
+	top: 0px;
+	width: 20px;
+}
+
+.labeled {
+	float: left;	
+	overflow: hidden;
+	padding-top: 11px;
+	width: 145px;
+	white-space: nowrap;
+}
+
+.line {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: rgba( 0, 0, 0, 0.15 );		
+	height: 23px;
+}
+
+.note {
+	cursor: default;
+	height: 42px;
+	border-bottom-width: 1px;
+	border-bottom-style: dotted;
+	border-bottom-color: #D4D4D4;
+	font-family: 'delve-hand-1', 'delve-hand-2';
+	font-size: 22px;
+	padding-left: 19px;
+	padding-right: 19px;
+	padding-top: 1px;
+	
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+
+.open {
+	background-image: url( search.open.png );
+	height: 30px;
+	left: 0px;
+	position: absolute;	
+	top: 0px;
+	width: 30px;
+}
+
+.saved {
+	color: #ABABAB;
+	float: right;
+	font-family: Helvetica Neue, Helvetica, sans-serif;
+	font-size: 14px;	
+	padding-top: 15px;
+}
+
+.selected {
+	background-image: url( highlight.png );
+	background-repeat: no-repeat;	
+}
+
+.term {
+	bottom: 0px;
+	color: #B3B3B3;	
+	font-family: Helvetica Neue, Helvetica, sans-serif;
+	font-size: 14px;		
+	left: 34px;	
+	outline: none;		
+	padding-top: 8px;
+	position: absolute;
+	right: 5px;
+	top: 0px;
+}
+
+#ago {
+	color: #aa573c;	
+	cursor: default;
+	font-family: Helvetica Neue, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;			
+	left: 65px;
+	position: absolute;	
+	top: 0px;
+	
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+
+#holder {
+	bottom: 0px;
+	left: 62px;
+	position: absolute;
+	right: 0px;
+	top: 26px;
+}
+
+#content {
+	width: 100%;
+	height: 100%;
+	/* margin: 0; */
+	/* border: 0; */
+	background: none;
+	border: none;
+	font-family: 'delve-hand-1', 'delve-hand-2';
+	font-size: 22px;	
+	line-height: 24px;
+	outline: none;
+	resize: none;
+}
+
+#controls {
+	bottom: -13px;
+	position: absolute;	
+}
+
+#count {
+	color: #060606;
+	cursor: default;
+	font-family: Helvetica Neue, Helvetica, sans-serif;
+	font-size: 20px;
+	left: 0px;
+	position: absolute;	
+	right: 0px;
+	text-align: center;
+	top: -29px;
+	
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+
+#divider {
+	background-image: url( divider.png );
+	background-repeat: repeat-y;
+	bottom: 14px;
+	left: 335px;
+	position: absolute;	
+	top: 15px;
+	width: 12px;
+}
+
+#export {
+	padding-bottom: 1px;
+	padding-left: 48px;	
+}
+
+#flap {
+	bottom: 0px;
+	left: 15px;
+	pointer-events: none;
+	position: absolute;	
+}
+
+#list {
+	border: 1px solid #D4D4D4;
+	bottom: 26px;
+	left: 0px;		
+	overflow: hidden;
+	position: absolute;
+	right: 0px;
+	top: 45px;
+}
+
+#next {
+	padding-bottom: 1px;
+	padding-left: 46px;	
+}
+
+#pad {	
+	background-image: url( pad.fill.png );
+	background-repeat: repeat;
+	-moz-border-image:  url( pad.png ) 65 65 20 65 repeat;
+	-webkit-border-image:  url( pad.png ) 65 65 20 65 repeat;	
+	border-image: url( pad.png ) 65 65 20 65 repeat;	
+	border-width: 65px 65px 20px 65px;		
+	bottom: 14px;
+	left: 347px;
+	position: absolute;
+	right: 13px;
+	top: 15px;	
+}
+
+#page {
+	bottom: 26px;
+	left: -65px;
+	overflow: hidden;
+	position: absolute;	
+	top: -13px;
+	right: -65px;
+}
+
+#paper {
+	background-image: url( paper.fill.png );
+	background-repeat: repeat;	
+	-moz-border-image: url( paper.png ) 40 18 40 18 repeat;
+	-webkit-border-image: url( paper.png ) 40 18 40 18 repeat;	
+	border-image: url( paper.png ) 40 18 40 18 repeat;	
+	border-width: 40px 18px 40px 18px;	
+	bottom: 14px;
+	left: 15px;
+	position: absolute;
+	top: 15px;
+	width: 284px;	
+}
+
+#plus {
+	position: absolute;
+	right: -58px;
+	top: -57px;
+}
+
+#ruling {
+	left: 0px;
+	position: absolute;
+	right: 0px;
+	top: 22px;
+}
+
+#search {
+	background-image: url( search.fill.png );
+	background-repeat: repeat-x;
+	height: 30px;
+	left: 0px;			
+	position: absolute;
+	right: 0px;
+	top: 3px;
+}
+
+#stamp {
+	color: #aa573c;	
+	cursor: default;
+	font-family: Helvetica Neue, Helvetica, sans-serif;
+	font-size: 14px;
+	position: absolute;	
+	right: 8px;
+	top: 1px;	
+	
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+
+#stitch {
+	-moz-border-image: url( stitch.png ) 15 13 14 15 repeat;
+	-webkit-border-image: url( stitch.png ) 15 13 14 15 repeat;
+	border-image: url( stitch.png ) 15 13 14 15 repeat;	
+	border-width: 15px 13px 14px 15px;
+	bottom: 0px;
+	left: 0px;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+}
+
+#title {
+	color: #FFFFFF;	
+	cursor: default;
+	font-family: Helvetica Neue, Helvetica, sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	left: 0px;	
+	position: absolute;
+	right: 0px;
+	text-align: center;	
+	text-shadow: 0px -1px 1px #000;	
+	top: -55px;
+
+	-moz-user-select: none;	
+	-webkit-user-select: none;
+}
+
+#trash {
+	padding-bottom: 3px;
+	padding-left: 45px;	
+}
+
+#trim {
+	font-family: 'delve-hand-1', 'delve-hand-2';
+	font-size: 22px;
+	white-space: nowrap;
+	width: 145px;	
+	overflow: hidden;
+}

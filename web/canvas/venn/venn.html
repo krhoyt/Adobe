@@ -1,0 +1,151 @@
+<html>
+<head>
+
+<title>Venn Diagram</title>
+
+<script type="text/javascript">
+var INTERSECTION_FILL = '#A0A8F9';
+var LABEL_COLOR = '#000000';
+var LABEL_FONT = '11px Arial';
+var LINE_BREAK = '\n';
+var LINE_HEIGHT = 14;
+
+// Venn diagram circles
+var circles = [
+	{cx: 145, cy: 200, r: 115, fill: '#A0A8F9', stroke: '#000000', line: 2, label: '@gregsramblings\nfollowers', placement: 'top'},
+	{cx: 370, cy: 185, r: 170, fill: '#A0A8F9', stroke: '#000000', line: 2, label: '@mchaize\nfollowers', placement: 'top'},
+	{cx: 300, cy: 330, r: 140, fill: '#A0A8F9', stroke: '#000000', line: 2, label: '@devgirlfl\nfollowers', placement: 'bottom'}
+];
+
+// Global variables
+var canvas = null;
+var context = null;
+
+// Called to draw the diagram
+// No arguments draws no fill
+// Arguments indicate desired intersection
+function redraw()
+{	
+	var lines = null;
+	var placement = null;
+
+	// Clear before we draw
+	context.clearRect( 0, 0, canvas.width, canvas.height );
+	
+	// Fill an intersection
+	if( arguments.length > 0 )
+	{
+		// Fill the intersection without strokes
+		for( var a = 0; a < arguments.length; a++ )
+		{
+			context.beginPath();
+			context.fillStyle = INTERSECTION_FILL;
+			context.arc( circles[arguments[a]].cx, circles[arguments[a]].cy, circles[arguments[a]].r, 0, Math.PI * 2, true );
+			context.fill();		
+			
+			context.globalCompositeOperation = 'source-in';	
+		}
+		
+		// Clear compositing
+		context.globalCompositeOperation = 'source-over';		
+	}
+
+	// Draw the circle outlines on top of fill
+	// Also handles drawing labels for circles
+	for( var c = 0; c < circles.length; c++ )
+	{
+		// Outlines
+		context.beginPath();
+		context.strokeStyle = circles[c].stroke;	
+		context.lineWidth = circles[c].line;
+		context.arc( circles[c].cx, circles[c].cy, circles[c].r, 0, Math.PI * 2, true );
+		context.stroke();
+		
+		// Split label lines
+		// No multiline text in canvas
+		lines = circles[c].label.split( LINE_BREAK );
+
+		// Set styling
+		context.font = LABEL_FONT;
+		context.fillStyle = LABEL_COLOR;
+		context.textAlign = 'center';
+		
+		// Draw labels
+		for( var t = 0; t < lines.length; t++ )
+		{
+			// Allow user-specified label placement of top or bottom
+			// Calculate roughly from specified arbitrary line height
+			if( circles[c].placement == 'top' )
+			{
+				placement = circles[c].cy - circles[c].r + ( lines.length * LINE_HEIGHT );			
+			} else {
+				placement = circles[c].cy + circles[c].r - ( lines.length * LINE_HEIGHT );				
+			}
+			
+			// Canvas text metrics do not give line height
+			// Arbitrary number based off font setting
+			context.fillText( lines[t], circles[c].cx, placement + ( t * LINE_HEIGHT ) );				
+		}	
+	}	
+}
+
+// Called when the selection changes
+// Updates drawing based on selection value
+function doChange()
+{
+	if( this.value.length == 0 )
+	{
+		// All empty
+		redraw();	
+	} else {
+		// Some part filled
+		redraw.apply( null, this.value.split( ',' ) );
+	}
+}
+
+// Called when document loads
+// Grabs canvas and context references
+// Adds event listeners to selection
+// Perform initial drawing of diagram
+function doLoad()
+{
+	var selection = null;
+
+	// References
+	canvas = document.querySelector( '#diagram' );
+	context = canvas.getContext( '2d' );
+
+	// Change event
+	selection = document.querySelector( '#intersect' );
+	selection.onchange = doChange;
+
+	// Initial drawing
+	redraw();
+}
+
+// Load event handler
+window.onload = doLoad;
+</script>
+
+</head>
+<body>
+
+<!-- Interesection selection -->
+<div>
+    <select id="intersect">
+        <option value="">None</option>
+        <option value="0">Greg Only</option>
+        <option value="1">Michael Only</option>    
+        <option value="2">Holly Only</option>    
+        <option value="0,1">Greg and Michael</option>
+        <option value="0,2">Greg and Holly</option>
+        <option value="1,2">Michael and Holly</option>
+        <option value="0,1,2">Greg, Michael and Holly</option>       
+    </select>
+</div>
+
+<!-- Canvas -->
+<canvas id="diagram" width="560" height="480"></canvas>
+
+</body>
+</html>

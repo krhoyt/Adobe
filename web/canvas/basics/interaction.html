@@ -1,0 +1,68 @@
+<html>
+<head>
+
+<title>Interaction</title>
+
+<link rel="stylesheet" type="text/css" href="styles/interaction.css">
+
+<script src="scripts/jquery-1.5.min.js"></script>
+<script src="scripts/shapes.js"></script>
+<script src="scripts/interaction.js"></script>
+
+<script>
+var points = new Array();
+var index = -1;
+
+$( document ).ready( function() {
+
+	var canvas = document.getElementById( 'canvas' );	
+	var context = null;
+	
+	if( canvas.getContext )
+	{
+		context = canvas.getContext( '2d' );
+	
+		points.push( { x: 31, y: 71, width: 8, height: 8 } );
+		points.push( { x: 161, y: 71, width: 8, height: 8 } );	
+	
+		$( '#canvas' ).mousedown( function( evt ) {
+			var pt = coordinate( evt, canvas );
+			
+			for( var p = 0; p < points.length; p++ )
+			{
+				
+				if( pt.x >= ( points[p].x - 10 ) && 
+					pt.x <= ( points[p].x + points[p].width + 10 ) &&
+					pt.y >= ( points[p].y - 10 ) &&
+					pt.y <= ( points[p].y + points[p].height + 10 ) ) {
+					
+					index = p;
+					
+					$( '#canvas' ).mousemove( function( evt ) {
+						points[index].x = evt.clientX - canvas.offsetLeft;
+						points[index].y = evt.clientY - canvas.offsetTop;
+			
+						redraw( context );
+					} );
+					
+					break;
+				}				
+				
+			}
+		} ).mouseup( function( evt ) {
+			$( '#canvas' ).unbind( 'mousemove' );			
+			index = -1;
+		} );
+	
+		redraw( context );
+	}
+} );
+</script>
+
+</head>
+<body>
+
+<canvas id="canvas" width="200" height="150"></canvas>
+
+</body>
+</html>

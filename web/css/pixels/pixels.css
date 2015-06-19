@@ -1,0 +1,42 @@
+@font-face {
+	font-family: simpsons;
+	src: url( 'simpsons.ttf' );
+}
+
+body {
+	background-color: #F2F1DD;	
+}
+
+canvas {
+	left: 0px;
+	position: absolute;
+	top: 0px;
+	visibility: hidden;	
+}
+
+#landing-pad {
+	bottom: 0px;
+	color: #F00;	
+	font-family: simpsons;
+	font-size: 36px;
+	position: absolute;	
+	text-align: center;
+	top: 0px;
+	width: 350px;
+}
+
+#landing-pad img {
+	top: 170px;
+	left: 145px;
+	position: absolute;	
+}
+
+#moe {
+	bottom: 15px;
+	position: absolute;
+	right: 40px;	
+}
+
+#prompt {
+	padding-top: 40px;	
+}

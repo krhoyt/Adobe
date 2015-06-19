@@ -1,0 +1,14 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	background-image: url( ../assets/grass.jpg );
+	background-repeat: repeat;
+}
+
+img {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	visibility: hidden;	
+}

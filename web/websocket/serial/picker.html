@@ -1,0 +1,184 @@
+<html>
+<head>
+
+<title>Canvas Color Picker</title>
+
+<link href="picker.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript">
+var canvas = null;
+var context = null;
+var socket = null;
+var swatch = null;
+var touch = null;
+var xhr = null;
+
+function position( x, y )
+{
+	if( ( x + 50 + swatch.clientWidth + 10 ) > window.innerWidth )
+	{
+		swatch.style.left = ( x - 50 - swatch.clientWidth ) + 'px';		
+	} else {
+		swatch.style.left = ( x + 50 ) + 'px';		
+	}
+
+	if( ( y - Math.ceil( swatch.clientHeight / 2 ) - 10 ) < 0 )
+	{
+		swatch.style.top = '10px';		
+	} else if( ( y + Math.ceil( swatch.clientHeight / 2 ) + 10 ) > window.innerHeight ) {
+		swatch.style.top = ( window.innerHeight - 10 - swatch.clientHeight ) + 'px';
+	} else {
+		swatch.style.top = ( y - 50 ) + 'px';
+	}	
+}
+
+function redraw()
+{
+	var horizontal = null;
+	var hue = null;
+	var lightness = null;
+	var saturation = null;
+	var vertical = null;
+	
+	context.clearRect( 0, 0, canvas.width, canvas.height );
+	
+	vertical = Math.ceil( canvas.height / 360 );
+	horizontal = Math.ceil( canvas.width / 100 );
+
+	saturation = 100;
+
+	for( hue = 0; hue < 360; hue++ )
+	{
+		for( lightness = 0; lightness < 100; lightness++ )
+		{
+			context.fillStyle = 'hsl( ' + hue + ', ' + saturation + '%, ' + ( 100 - lightness ) + '% )';
+			context.fillRect( lightness * horizontal, hue * vertical, horizontal, vertical );
+		}
+	}
+}
+
+function doCanvasDown( evt )
+{
+	var color = null;	
+	
+	canvas.addEventListener( touch ? 'touchmove' : 'mousemove', doCanvasMove );
+	canvas.addEventListener( touch ? 'touchend' : 'mouseup', doCanvasUp );	
+	
+	color = context.getImageData( evt.clientX, evt.clientY, 1, 1 );
+	rgb = 'rgb( ' + color.data[0] + ', ' + color.data[1] + ', ' + color.data[2] + ' )';
+	color = color.data[0] + ',' + color.data[1] + ',' + color.data[2];		
+	
+	swatch = document.querySelector( '#swatch' );
+	swatch.style.backgroundColor = rgb;
+
+	position( evt.clientX, evt.clientY );
+	
+	swatch.style.visibility = 'visible';
+	
+	socket.send( color );
+}
+
+function doCanvasMove( evt )
+{
+	var color = null;
+
+	color = context.getImageData( evt.clientX, evt.clientY, 1, 1 );
+	color = 'rgb( ' + color.data[0] + ', ' + color.data[1] + ', ' + color.data[2] + ' )';	
+	
+	swatch.style.backgroundColor = color;
+	
+	position( evt.clientX, evt.clientY );
+
+	// socket.send( color );
+}
+
+function doCanvasUp( evt )
+{
+	var color = null;
+	var form = null;
+	
+	canvas.removeEventListener( touch ? 'touchmove' : 'mousemove', doCanvasMove );
+	canvas.removeEventListener( touch ? 'touchend' : 'mouseup', doCanvasUp );		
+
+	color = context.getImageData( evt.clientX, evt.clientY, 1, 1 );
+	color = color.data[0] + ',' + color.data[1] + ',' + color.data[2];	
+	
+	swatch.style.visibility = 'hidden';	
+	swatch = null;
+	
+	form = new FormData();
+	form.append( 'color', color );
+
+	if( xhr == null )
+	{
+		xhr = new XMLHttpRequest();
+		xhr.onload = doRequestLoad;
+	}
+	
+	// xhr.open( 'POST', 'color.php', true );
+	// xhr.open( 'POST', 'http://paigehoyt.com/nightlight/color.php', true );
+	// xhr.send( form );	
+	
+	socket.send( color );
+}
+
+function doRequestLoad( evt )
+{
+	if( this.status == 200 )
+	{
+		console.log( this.response );
+	}
+}
+
+function doSocketError( evt )
+{
+	console.log( 'Socket error.' );	
+}
+
+function doSocketMessage( mess )
+{
+	console.log( mess );	
+}
+
+function doSocketOpen( evt )
+{
+	console.log( 'Socket open.' );	
+}
+
+function doWindowLoad()
+{
+	window.WebSocket = window.WebSocket || window.MozWebSocket;	
+	touch = ( 'ontouchstart' in document.documentElement ) ? true : false;	
+	
+	canvas = document.querySelector( '#picker' );
+	context = canvas.getContext( '2d' );
+	canvas.addEventListener( touch ? 'touchstart' : 'mousedown', doCanvasDown );
+
+	socket = new WebSocket( 'ws://localhost:8080' );
+	socket.onopen = doSocketOpen;
+	socket.onmessage = doSocketMessage;
+	socket.onerror = doSocketError;
+	
+	doWindowResize();	
+}
+
+function doWindowResize()
+{
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;	
+
+	redraw();
+}
+
+window.onload = doWindowLoad;
+window.onresize = doWindowResize;
+</script>
+
+</head>
+<body>
+
+<canvas id="picker"></canvas>
+<div id="swatch"></div>
+
+</body>
+</html>

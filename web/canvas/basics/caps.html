@@ -1,0 +1,42 @@
+<html>
+<head>
+
+<title>Line Caps</title>
+
+<script>
+var caps = ['butt', 'round', 'square'];
+var context = null;
+
+function doLoad()
+{
+	context = document.getElementById( 'canvas' ).getContext( '2d' );	
+
+	context.strokeStyle = '#09f';
+	context.beginPath();
+	context.moveTo( 10, 10 );
+	context.lineTo( 140, 10 );
+	context.moveTo( 10, 140 );
+	context.lineTo( 140, 140 );
+	context.stroke();
+	
+	context.strokeStyle = 'black';
+	
+	for( i = 0; i < caps.length; i++ )
+	{
+		context.lineWidth = 15;
+		context.lineCap = caps[i];
+		context.beginPath();
+		context.moveTo( 25 + i * 50, 10 );
+		context.lineTo( 25 + i * 50, 140 );
+		context.stroke();
+	}
+}
+</script>
+
+</head>
+<body onLoad="doLoad();">
+
+<canvas id="canvas" width="150" height="150"></canvas> 
+
+</body>
+</html>

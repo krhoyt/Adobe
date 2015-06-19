@@ -1,0 +1,106 @@
+<html>
+<head>
+
+<title>Christmas Countdown</title>
+
+<style type="text/css">
+body {
+	background-image: url( snowy-background.jpg );
+	background-size: 100% 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;	
+}
+
+#days {
+	position: absolute;
+	white-space: nowrap;
+}
+
+#days img {
+	padding-left: 25px;
+	padding-right: 25px;	
+}
+
+.slide {
+	-webkit-transition: left 6s;	
+}
+</style>
+
+<script type="text/javascript">
+var PER_DELAY = 250;
+
+function doLoad()
+{
+	var days = null;
+	
+	window.onresize = layout;
+	layout();
+	
+	days = document.querySelector( '#days' );
+	days.style.left = ( window.innerWidth - 381 ) / 2;
+	
+	setTimeout( function() {
+		var balance = null;
+		var days = null;
+		var end = null;
+		var start = null;
+		var timing = null;
+		
+		start = new Date();
+		start.setMonth( 11 );
+		start.setDate( 1 );
+		
+		end = new Date();
+		
+		balance = end.getDate() - start.getDate() + 1;
+		timing = ( balance * PER_DELAY ) / 1000;
+		
+		days = document.querySelector( '#days' );
+		days.style['WebkitTransition'] = 'left ' + timing + 's';
+		days.style.left = 0 - ( balance * 381 );
+	}, 5000 );
+}
+
+function layout()
+{
+	var days = null;
+	
+	days = document.querySelector( '#days' );
+	days.style.top = ( window.innerHeight - days.offsetHeight ) / 2;
+}	
+</script>
+
+</head>
+<body onLoad="doLoad();">
+
+<div id="days">
+	<img src="day25.png" width="331" height="332"/>
+	<img src="day24.png" width="330" height="332"/>   
+	<img src="day23.png" width="330" height="332"/>   
+	<img src="day22.png" width="330" height="331"/>   
+	<img src="day21.png" width="330" height="332"/>   
+	<img src="day20.png" width="331" height="331"/>                 
+	<img src="day19.png" width="330" height="332"/>
+	<img src="day18.png" width="330" height="332"/>   
+	<img src="day17.png" width="330" height="331"/>   
+	<img src="day16.png" width="330" height="332"/>   
+	<img src="day15.png" width="331" height="332"/>   
+	<img src="day14.png" width="331" height="332"/>                        
+	<img src="day13.png" width="330" height="332"/>
+	<img src="day12.png" width="330" height="331"/>   
+	<img src="day11.png" width="330" height="331"/>   
+	<img src="day10.png" width="331" height="331"/>   
+	<img src="day9.png" width="330" height="331"/>   
+	<img src="day8.png" width="330" height="332"/>                 
+	<img src="day7.png" width="330" height="331"/>
+	<img src="day6.png" width="330" height="331"/>   
+	<img src="day5.png" width="330" height="331"/>   
+	<img src="day4.png" width="331" height="331"/>   
+	<img src="day3.png" width="330" height="332"/>   
+	<img src="day2.png" width="330" height="331"/>                          
+	<img src="day1.png" width="330" height="332"/>                                
+</div>
+
+</body>
+</html>

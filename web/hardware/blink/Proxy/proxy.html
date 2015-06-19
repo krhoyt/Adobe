@@ -1,0 +1,100 @@
+<html>
+<head>
+
+<title>LED by Proxy</title>
+
+<script type="text/javascript">
+function doButtonDown()
+{
+	var down = null;
+	var up = null;
+	var xhr = null;
+	
+	xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = doButtonState;
+	xhr.open( 'GET', 'serial.php?action=1', true );
+	xhr.send( null );
+	
+	up = this.getElementById( 'up' );
+	up.style.visibility = 'hidden';	
+	
+	down = this.getElementById( 'down' );
+	down.style.visibility = 'visible';	
+}
+
+function doButtonState()
+{
+	if( this.readyState == 4 )
+	{
+		console.log( 'Response: ' + this.responseText );
+	}
+}
+
+function doButtonUp()
+{
+	var down = null;
+	var up = null;
+	
+	xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = doButtonState;
+	xhr.open( 'GET', 'serial.php?action=0', true );
+	xhr.send( null );	
+	
+	up = this.getElementById( 'up' );
+	up.style.visibility = 'visible';	
+	
+	down = this.getElementById( 'down' );
+	down.style.visibility = 'hidden';	
+}
+
+function doWindowLoad()
+{
+	var xhr = null;
+	
+	xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = doReadyState;
+	xhr.open( 'GET', 'arcade.button.svg', true );
+	xhr.send( null );	
+}
+
+function doWindowResize()
+{
+	var svg = null;
+	
+	svg = document.getElementById( 'arcade' );
+	svg.style.position = 'absolute';
+	svg.style.left = Math.round( ( document.body.clientWidth - svg.clientWidth ) / 2 ) + 'px';
+	svg.style.top = Math.round( ( document.body.clientHeight - svg.clientHeight ) / 2 ) + 'px';		
+}
+
+function doReadyState()
+{
+	var down = null;
+	var svg = null;
+	
+	if( this.readyState == 4 )
+	{
+		svg = this.responseXML.getElementsByTagName( 'svg' )[0];
+		svg.addEventListener( 'mousedown', doButtonDown );
+		svg.addEventListener( 'mouseup', doButtonUp );		
+		
+		down = svg.getElementById( 'down' );
+		down.style.visibility = 'hidden';
+		
+		document.body.appendChild( svg );
+		
+		doWindowResize();					
+	}
+}
+
+window.onload = doWindowLoad;
+window.onresize = doWindowResize;
+</script>
+
+</head>
+<body>
+
+
+
+</body>
+</html>

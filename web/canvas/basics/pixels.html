@@ -1,0 +1,85 @@
+<html>
+<head>
+
+<title>Pixel Pushing</title>
+
+<link rel="stylesheet" type="text/css" href="styles/pixels.css"/>
+
+<script src="scripts/jquery-1.5.min.js"></script>
+<script src="scripts/layout.js"></script>
+
+<script>
+$( document ).ready( function() {
+	
+	var canvas = document.getElementById( 'canvas' );	
+	var context = null;
+	var imageh = null;
+	var imagew = null;
+	
+	if( canvas.getContext )
+	{
+		context = canvas.getContext( '2d' );
+		
+		$( '#canvas' ).mousedown( function( evt ) {
+			var logo = document.getElementById( 'logo' );			
+			var coord = coordinate( evt, this );
+			var maximum = null;
+			var scale = null;
+			
+			imageh = $( '#logo' ).attr( 'height' );
+			imagew = $( '#logo' ).attr( 'width' );
+			
+			if( imagew > imageh )
+			{
+				maximum = Math.round( Math.random() * imagew )
+				
+				scale = maximum / imagew;
+				imagew = maximum;
+				imageh = imageh * scale;				
+			} else {
+				maximum = Math.round( Math.random() * imageh )
+				
+				scale = maximum / imageh;
+				imageh = maximum;
+				imagew = imagew * scale;				
+			}			
+			
+			context.drawImage( logo, coord.x - ( imagew / 2 ), coord.y - ( imageh / 2 ), imagew, imageh );			
+
+			$( '#canvas' ).mousemove( function( evt ) {
+				var bus = document.getElementById( 'logo' );
+				var coord = coordinate( evt, this );
+				
+				context.drawImage( logo, coord.x - ( imagew / 2 ), coord.y - ( imageh / 2 ), imagew, imageh );							
+			} ).mouseup( function( evt ) {
+				$( '#canvas' ).unbind( 'mousemove' );
+				$( '#canvas' ).unbind( 'mouseup' );
+				
+				imagew = null;
+				imageh = null;
+			} );
+		} );		
+	}
+	
+} );
+
+function coordinate( evt, target )
+{
+	return {
+		x: evt.pageX - $( target ).offset().left,
+		y: evt.pageY - $( target ).offset().top
+	};
+}
+</script>
+
+</head>
+<body>
+
+<div id="frame">
+<canvas id="canvas" width="640" height="480"></canvas>
+</div>
+
+<img id="logo" src="images/logo.jpg" width="460" height="274"/>
+
+</body>
+</html>

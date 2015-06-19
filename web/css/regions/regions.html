@@ -1,0 +1,338 @@
+<html>
+<head>
+
+<title>CSS Regions</title>
+
+<style type="text/css">
+body {
+	background-image: url( paper.jpg );
+	background-size: 100% 100%;
+	cursor: default;
+	-webkit-user-select: none;
+}
+
+#bottomLeft {
+	cursor: nesw-resize;		
+}
+
+#bottomRight {
+	cursor: nwse-resize;		
+}
+
+#content {
+    -webkit-flow: 'foo';
+    -webkit-flow-into: foo;
+	font-family: fertigo-script-1, fertigo-script-2;
+    font-size: 18px;
+}
+
+#middleBottom {
+	cursor: ns-resize;		
+}
+
+#middleLeft {
+	cursor: ew-resize;	
+}
+
+#middleRight {
+	cursor: ew-resize;		
+}
+
+#middleTop {
+	cursor: ns-resize;		
+}
+
+#paper {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
+}
+
+#nearest {
+    position: absolute;
+    left: 0px;
+    bottom: 50px;
+}
+
+#sam {
+	position: absolute;
+	bottom: 80px;
+}
+
+#topLeft {
+	cursor: nwse-resize;		
+}
+
+#topRight {
+	cursor: nesw-resize;		
+}
+
+#trim {
+	border-image: url( trim.png ) 30 30 30 30 stretch stretch;
+	border-width: 30px 30px 30px 30px;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
+}
+
+.create {
+	border: 1px solid #1244f9;
+	padding: 3px;
+}
+
+.dashed {
+	border: 1px dashed #000;
+	padding: 3px;
+}
+
+.handle {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	background-color: #929292;
+	width: 7px;
+	height: 7px;	
+	border-radius: 4px;
+	opacity: 0;
+	-webkit-transition: opacity 0.5	s ease-out;
+}
+
+.handle:hover {
+	background-color: ef3e30;	
+}
+
+.region {
+    content: -webkit-from-flow( 'foo' );
+    -webkit-flow-from: foo;
+    overflow: hidden;
+	position: absolute;
+}
+</style>
+
+<script type="text/javascript" src="http://use.typekit.com/evr0ipd.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+<script type="text/javascript">
+var element = null;
+var pivot = null;
+var regions = null;
+
+function positionHandles( bounds ) 
+{
+	var handle = null;
+	
+	handle = document.querySelector( '#topLeft' );
+	handle.style.left = ( bounds.left - 3 ) + 'px';
+	handle.style.top = ( bounds.top - 3 ) + 'px';
+	
+	handle = document.querySelector( '#middleTop' );
+	handle.style.left = ( bounds.left + ( bounds.width / 2 ) - 3 ) + 'px';
+	handle.style.top = ( bounds.top - 3 ) + 'px';
+	
+	handle = document.querySelector( '#topRight' );
+	handle.style.left = ( bounds.left + bounds.width - 4 ) + 'px';
+	handle.style.top = ( bounds.top - 3 ) + 'px';
+	
+	handle = document.querySelector( '#middleRight' );
+	handle.style.left = ( bounds.left + bounds.width - 4 ) + 'px';
+	handle.style.top = ( bounds.top + ( bounds.height / 2 ) - 4 ) + 'px';			
+	
+	handle = document.querySelector( '#bottomRight' );
+	handle.style.left = ( bounds.left + bounds.width - 4 ) + 'px';
+	handle.style.top = ( bounds.top + bounds.height - 5 ) + 'px';	
+	
+	handle = document.querySelector( '#middleBottom' );
+	handle.style.left = ( bounds.left + ( bounds.width / 2 ) - 3 ) + 'px';	
+	handle.style.top = ( bounds.top + bounds.height - 5 ) + 'px';
+	
+	handle = document.querySelector( '#bottomLeft' );
+	handle.style.left = ( bounds.left - 3 ) + 'px';	
+	handle.style.top = ( bounds.top + bounds.height - 5 ) + 'px';
+	
+	handle = document.querySelector( '#middleLeft' );
+	handle.style.left = ( bounds.left - 3 ) + 'px';	
+	handle.style.top = ( bounds.top + ( bounds.height / 2 ) - 4 ) + 'px';	
+}
+
+function doBodyMove( evt )
+{
+	var height = null;
+	var left = null;
+	var top = null;
+	var width = null;
+	
+	left = Math.min( pivot.x, evt.clientX );
+	top = Math.min( pivot.y, evt.clientY );	
+	width = Math.max( pivot.x, evt.clientX ) - Math.min( pivot.x, evt.clientX ) - 8;
+	height = Math.max( pivot.y, evt.clientY ) - Math.min( pivot.y, evt.clientY ) - 9;
+	
+	element.style.left = left + 'px';
+	element.style.top = top + 'px';
+	element.style.width = width + 'px';
+	element.style.height = height + 'px';		
+}
+
+function doBodyUp( evt )
+{
+	var handles = null;
+	var height = null;
+	var left = null;
+	var paper = null;
+	var top = null;
+	var width = null;
+	
+	left = Math.min( pivot.x, evt.clientX );
+	top = Math.min( pivot.y, evt.clientY );	
+	width = Math.max( pivot.x, evt.clientX ) - Math.min( pivot.x, evt.clientX );
+	height = Math.max( pivot.y, evt.clientY ) - Math.min( pivot.y, evt.clientY );
+	
+	regions.push( {
+		left: left,
+		top: top,
+		width: width,
+		height: height
+	} );
+	
+	document.body.removeEventListener( 'mousemove', doBodyMove );
+	document.body.removeEventListener( 'mouseup', doBodyUp );	
+	
+	element.className = 'region dashed';
+	element = null;
+	
+	positionHandles( regions[regions.length - 1] );
+	
+	handles = document.querySelectorAll( '.handle' );
+	
+	for( var h = 0; h < handles.length; h++ )
+	{
+		handles[h].style.opacity = 1;	
+	}
+	
+	pivot = null;	
+}
+
+function doContentLoad()
+{
+	var content = null;
+	var paper = null;
+	
+	if( this.readyState == 4 )
+	{
+		content = document.querySelector( '#content' );
+		content.innerHTML = this.responseText;
+		
+		regions = new Array();
+	
+		paper = document.querySelector( '#paper' );
+		paper.addEventListener( 'mousedown', doPaperDown );
+	}
+}
+
+function doHandleDown()
+{
+	this.addEventListener( 'mousemove', doHandleMove );
+	this.addEventListener( 'mouseup', doHandleUp );
+}
+
+function doHandleMove()
+{
+
+}
+
+function doHandleUp() 
+{
+	
+}
+
+function doLoad()
+{
+	var handles = null;
+	var xhr = null;
+
+	xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = doContentLoad;
+	xhr.open( 'GET', 'constitution.txt', true );
+	xhr.send( null );
+	
+	handles = document.querySelectorAll( '.handle' );
+	
+	for( var h = 0; h < handles.length; h++ )
+	{
+		handles[h].addEventListener( 'mousedown', doHandleDown );	
+	}
+	
+	window.onresize = doResize;
+	doResize();
+}
+
+function doPaperDown( evt )
+{
+	var handles = null;
+	var paper = null;
+	
+	pivot = {
+		x: evt.clientX - 1,
+		y: evt.clientY - 2
+	};
+	
+	handles = document.querySelectorAll( '.handle' );
+	
+	for( var h = 0; h < handles.length; h++ )
+	{
+		handles[h].style.opacity = 0;	
+	}
+	
+	element = document.createElement( 'div' );
+	element.style.left = pivot.x + 'px';
+	element.style.top = pivot.y + 'px';
+	element.style.width = '0px';
+	element.style.height = '0px';
+	element.className = 'region create';
+	
+	document.body.addEventListener( 'mousemove', doBodyMove );
+	document.body.addEventListener( 'mouseup', doBodyUp );
+	
+	paper = document.querySelector( '#paper' );
+	paper.appendChild( element );
+}
+
+function doResize()
+{
+    var nearest = null;
+	var sam = null;
+	
+	sam = document.querySelector( '#sam' );
+	sam.style.left = Math.round( ( document.body.clientWidth - sam.clientWidth ) / 2 );	
+    
+	nearest = document.querySelector( '#nearest' );
+	nearest.style.left = Math.round( ( document.body.clientWidth - nearest.clientWidth ) / 2 );	    
+}
+</script>
+
+</head>
+<body onLoad="doLoad();">
+
+<p id="content"></p>
+
+<div id="trim"></div>
+<img id="sam" src="uncle-sam.png" width="327" height="378"/>
+
+<div id="paper"></div>
+
+<div id="topLeft" class="handle"></div>
+<div id="middleTop" class="handle"></div>
+<div id="topRight" class="handle"></div>
+<div id="middleRight" class="handle"></div>
+<div id="bottomRight" class="handle"></div>
+<div id="middleBottom" class="handle"></div>
+<div id="bottomLeft" class="handle"></div>
+<div id="middleLeft" class="handle"></div>
+
+<a href="https://adobe.taleo.net/careersection/2/jobsearch.ftl?lang=en"><img id="nearest" src="nearest.png" width="253" height="14"/></a>    
+    
+</body>
+</html>

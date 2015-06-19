@@ -1,0 +1,97 @@
+<html>
+<head>
+
+<title>Tracking</title>
+
+<script src="scripts/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="scripts/shapes.js" type="text/javascript"></script>
+
+<script>
+var points = new Array();
+var index = -1;
+
+$( document ).ready( function() {
+
+	var canvas = document.getElementById( 'canvas' );	
+	var context = null;
+	
+	if( canvas.getContext )
+	{
+		context = canvas.getContext( '2d' );
+	
+		points.push( { x: 31, y: 71, width: 8, height: 8 } );
+		points.push( { x: 161, y: 71, width: 8, height: 8 } );	
+	
+		$( '#canvas' ).mousedown( function( evt ) {
+			var pt = coordinate( evt, canvas );
+			
+			for( var p = 0; p < points.length; p++ )
+			{
+				
+				if( pt.x >= ( points[p].x - 10 ) && 
+					pt.x <= ( points[p].x + points[p].width + 10 ) &&
+					pt.y >= ( points[p].y - 10 ) &&
+					pt.y <= ( points[p].y + points[p].height + 10 ) ) {
+					
+					index = p;
+					
+					$( '#canvas' ).mousemove( function( evt ) {
+						points[index].x = evt.clientX - canvas.offsetLeft;
+						points[index].y = evt.clientY - canvas.offsetTop;
+			
+						redraw( context );
+					} );
+					
+					break;
+				}				
+				
+			}
+		} ).mouseup( function( evt ) {
+			$( '#canvas' ).unbind( 'mousemove' );			
+			index = -1;
+		} );
+	
+		redraw( context );
+	}
+} );
+
+function coordinate( evt, target )
+{
+	return {
+		x: evt.pageX - $( target ).offset().left,
+		y: evt.pageY - $( target ).offset().top
+	};
+}
+
+function redraw( context )
+{
+	context.clearRect( 0, 0, 300, 300 );	
+	context.fillStyle = '#AABBCC';
+	context.fillRect( 0, 0, 200, 150 );
+	context.fillStyle = '#FFFFFF';
+	context.fillRect( 5, 5, 190, 140 );
+	
+	context.lineWidth = 1;			
+	context.strokeStyle = '#666666';
+	context.fillStyle = '#CCCCCC';
+
+	context.fillRect( points[0].x, points[0].y, points[0].width, points[0].height );
+	context.strokeRect( points[0].x - 0.5, points[0].y - 0.5, points[0].width + 1, points[0].height + 1 );		
+					  	
+	context.fillRect( points[1].x, points[1].y, points[1].width, points[1].height );
+	context.strokeRect( points[1].x - 0.5, points[1].y - 0.5, points[1].width + 1, points[1].height + 1 );
+	
+	context.strokeStyle = '#6688AA';
+	context.lineWidth = 2;			
+	dashTo( context, points[0].x + 4, points[0].y + 4, points[1].x + 4, points[1].y + 4, 6, 7 );
+	context.stroke();
+}
+</script>
+
+</head>
+<body>
+
+<canvas id="canvas" width="200" height="150"></canvas>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+body {
+	background-image: url( cardboard.texture.jpg );	
+	background-size: 100%, 100%;
+	background-repeat: no-repeat;
+}
+
+#barcode {
+	background-color: #FCFDF7;
+	border-radius: 10px;
+	box-shadow: 1px 1px 3px rgba( 51, 51, 51, 0.60 );
+	height: 130px;
+	left: 100px;	
+	position: absolute;
+	top: 100px;
+}
+
+.bar {
+	background-color: #000;
+	height: 100px;
+	position: absolute;
+	top: 15px;
+	width: 2px;	
+}
+
+.barcode-label {
+	color: red;
+	font-family: sax-mono-1, sax-mono-2;
+	font-size: 25px;	
+	position: absolute;
+	left: 5px;
+	bottom: 5px;
+}
+
+.note {
+	color: #000;
+	font-family: lint-mccree-1, lint-mccree-2;
+	font-size: 28px;
+	font-weight: bold;	
+	position: absolute;
+	left: 430px;
+	top: 100px;
+}
+
+.space {
+	background-color: #FFF;
+	height: 100px;
+	position: absolute;
+	top: 15px;
+	width: 2px;	
+}

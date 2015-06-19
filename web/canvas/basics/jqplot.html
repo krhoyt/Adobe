@@ -1,0 +1,50 @@
+<html>
+<head>
+
+<title>jqPlot</title>
+
+<link rel="stylesheet" type="text/css" href="styles/jquery.jqplot.css"/>
+
+<script src="scripts/jquery-1.5.min.js"></script>
+<script src="scripts/jqplot/jquery.jqplot.min.js"></script>
+<script type="text/javascript" src="scripts/jqplot/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="scripts/jqplot/jqplot.barRenderer.min.js"></script>
+
+<script>
+var data = new Array();
+
+$( document ).ready( function() {
+	var bar = null;
+	var value = null;
+	
+	$.jqplot.config.enablePlugins = true;
+	
+	for( var r = 0; r < 6; r++ )
+	{
+		bar = Math.round( Math.random() * 100 );
+		value = Math.round( Math.random() * 250 );
+		
+		data.push( [bar, value] );
+	}	
+
+	$.jqplot( 'chart', [data], {
+    	legend: {show: true, location: 'nw'},
+		title:'Bar Chart',
+    	series: [
+        	{label: 'Random Numbers', renderer: $.jqplot.BarRenderer}
+		],
+    	axes: {
+        	xaxis: {renderer: $.jqplot.CategoryAxisRenderer}, 
+        	yaxis: {min: 0}
+		}
+    } );	
+} );
+</script>
+
+</head>
+<body>
+
+<div id="chart" style="width: 640px; height: 480px;"></div>
+
+</body>
+</html>

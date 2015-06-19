@@ -1,0 +1,72 @@
+<html>
+<head>
+
+<title>Solar System</title>
+
+<script src="scripts/jquery-1.5.min.js"></script>
+
+<script>
+$( document ).ready( function() {
+	
+	var canvas = document.getElementById( 'canvas' );
+	var ctx = null;
+	var earth = null;
+	var moon = null;
+	var sun = null;
+	
+	if( canvas.getContext )
+	{
+		ctx = canvas.getContext( '2d' );
+		
+		sun = new Image();
+		sun.src = 'images/sun.png';
+  
+  		moon = new Image();
+  		moon.src = 'images/moon.png';
+  
+  		earth = new Image();
+  		earth.src = 'images/earth.png';
+
+		setInterval( function() {
+			ctx.globalCompositeOperation = 'destination-over';  
+			ctx.clearRect( 0, 0, 300, 300 );
+			   
+			ctx.fillStyle = 'rgba( 0, 0, 0, 0.4 )';  
+			ctx.strokeStyle = 'rgba( 0, 153, 255, 0.4 )';  
+			ctx.save();  
+			ctx.translate( 150, 150 );  
+			
+			// Earth  
+			var time = new Date();  
+			ctx.rotate( ( ( 2 * Math.PI ) / 60 ) * time.getSeconds() + ( ( 2 * Math.PI ) / 60000 ) * time.getMilliseconds() );  
+			ctx.translate( 105, 0 );  
+			ctx.fillRect( 0, -12, 50, 24 );
+			ctx.drawImage( earth, -12, -12 );  
+			
+			// Moon  
+			ctx.save();  
+			ctx.rotate( ( ( 2 * Math.PI ) / 6 ) * time.getSeconds() + ( ( 2 * Math.PI ) / 6000 ) * time.getMilliseconds() );  
+			ctx.translate( 0, 28.5 );  
+			ctx.drawImage( moon, -3.5, -3.5 );  
+			ctx.restore();  
+			
+			ctx.restore();  
+			
+			ctx.beginPath();  
+			ctx.arc( 150, 150, 105, 0, Math.PI * 2, false ); 
+			ctx.stroke();  
+			
+			ctx.drawImage( sun, 0, 0, 300, 300 );  			
+		}, 100 );
+	}
+	
+} );
+</script>
+
+</head>
+<body>
+
+<canvas id="canvas" width="300" height="300"></canvas> 
+
+</body>
+</html>

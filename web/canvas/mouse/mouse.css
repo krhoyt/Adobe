@@ -1,0 +1,12 @@
+body {
+	background-color: #EDEDED;
+}
+
+canvas {
+	background-color: #FFF;
+	box-shadow: 0px 5px 15px 0px rgba( 0, 0, 0, 0.80 );	
+}
+
+#paper {
+	position: absolute;	
+}

@@ -1,0 +1,91 @@
+<html>
+<head>
+
+<title>Web Socket Switch</title>
+
+<style type="text/css">
+#button {
+	background-image: url( arcade.button.png );
+	background-position: 0px;
+	background-repeat: no-repeat;
+	height: 226px;
+	position: absolute;
+	width: 238px;	
+}
+
+#button:active {
+	background-position: -238px;	
+}
+</style>
+
+<script type="text/javascript">
+var SOCKET_URI = 'ws://192.168.1.59/';
+
+var socket = null;
+var touch = null;
+
+function doButtonDown()
+{
+	socket.send( '1' );
+}
+
+function doButtonUp()
+{
+	socket.send( '0' );
+}
+
+function doSocketClose()
+{
+	var button = null;	
+	
+	button = document.querySelector( '#button' );
+	button.removeEventListener( touch ? 'touchstart' : 'mousedown', doButtonDown );
+	button.removeEventListener( touch ? 'touchend' : 'mouseup', doButtonUp );	
+}
+
+function doSocketConnect()
+{
+	var button = null;	
+	
+	button = document.querySelector( '#button' );
+	button.addEventListener( touch ? 'touchstart' : 'mousedown', doButtonDown );
+	button.addEventListener( touch ? 'touchend' : 'mouseup', doButtonUp );	
+}
+
+function doSocketMessage( evt )
+{
+	console.log( evt.data );
+}
+
+function doWindowLoad()
+{
+	touch = ( 'ontouchstart' in document.documentElement ) ? true : false;	
+	
+	socket = new WebSocket( SOCKET_URI );
+	socket.onopen = doSocketConnect;
+	socket.onclose = doSocketClose;
+	socket.onmessage = doSocketMessage;
+	
+	doWindowResize();	
+}
+
+function doWindowResize()
+{
+	var button = null;
+	
+	button = document.querySelector( '#button' );
+	button.style.left = Math.round( ( document.body.clientWidth - button.clientWidth ) / 2 ) + 'px';
+	button.style.top = Math.round( ( document.body.clientHeight - button.clientHeight ) / 2 ) + 'px';	
+}
+
+window.onload = doWindowLoad;
+window.onresize = doWindowResize;
+</script>
+
+</head>
+<body>
+
+<div id="button"></div>
+
+</body>
+</html>

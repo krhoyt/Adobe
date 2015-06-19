@@ -1,0 +1,33 @@
+<html>
+<head>
+
+<title>Getting Started</title>
+
+<script src="scripts/jquery-1.5.1.min.js"></script>
+
+<script>
+$( document ).ready( function() {
+	var canvas = document.getElementById( 'canvas' );
+	var context = null;
+	
+	if( canvas.getContext )
+	{
+		context = canvas.getContext( '2d' );
+		context.fillRect( 10, 10, 180, 180 );
+		
+		alert( 'Canvas supported here!' );
+	} else {
+		alert( 'No canvas for you.' );	
+	}
+} );
+</script>
+
+</head>
+<body>
+
+<canvas id="canvas" width="200" height="200">
+	<img src="images/rectangle.jpg" width="200" height="200"/>
+</canvas>
+
+</body>
+</html>

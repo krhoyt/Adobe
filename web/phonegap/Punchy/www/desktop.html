@@ -1,0 +1,316 @@
+<html>
+<head>
+
+<title>Punchy</title>
+
+<style type="text/css">
+body {
+	cursor: default;
+	overflow: hidden;
+	-webkit-user-select: none;	
+}
+
+#dashes {
+	border: 1px dashed #000;	
+	position: absolute;
+	visibility: hidden;
+}
+
+#handle {
+	background-color: rgba( 255, 255, 255, 0.40 );	
+	border: 1px solid #000;	
+	cursor: ns-resize;
+	height: 10px;	
+	left: 0px;
+	position: absolute;
+	top: 0px;
+	visibility: hidden;	
+	width: 10px;
+}
+
+#handle:hover {
+	border-color: #EF3E30;	
+}
+
+#punchy {
+	cursor: move;
+}
+</style>
+
+<script type="text/javascript">
+var PUNCHY_HEIGHT = 400;
+
+var bottom = null;
+var moved = false;
+var offsetX = null;
+var offsetY = null;
+
+function bounds()
+{
+	var dashes = null;
+	var handle = null;
+	var svg = null;
+	
+	svg = document.querySelector( '#punchy' );
+
+	dashes = document.querySelector( '#dashes' );
+	dashes.style.left = svg.style.left;
+	dashes.style.top = svg.style.top;
+	dashes.style.width = svg.clientWidth;
+	dashes.style.height = svg.clientHeight;	
+	dashes.style.visibility = 'visible';
+	
+	handle = document.querySelector( '#handle' );
+	handle.style.left = ( pixels( dashes.style.left ) + ( Math.floor( dashes.clientWidth - handle.clientWidth ) / 2 ) ) + 'px';
+	handle.style.top = ( pixels( dashes.style.top ) - Math.floor( handle.clientHeight / 2 ) ) + 'px';	
+	handle.style.visibility = 'visible';
+}
+
+function pixels( value )
+{
+  var result = null;
+
+  result = value.toString();
+
+  if( result.indexOf( 'px' ) >= 0 )
+  {
+    result = parseFloat( result.substr( 0, result.length - 2 ) );
+  } else {
+    result = parseFloat( result );
+  }
+
+  return result;
+}
+
+function doDeselect( evt )
+{
+	var dashes = null;
+	var handle = null;
+	var isHandle = false;
+	var isSVG = false;
+	
+	if( evt.srcElement.toString().indexOf( 'SVG' ) >= 0 )
+	{
+		isSVG = true;	
+	}
+	
+	if( evt.target.id == 'handle' )
+	{
+		isHandle = true;	
+	}
+	
+	if( isSVG || isHandle )
+	{
+		bounds();	
+	} else {
+		dashes = document.querySelector( '#dashes' );
+		dashes.style.visibility = 'hidden';
+		
+		handle = document.querySelector( '#handle' );
+		handle.style.visibility = 'hidden';		
+	}
+}
+
+function doDone()
+{
+	bottom = null;
+	
+	document.body.removeEventListener( 'mousemove', doResize );
+	document.body.removeEventListener( 'mouseup', doDone );	
+}
+
+function doDragOver( evt ) 
+{
+	evt.stopPropagation();
+	evt.preventDefault();
+	
+	evt.dataTransfer.dropEffect = 'copy';
+}
+
+function doDrop( evt )
+{	
+	var scene = null;
+	
+	evt.stopPropagation();
+    evt.preventDefault();
+	
+	scene = document.querySelector( '#scene' );
+	
+	if( scene != null )
+	{
+		document.body.removeChild( scene );
+	}
+	
+	reader = new FileReader();
+	reader.addEventListener( 'load', doReaderLoad );
+	reader.readAsDataURL( evt.dataTransfer.files[0] );	
+}
+
+function doHandle( evt )
+{
+	var dashes = null;
+	
+	dashes = document.querySelector( '#dashes' );
+	bottom = pixels( dashes.style.top ) + dashes.clientHeight;
+	
+	document.body.addEventListener( 'mousemove', doResize );
+	document.body.addEventListener( 'mouseup', doDone );
+}
+
+function doLoad()
+{
+	var xhr = null;
+	
+	xhr = new XMLHttpRequest();
+	xhr.responseType = 'document';
+	xhr.addEventListener( 'readystatechange', doReadyState );
+	xhr.open( 'GET', 'punchy.parts.svg', true );
+	xhr.send( null );	
+}
+
+function doMove( evt )
+{
+	var svg = null;
+	
+	moved = true;
+	
+	svg = document.querySelector( '#punchy' );
+	svg.style.left = ( evt.clientX - offsetX ) + 'px';
+	svg.style.top = ( evt.clientY - offsetY ) + 'px';	
+	
+	bounds();
+}
+
+function doReaderLoad( evt ) 
+{
+	var dashes = null;
+	var dropped = null;
+	
+	this.removeEventListener( 'load', doReaderLoad );			
+	
+	dashes = document.querySelector( '#dashes' );
+				
+	dropped = document.createElement( 'img' );
+	dropped.src = evt.target.result;
+	dropped.width = document.body.clientWidth;
+	dropped.height = document.body.clientHeight;
+	dropped.id = 'scene';
+	dropped.style.position = 'absolute';
+	dropped.style.left = '0px';
+	dropped.style.top = '0px';
+	
+	document.body.insertBefore( dropped, dashes );
+}
+
+function doReadyState()
+{
+	var handle = null;
+	var ratio = null;
+	var svg = null;
+	var view = null;
+	var width = null;
+		
+	if( this.readyState == 4 )
+	{	
+		handle = document.querySelector( '#handle' );
+		handle.addEventListener( 'mousedown', doHandle );	
+	
+		svg = this.response.querySelector( 'svg' );
+		svg.addEventListener( 'mousedown', doSelect );
+		
+		view = svg.viewBox.baseVal;
+		ratio = view.width / view.height;
+		width = Math.round( PUNCHY_HEIGHT * ratio );
+		
+		svg.setAttribute( 'height', PUNCHY_HEIGHT + 'px' );		
+		svg.setAttribute( 'width', width + 'px' );
+		svg.style.position = 'absolute';
+		svg.style.left = Math.round( ( document.body.clientWidth - width ) / 2 ) + 'px';
+		svg.style.top = Math.round( ( document.body.clientHeight - PUNCHY_HEIGHT ) / 2 ) + 'px';
+
+		document.body.insertBefore( svg, handle );
+
+		document.body.addEventListener( 'mousedown', doDeselect );
+
+		document.addEventListener( 'dragover', doDragOver );
+		document.addEventListener( 'drop', doDrop );	
+
+		this.removeEventListener( 'readystatechange', doReadyState );
+	}
+}
+
+function doResize( evt )
+{
+	var dashes = null;
+	var height = null;
+	var ratio = null;
+	var svg = null;
+	var width = null;
+	
+	dashes = document.querySelector( '#dashes' );
+	
+	ratio = dashes.clientWidth / dashes.clientHeight;
+	height = pixels( dashes.style.top ) + dashes.clientHeight - evt.clientY;
+	width = Math.round( height * ratio );
+		
+	svg = document.querySelector( '#punchy' );
+	svg.setAttribute( 'height', height + 'px' );		
+	svg.setAttribute( 'width', width + 'px' );
+	svg.style.top = ( bottom - height ) + 'px';	
+	
+	bounds();
+}
+
+function doSelect( evt )
+{
+	bounds();
+	
+	offsetX = evt.offsetX;
+	offsetY = evt.offsetY;
+	
+	document.body.addEventListener( 'mousemove', doMove );
+	document.body.addEventListener( 'mouseup', doUp );
+}
+
+function doUp()
+{
+	offsetX = null;
+	offsetY = null;
+	
+	document.body.removeEventListener( 'mousemove', doMove );
+	document.body.removeEventListener( 'mouseup', doUp );	
+}
+
+function doWindow()
+{
+	var scene = null;
+	var svg = null;
+		
+	if( !moved )
+	{
+		svg = document.querySelector( '#punchy' );
+		svg.style.left = Math.round( ( document.body.clientWidth - svg.clientWidth ) / 2 ) + 'px';
+		svg.style.top = Math.round( ( document.body.clientHeight - svg.clientHeight ) / 2 ) + 'px';		
+	}
+	
+	scene = document.querySelector( '#scene' );
+	
+	if( scene != null )
+	{
+		scene.width = document.body.clientWidth;
+		scene.height = document.body.clientHeight;	
+	}
+}
+
+window.onload = doLoad;
+window.onresize = doWindow;
+</script>
+
+</head>
+<body>
+
+<div id="dashes"></div>
+<div id="handle"></div>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<html>
+<head>
+
+<title>Color Viewer</title>
+
+<script type="text/javascript">
+var socket = null;
+var xhr = null;
+
+function doRequestLoad( evt )
+{
+	var color = null;
+	
+	if( this.status == 200 )
+	{
+		color = this.response.split( ',' );
+		color = 'rgb( ' + color[0] + ', ' + color[1] + ', ' + color[2] + ' )';
+		
+		document.body.style.backgroundColor = color;
+	}
+}
+
+function doSocketError( evt )
+{
+	console.log( 'Socket error.' );	
+}
+
+function doSocketMessage( mess )
+{
+	console.log( mess );
+	document.body.style.backgroundColor = mess.data;	
+}
+
+function doSocketOpen( evt )
+{
+	console.log( 'Socket open.' );	
+}
+
+function doWindowLoad()
+{
+	xhr = new XMLHttpRequest();
+	xhr.onload = doRequestLoad;
+	// xhr.open( 'GET', 'color.php', true );
+	xhr.open( 'GET', 'http://paigehoyt.com/nightlight/color.php', true );
+	xhr.send( null );	
+
+	window.WebSocket = window.WebSocket || window.MozWebSocket;
+	
+	socket = new WebSocket( 'ws://localhost:8090' );
+	socket.onmessage = doSocketMessage;
+	socket.onopen = doSocketOpen;
+	socket.onerror = doSocketError;
+}
+
+window.onload = doWindowLoad;
+</script>
+
+</head>
+<body>
+
+
+
+</body>
+</html>

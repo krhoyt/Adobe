@@ -1,0 +1,263 @@
+<html>
+<head>
+
+<title>Blood Pressure Monitor</title>
+
+<style type="text/css">
+@font-face {
+	font-family: 'Segment';
+	src: url( 'segment.ttf' );	
+}
+
+#am {
+	position: absolute;
+	left: 32px;
+	top: 257px;
+	font-family: Droid Sans, Arial, Verdana, sans-serif;	
+	font-size: 16px;
+	color: #010000;			
+}
+
+#device {
+	width: 480px;
+	position: absolute;
+	height: 800px;
+	border: 1px solid #333;
+}
+
+#diastolicLabel {
+	position: absolute;
+	left: 32px;
+	top: 91px;
+	font-family: Droid Sans, Arial, Verdana, sans-serif;	
+	font-size: 28px;
+	color: #010000;			
+}
+
+#diastolicUnit {
+	position: absolute;
+	left: 33px;
+	top: 119px;
+	font-family: Droid Sans, Arial, Verdana, sans-serif;	
+	font-size: 14px;
+	color: #010000;			
+}
+
+#display {
+	position: absolute;
+	width: 280px;
+	height: 297px;
+	left: 65px;
+	top: 55px;
+	background-color: #89957D;
+	border-top-right-radius: 15px;
+	border-bottom-right-radius: 15px;	
+}
+
+#light {
+	position: absolute;
+	top: 0px;
+	left: 194px;
+	width: 88px;
+	height: 32px;
+	background-color: #1E95E9;	
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;	
+}
+
+#mount {
+	background-color: #BFC2C4;	
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	height: 385px;	
+}
+
+#keyboard {
+	position: absolute;
+	left: 0px;
+	bottom: 0px;	
+}
+
+#meter {
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+	width: 23px;
+	position: absolute;
+	left: 0px;
+	top: 4px;
+	border-top-width: 2px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-top-color: #010000;
+	border-right-color: #010000;
+	border-bottom-color: #010000;
+	height: 285px;
+}
+
+#meter85 {
+	width: 19px;
+	height: 2px;
+	background-color: #010000;
+	position: absolute;
+	left: 2px;
+	top: 207px;	
+}
+
+#meter135 {
+	width: 19px;
+	height: 2px;
+	background-color: #010000;
+	position: absolute;
+	left: 2px;
+	top: 102px;	
+}
+
+#pm {
+	position: absolute;
+	left: 32px;
+	top: 273px;
+	font-family: Droid Sans, Arial, Verdana, sans-serif;	
+	font-size: 16px;
+	color: #010000;			
+}
+
+#pulseLabel {
+	position: absolute;
+	left: 32px;
+	top: 192px;
+	font-family: Droid Sans, Arial, Verdana, sans-serif;	
+	font-size: 16px;
+	color: #010000;			
+}
+
+#pulseUnit {
+	position: absolute;
+	left: 46px;
+	top: 210px;
+	font-family: Droid Sans, Arial, Verdana, sans-serif;	
+	font-size: 14px;
+	color: #010000;			
+}
+
+#range {
+	position: absolute;
+	left: 32px;
+	top: 55px;
+	background-color: #565656;
+	width: 32px;	
+	height: 297px;
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+	font-family: Droid Sans, Arial, Verdana, sans-serif;	
+	font-size: 18px;
+	text-align: center;
+	color: #FFF;			
+}
+
+#range85 {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 203px;
+}
+
+#range135 {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 98px;
+}
+
+#save {
+	width: 110px;
+	height: 140px;
+	position: absolute;
+	right: 0px;	
+	top: 135px;
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+	background-color: #183C94;	
+}
+
+#systolicLabel {
+	position: absolute;
+	left: 32px;
+	top: 5px;
+	font-family: Droid Sans, Arial, Verdana, sans-serif;	
+	font-size: 28px;
+	color: #010000;			
+}
+
+#systolicUnit {
+	position: absolute;
+	left: 32px;
+	top: 33px;
+	font-family: Droid Sans, Arial, Verdana, sans-serif;	
+	font-size: 14px;
+	color: #010000;			
+}
+
+#time {
+	position: absolute;
+	left: 32px;
+	top: 233px;
+	font-family: 'Segment', Droid Sans, Arial, Verdana, sans-serif;	
+	font-size: 14px;
+	color: #010000;			
+}
+</style>
+
+<script type="text/javascript">
+function doLoad()
+{
+	window.onresize = doResize;
+	doResize();	
+}
+
+function doResize()
+{
+	var device = null;
+	
+	device = document.querySelector( '#device' );
+	device.style.left = Math.round( ( document.body.clientWidth - device.clientWidth ) / 2 ) + 'px';
+	device.style.top = Math.round( ( document.body.clientHeight - device.clientHeight ) / 2 ) + 'px';		
+}
+</script>
+
+</head>
+<body onLoad="doLoad();">
+
+<div id="device">
+	<div id="mount">
+        <div id="light"></div>
+        <div id="range">
+            <div id="range135">135</div>
+            <div id="range85">85</div>            
+        </div>
+        <div id="display">
+        	<div id="meter">
+            	<div id="meter85"></div>
+                <div id="meter135"></div>
+            </div>
+            <div id="systolicLabel">SYS</div>
+            <div id="systolicUnit">mmHg</div>
+            <div id="diastolicLabel">DIA</div>
+            <div id="diastolicUnit">mmHg</div>   
+            <div id="pulseLabel">PULSE</div>    
+            <div id="pulseUnit">/min</div>    
+            <div id="am">AM</div>   
+            <div id="pm">PM</div>  
+            <div id="time">7:32</div>        
+        </div>
+        <div id="save"></div>    
+    </div>
+	<img id="keyboard" src="keyboard.png" width="480" height="405"/>
+</div>
+
+</body>
+</html>

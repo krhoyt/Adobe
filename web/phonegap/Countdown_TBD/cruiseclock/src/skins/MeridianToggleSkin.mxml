@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkButtonSkin 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+    xmlns:s="library://ns.adobe.com/flex/spark" 
+    xmlns:fb="http://ns.adobe.com/flashbuilder/2009">
+    
+    <fx:Metadata>
+    <![CDATA[ 
+        [HostComponent( "spark.components.ToggleButton" )]
+    ]]>
+    </fx:Metadata>
+
+	<s:BitmapImage
+		source="@Embed( '../images/am.up.png' )"
+		width="98"
+		height="63"
+		visible.up="true"
+		visible.over="true"
+		visible.down="false"
+		visible.upAndSelected="false"
+		visible.overAndSelected="false"
+		visible.downAndSelected="false"/>		
+	<s:BitmapImage
+		source="@Embed( '../images/am.down.png' )"
+		width="98"
+		height="63"
+		visible.up="false"
+		visible.over="false"
+		visible.down="true"
+		visible.upAndSelected="false"
+		visible.overAndSelected="false"
+		visible.downAndSelected="false"/>		
+	
+	<s:BitmapImage
+		source="@Embed( '../images/pm.up.png' )"
+		width="98"
+		height="63"
+		visible.up="false"
+		visible.over="false"
+		visible.down="false"
+		visible.upAndSelected="true"
+		visible.overAndSelected="true"
+		visible.downAndSelected="false"/>			
+	<s:BitmapImage
+		source="@Embed( '../images/pm.down.png' )"
+		width="98"
+		height="63"
+		visible.up="false"
+		visible.over="false"
+		visible.down="false"
+		visible.upAndSelected="false"
+		visible.overAndSelected="false"
+		visible.downAndSelected="true"/>		
+	
+    <s:states>
+        <s:State name="up" />
+        <s:State name="over" stateGroups="overStates" />
+        <s:State name="down" stateGroups="downStates" />
+        <s:State name="disabled" stateGroups="disabledStates" />
+        <s:State name="upAndSelected" stateGroups="selectedStates, selectedUpStates" />
+        <s:State name="overAndSelected" stateGroups="overStates, selectedStates" />
+        <s:State name="downAndSelected" stateGroups="downStates, selectedStates" />
+        <s:State name="disabledAndSelected" stateGroups="selectedUpStates, disabledStates, selectedStates" />
+    </s:states>
+    
+</s:SparkButtonSkin>

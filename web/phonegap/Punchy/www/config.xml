@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget 
+	xmlns= "http://www.w3.org/ns/widgets"
+	xmlns:gap="http://phonegap.com/ns/1.0"
+	id="com.adobe.khoyt"
+	version="1.0.0">
+
+	<name>Punchy</name>
+
+	<description>
+		PhoneGap example for WebVisions Portland conference.
+	</description>
+
+	<author 
+		href="http://www.kevinhoyt.com"
+		email="khoyt@adobe.com">
+		Kevin Hoyt
+	</author>
+
+	<icon src="icon.png" gap:role="default"/>
+
+	<feature name="http://api.phonegap.com/1.0/geolocation"/>
+	<feature name="http://api.phonegap.com/1.0/network"/>
+	<feature name="http://api.phonegap.com/1.0/camera"/>
+	<feature name="http://api.phonegap.com/1.0/file"/>			
+
+	<preference name="orientation" value="portrait"/>
+</widget>

@@ -1,0 +1,60 @@
+<html>
+<head>
+
+<title>Radial Gradient</title>
+
+<script src="scripts/jquery-1.5.min.js"></script>
+
+<script>
+$( document ).ready( function() {
+	
+	var canvas = document.getElementById( 'canvas' );
+	var ctx = null;
+	var green = null;	
+	var pink = null;
+	var yellow = null;
+	
+	if( canvas.getContext )
+	{
+		ctx = canvas.getContext( '2d' );
+		
+		yellow = ctx.createRadialGradient( 0, 150, 50, 0, 140, 90 );
+		yellow.addColorStop( 0, '#F4F201' );
+		yellow.addColorStop( 0.8, '#E4C700' );
+		yellow.addColorStop( 1, 'rgba( 228, 199, 0, 0 )' );		
+		
+		green = ctx.createRadialGradient( 45, 45, 10, 52, 50, 30 );
+		green.addColorStop( 0, '#A7D30C' );
+		green.addColorStop( 0.9, '#019F62' );
+		green.addColorStop( 1, 'rgba( 1, 159, 98, 0 )' );
+		
+		pink = ctx.createRadialGradient( 105, 105, 20, 112, 120, 50 );
+		pink.addColorStop( 0, '#FF5F98' );
+		pink.addColorStop( 0.75, '#FF0188' );
+		pink.addColorStop( 1, 'rgba( 255, 1, 136, 0 )' );
+
+		blue = ctx.createRadialGradient( 95, 15, 15, 102, 20, 40 );
+		blue.addColorStop( 0, '#00C9FF' );
+		blue.addColorStop( 0.8, '#00B5E2' );
+		blue.addColorStop( 1, 'rgba( 0, 201, 255, 0 )' );
+
+		ctx.fillStyle = yellow;
+		ctx.fillRect( 0, 0, 150, 150 );
+		ctx.fillStyle = blue;
+		ctx.fillRect( 0, 0, 150, 150 );
+		ctx.fillStyle = green;
+		ctx.fillRect( 0, 0, 150, 150 );
+		ctx.fillStyle = pink;
+		ctx.fillRect( 0, 0, 150, 150 );
+	}
+	
+} );
+</script>
+
+</head>
+<body>
+
+<canvas id="canvas" width="150" height="150"></canvas> 
+
+</body>
+</html>

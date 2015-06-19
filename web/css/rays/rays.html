@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Spinning Rays</title>
+
+<style type="text/css">
+@-webkit-keyframes spinning
+{
+	from {
+		-webkit-transform: rotate( 0deg );
+	}
+
+	to {
+		-webkit-transform: rotate( 20deg );
+	}
+}
+
+body {
+	background-color: rgb( 242, 242, 242 );	
+	overflow: hidden;
+}
+
+#logo {
+	background-image: url( logo.png );
+	background-position: center center;
+	background-repeat: no-repeat;	
+	bottom: 0px;
+	left: 0px;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+}
+
+#rays {
+	-webkit-animation: spinning 1s linear infinite;
+	left: 0px;
+	position: absolute;	
+	top: 0px;
+	-webkit-transform-origin: 0px 400px;			
+}
+
+#rays div:nth-child( 2 ) {
+	-webkit-transform-origin: 5px 400px;
+	-webkit-transform: rotate( 20deg );	
+}
+
+#rays div:nth-child( 3 ) {
+	-webkit-transform-origin: 5px 400px;
+	-webkit-transform: rotate( 40deg );	
+}
+
+#rays div:nth-child( 4 ) {
+	-webkit-transform-origin: 5px 400px;
+	-webkit-transform: rotate( 60deg );	
+}
+
+#rays div:nth-child( 5 ) {
+	-webkit-transform-origin: 5px 400px;
+	-webkit-transform: rotate( 80deg );	
+}
+
+#rays div:nth-child( 6 ) {
+	-webkit-transform-origin: 5px 400px;
+	-webkit-transform: rotate( 100deg );	
+}
+
+#rays div:nth-child( 7 ) {
+	-webkit-transform-origin: 5px 400px;
+	-webkit-transform: rotate( 120deg );	
+}
+
+#rays div:nth-child( 8 ) {
+	-webkit-transform-origin: 5px 400px;
+	-webkit-transform: rotate( 140deg );	
+}
+
+#rays div:nth-child( 9 ) {
+	-webkit-transform-origin: 5px 400px;
+	-webkit-transform: rotate( 160deg );	
+}
+
+#rays div:nth-child( 10 ) {
+	-webkit-transform-origin: 5px 400px;
+	-webkit-transform: rotate( 180deg );	
+}
+
+#rays div:nth-child( 11 ) {
+	-webkit-transform-origin: 5px 400px;
+	-webkit-transform: rotate( 200deg );	
+}
+
+#rays div:nth-child( 12 ) {
+	-webkit-transform-origin: 5px 400px;
+	-webkit-transform: rotate( 220deg );	
+}
+
+#rays div:nth-child( 13 ) {
+	-webkit-transform-origin: 5px 400px;
+	-webkit-transform: rotate( 240deg );	
+}
+
+#rays div:nth-child( 14 ) {
+	-webkit-transform-origin: 5px 400px;
+	-webkit-transform: rotate( 260deg );	
+}
+
+#rays div:nth-child( 15 ) {
+	-webkit-transform-origin: 5px 400px;
+	-webkit-transform: rotate( 280deg );	
+}
+
+#rays div:nth-child( 16 ) {
+	-webkit-transform-origin: 5px 400px;
+	-webkit-transform: rotate( 300deg );	
+}
+
+#rays div:nth-child( 17 ) {
+	-webkit-transform-origin: 5px 400px;
+	-webkit-transform: rotate( 320deg );	
+}
+
+#rays div:nth-child( 18 ) {
+	-webkit-transform-origin: 5px 400px;
+	-webkit-transform: rotate( 340deg );	
+}
+
+.ray {
+	border-bottom: 400px solid white;		
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;	
+	height: 0;
+	left: 0px;
+	position: absolute;
+	top: 0px;
+	width: 0;
+}
+</style>
+
+<script type="text/javascript">
+function doLoad()
+{
+	doResize();
+}
+
+function doResize()
+{
+	var rays = null;
+	
+	rays = document.querySelector( '#rays' );
+	rays.style.left = Math.round( ( window.innerWidth - rays.clientWidth ) / 2 ) + 'px';
+	rays.style.top = Math.round( ( window.innerHeight - 800 ) / 2 ) + 'px';	
+}
+
+window.onload = doLoad;
+window.onresize = doResize;
+</script>
+
+</head>
+<body>
+
+<div id="rays">
+	<div class="ray"></div>
+	<div class="ray"></div>   
+	<div class="ray"></div>      
+	<div class="ray"></div>
+	<div class="ray"></div>   
+	<div class="ray"></div>     
+	<div class="ray"></div>      
+	<div class="ray"></div>
+	<div class="ray"></div>   
+	<div class="ray"></div>
+	<div class="ray"></div>
+	<div class="ray"></div>   
+	<div class="ray"></div>      
+	<div class="ray"></div>
+	<div class="ray"></div>   
+	<div class="ray"></div>     
+	<div class="ray"></div>      
+	<div class="ray"></div>              
+</div>
+<div id="logo"></div>
+
+</body>
+</html>

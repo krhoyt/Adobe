@@ -1,0 +1,112 @@
+<html>
+<head>
+
+<title>Animation</title>
+
+<link rel="stylesheet" type="text/css" href="styles/animation.css"/>
+
+<script src="scripts/jquery-1.5.min.js"></script>
+<script src="scripts/layout.js"></script>
+<script src="scripts/JSTweener.js"></script>
+
+<script>
+var end = null;
+var position = null;
+var start = null;
+
+$( document ).ready( function() {
+	
+	var canvas = document.getElementById( 'canvas' );	
+	var context = null;
+	
+	if( canvas.getContext )
+	{
+		context = canvas.getContext( '2d' );
+		
+		$( '#canvas' ).click( function( evt ) {
+			var coords = coordinate( evt, this );
+			
+			if( start == null )
+			{
+				context.clearRect( 0, 0, 640, 480 );
+				context.drawImage( 
+					document.getElementById( 'start' ),
+					coords.x - 11,
+					coords.y - 16 );
+				
+				start = {
+					x: coords.x,
+					y: coords.y
+				};
+			} else if( end == null ) {
+				context.drawImage( 
+					document.getElementById( 'end' ),
+					coords.x - 11,
+					coords.y - 16 );				
+				
+				end = {
+					x: coords.x,
+					y: coords.y	
+				};
+			} else {
+				position = {
+					x: start.x,
+					y: start.y	
+				};
+				
+				JSTweener.addTween( position, {
+					time: 3,
+					transition: 'easeOutExpo',
+					x: end.x,
+					y: end.y,
+					onUpdate: function() {
+						context.clearRect( 0, 0, 640, 480 );
+						
+						context.drawImage( 
+							document.getElementById( 'start' ),
+							start.x - 11,
+							start.y - 16 );
+						context.drawImage( 
+							document.getElementById( 'end' ),
+							end.x - 11,
+							end.y - 16 );							
+						
+						context.drawImage( 
+							document.getElementById( 'ryan' ),
+							position.x,
+							position.y );												
+					},
+					onComplete: function() {
+						position = null;
+						start = null;
+						end = null;
+					}
+				} );				
+			}
+		} );
+	}
+	
+} );
+
+function coordinate( evt, target )
+{
+	return {
+		x: evt.pageX - $( target ).offset().left,
+		y: evt.pageY - $( target ).offset().top
+	};
+}
+</script>
+
+</head>
+<body>
+
+<div id="frame">
+<canvas id="canvas" width="640" height="480"></canvas>
+</div>
+
+<img id="start" src="images/flag_green.png" width="16" height="16"/>
+<img id="end" src="images/flag_red.png" width="16" height="16"/>
+<img id="ryan" src="images/ryan_stewart.jpg" width="48" height="48"/>
+
+</body>
+</html>

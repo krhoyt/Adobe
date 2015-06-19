@@ -1,0 +1,141 @@
+body {
+	background-image: url( barley.jpg );	
+	background-repeat: no-repeat;
+	background-size: 100%, 100%;
+	cursor: default;
+	
+	-webkit-user-select: none;
+}
+
+#cancel {
+	background-image: url( cancel.up.png );
+	height: 32px;
+	left: 4px;		
+	position: absolute;	
+	top: 6px;
+	width: 62px;
+}
+
+#cancel:active {
+	background-image: url( cancel.down.png );
+}
+
+#chart {
+	position: absolute;
+	left: 0;
+	top: 0px;
+	visibility: hidden;
+}
+
+#emphasis {
+	position: absolute;
+	left: 99px;
+	top: 144px;
+}
+
+#five {
+	position: absolute;
+	left: 135px;	
+	top: 128px;	
+}
+
+#flavor {
+	position: absolute;
+	width: 207px;
+	text-align: center;
+	left: 57px;
+	top: 81px;
+	font-family: Trebuchet MS, Helvetica Neue, sans-serif;	
+	font-size: 17px;
+	color: #312C1D;
+}
+
+#four {
+	position: absolute;
+	left: 135px;	
+	top: 189px;	
+}
+
+#hit-area {
+	position: absolute;
+	background-color: rgba( 0, 255, 0, 0 );
+	width: 320px;
+	height: 339px;
+	left: 0px;
+	top: 141px;
+}
+
+#menu {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	text-align: center;
+	line-height: 42px;
+	text-shadow: 0px -1px 0px #4F5561;
+	color: #FFF;
+	font-family: Helvetica Neue, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 15pt;
+	width: 320px;
+	height: 44px;
+	background-image: url( title.bar.png );
+	background-repeat: repeat-x;	
+}
+
+#one {
+	position: absolute;
+	left: 135px;	
+	top: 378px;	
+}
+
+#save {
+	background-image: url( save.up.png );
+	height: 32px;
+	position: absolute;
+	right: 4px;			
+	top: 6px;
+	width: 51px;
+}
+
+#save:active {
+	background-image: url( save.down.png );	
+}
+
+#shadow {
+	position: absolute;
+	left: 0px;
+	top: 116px;
+}
+
+#three {
+	position: absolute;
+	left: 135px;	
+	top: 252px;	
+}
+
+#two {
+	position: absolute;
+	left: 135px;	
+	top: 314px;	
+}
+
+#view {
+	background-image: url( background.png );
+	box-shadow: 0px 5px 15px 0px rgba( 0, 0, 0, 0.80 );
+	height: 460px;
+	overflow: hidden;
+	position: absolute;
+	width: 320px;	
+}
+
+#wheel {
+	position: absolute;
+	left: -162px;
+	top: 141px;
+	background-image: url( wheel.png );
+	background-repeat: no-repeat;
+	width: 645px;
+	height: 644px;
+	
+	-webkit-transform: rotate( 0deg );	
+}

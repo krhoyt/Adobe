@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group 
+	creationComplete="doCreationComplete( event )"
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:comps="comps.*">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			public static const MILLIS_DAY:Number = 86400000;
+			public static const MILLIS_HOUR:Number = 3600000;
+			public static const MILLIS_MINUTE:Number = 60000;
+			
+			private var zero:Date = null;
+			private var timer:Timer = null;
+			
+			private function clear():void
+			{
+				lblDayHundred.value = 0;
+				lblDayTen.value = 0;
+				lblDayOne.value = 0;
+				
+				lblHourTen.value = 0;
+				lblHourOne.value = 0;			
+				
+				lblMinuteTen.value = 0;
+				lblMinuteOne.value = 0;						
+				
+				lblSecondTen.value = 0;
+				lblSecondOne.value = 0;			
+			}
+			
+			public function pad( value:String, length:Number ):String
+			{
+				while( value.length < length )
+				{
+					value = "0" + value;
+				}
+				
+				return value;
+			}			
+			
+			public function update():void
+			{
+				var now:Date = new Date();			
+				var delta:Number = 0;
+				var days:Number = 0;
+				var hours:Number = 0;
+				var minutes:Number = 0;
+				var seconds:Number = 0;
+				var combo:String = null;
+				
+				delta = zero.time - now.time;			
+				
+				days = Math.floor( delta / MILLIS_DAY );
+				delta = delta - ( days * MILLIS_DAY );
+				
+				hours = Math.floor( delta / MILLIS_HOUR );
+				delta = delta - ( hours * MILLIS_HOUR );			
+				
+				minutes = Math.floor( delta / MILLIS_MINUTE );
+				delta = delta - ( minutes * MILLIS_MINUTE );
+				
+				seconds = Math.floor( delta / 1000 );
+				delta = delta - ( seconds * 1000 );			
+				
+				combo = pad( days.toString(), 3 ) + 
+					pad( hours.toString(), 2 ) + 
+					pad( minutes.toString(), 2 ) + 
+					pad( seconds.toString(), 2 );
+				
+				lblDayHundred.value = parseInt( combo.substr( 0, 1 ) );
+				lblDayTen.value = parseInt( combo.substr( 1, 1 ) );
+				lblDayOne.value = parseInt( combo.substr( 2, 1 ) );
+				
+				lblHourTen.value = parseInt( combo.substr( 3, 1 ) );
+				lblHourOne.value = parseInt( combo.substr( 4, 1 ) );			
+				
+				lblMinuteTen.value = parseInt( combo.substr( 5, 1 ) );
+				lblMinuteOne.value = parseInt( combo.substr( 6, 1 ) );						
+				
+				lblSecondTen.value = parseInt( combo.substr( 7, 1 ) );
+				lblSecondOne.value = parseInt( combo.substr( 8, 1 ) );			
+			}
+			
+			protected function doCreationComplete( event:FlexEvent ):void
+			{
+				if( zero == null )
+				{
+					clear();
+				}
+			}
+			
+			protected function doTimer( event:TimerEvent ):void
+			{
+				update();						
+			}
+			
+			public function get debarcation():Date
+			{
+				return zero;				
+			}
+			
+			public function set debarcation( value:Date ):void
+			{
+				var now:Date = new Date();
+				
+				zero = new Date( value.time );
+
+				/*
+				 * I don't think I need to worry about time zone offset
+				 * Time set will be for the time zone of the debarcation
+				 * I think...
+				debarcation = new Date( 2011, 4, 30, 21, 0, 0 );
+				debarcation.minutes = debarcation.minutes - debarcation.timezoneOffset;
+				*/
+				
+				if( now.time > value.time )
+				{
+					clear();
+				} else {
+					if( timer == null )
+					{
+						update();						
+						
+						timer = new Timer( 1000 );
+						timer.addEventListener( TimerEvent.TIMER, doTimer );
+						timer.start();										
+					} else {
+						timer.stop();
+						update();
+						timer.start();
+					}
+				}								
+			}
+		]]>
+	</fx:Script>
+
+	<comps:Digit
+		id="lblDayHundred"/>
+	<comps:Digit
+		id="lblDayTen"
+		x="78"/>
+	<comps:Digit
+		id="lblDayOne"
+		x="156"/>
+	
+	<s:BitmapImage
+		x="231"
+		y="6"
+		source="@Embed( '../images/colon.png' )"/>
+	
+	<comps:Digit
+		id="lblHourTen"
+		x="259"/>
+	<comps:Digit
+		id="lblHourOne"
+		x="337"/>
+	
+	<s:BitmapImage
+		x="412"
+		y="6"
+		source="@Embed( '../images/colon.png' )"/>	
+	
+	<comps:Digit
+		id="lblMinuteTen"
+		x="440"/>
+	<comps:Digit
+		id="lblMinuteOne"
+		x="518"/>
+	
+	<s:BitmapImage
+		x="593"
+		y="6"
+		source="@Embed( '../images/colon.png' )"/>	
+	
+	<comps:Digit
+		id="lblSecondTen"
+		x="621"/>
+	<comps:Digit
+		id="lblSecondOne"
+		x="699"/>	
+
+</s:Group>

@@ -1,0 +1,54 @@
+#lblModel {
+	left: 11px;	
+	top: 22px;
+}
+
+#txtModel {
+	left: 99px;	
+	top: 7px;
+	right: -10px;
+}
+
+#lblSystem {
+	left: 11px;	
+	top: 80px;
+}
+
+#txtSystem {
+	left: 99px;	
+	top: 65px;
+	right: -10px;
+}
+
+#lblVersion {
+	left: 11px;	
+	top: 138px;
+}
+
+#txtVersion {
+	left: 99px;	
+	top: 123px;
+	right: -10px;
+}
+
+#lblId {
+	left: 11px;	
+	top: 196px;
+}
+
+#txtId {
+	left: 99px;	
+	top: 181px;
+	right: -10px;
+}
+
+#lblGap {
+	left: 11px;	
+	top: 254px;
+}
+
+#txtGap {
+	left: 99px;	
+	top: 239px;
+	right: -10px;
+}

@@ -1,0 +1,67 @@
+body {
+	cursor: default;
+	overflow: hidden;
+	
+	-webkit-user-select: none;
+}
+
+#background {
+	left: 0px;
+	position: absolute;
+	top: -220px;
+		
+	-webkit-transition: top 0.40s linear;			
+		
+	/* -25px is game over
+	 * -26px is last safe point
+	 * -195px is all the way safe
+	 * -175px is starting
+	 * -220px is start screen
+	 * 125px spread
+	 */
+}
+
+#legs {
+	bottom: -254px;
+	left: 107px;
+	position: absolute;		
+	
+	-webkit-transition: left, bottom;
+	-webkit-transition-duration: 0.80s, 0.50s;
+	-webkit-transition-timing-function: linear, linear;	
+	
+	/* -2px is farthest left
+	 * 216px is farthest right
+	 * 218px spread
+	 * 107px is starting point (center)
+	 */
+}
+
+#play {
+	bottom: 14px;
+	left: 135px;
+	opacity: 1;
+	position: absolute;	
+	
+	-webkit-transition: opacity 0.50s linear;		
+}
+
+#splat {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 480px;
+	height: 320px;
+	background-color: #F00;
+	opacity: 0;
+	visibility: hidden;	
+	
+	-webkit-transition: opacity 1s linear;	
+}
+
+#underground {
+	position: absolute;
+	left: 0px;
+	top: -32px;
+	visibility: hidden;
+}

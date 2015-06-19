@@ -1,0 +1,56 @@
+body {
+	cursor: default;
+	overflow: hidden;
+	
+	-webkit-user-select: none;
+}
+
+#compass {
+	position: absolute;
+	left: -54px;
+	bottom: -294px;
+}
+
+#daleks {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	visibility: hidden;
+}
+
+#dalekspot {
+	width: 130px;
+	height: 145px;
+	position: absolute;
+	left: 272px;
+	top: 28px;
+	background-color: rgba( 255, 0, 0, 0 );
+}
+
+#shadow {
+	position: absolute;
+	left: 0px;
+	bottom: 164px;	
+}
+
+#tardis {
+	position: absolute;
+	left: 0px;
+	top: 0px;	
+}
+
+#tombaker {
+	position: absolute;
+	left: 0px;
+	top: 0px;	
+	visibility: hidden;
+}
+
+#tomspot {
+	width: 130px;
+	height: 145px;
+	position: absolute;
+	left: 83px;
+	top: 28px;
+	background-color: rgba( 255, 0, 0, 0 );
+}

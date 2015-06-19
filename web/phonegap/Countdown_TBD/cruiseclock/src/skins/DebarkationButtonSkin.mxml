@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark">
+
+	<fx:Metadata>
+		[HostComponent( "spark.components.Button" )]
+	</fx:Metadata>
+
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				
+				labelDisplay.setStyle( "fontFamily", "DroidSans" );
+				labelDisplay.setStyle( "fontSize", 22 );
+				labelDisplay.setStyle( "fontWeight", "normal" );
+				labelDisplay.setStyle( "color", 0x000000 );								
+			}
+		]]>
+	</fx:Script>
+	
+	<s:BitmapImage
+		source.up="@Embed( '../images/menu.left.up.png' )"
+		source.over="@Embed( '../images/menu.left.up.png' )"
+		source.down="@Embed( '../images/menu.left.down.png' )"/>
+	<s:BitmapImage
+		left="10"
+		right="10"
+		fillMode="repeat"
+		source.up="@Embed( '../images/menu.center.up.png' )"
+		source.over="@Embed( '../images/menu.center.up.png' )"
+		source.down="@Embed( '../images/menu.center.down.png' )"/>
+	<s:BitmapImage
+		right="0"
+		source.up="@Embed( '../images/menu.right.up.png' )"
+		source.over="@Embed( '../images/menu.right.up.png' )"
+		source.down="@Embed( '../images/menu.right.down.png' )"/>
+	
+	<s:Label
+		id="labelDisplay"
+		bottom="3"
+		horizontalCenter="0"
+		text="Change Debarkation"/>
+	
+	<s:states>
+		<s:State name="disabled" />
+		<s:State name="down" />
+		<s:State name="over" />
+		<s:State name="up" />
+	</s:states>
+	
+	<!-- SkinParts
+	name=iconDisplay, type=spark.primitives.BitmapImage, required=false
+	name=labelDisplay, type=spark.core.IDisplayText, required=false
+	-->
+
+</s:Skin>

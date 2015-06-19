@@ -1,0 +1,28 @@
+#lblHeading {
+	left: 11px;	
+	top: 22px;
+}
+
+#txtHeading {
+	left: 88px;	
+	top: 7px;
+	right: 5px;
+}
+
+#btnWatch {
+	left: 10px;
+	right: 10px;
+	bottom: 10px;	
+}
+
+#imgCompass {
+	position: absolute; 
+	top: 110px; 
+	left: 28px;	
+}
+
+#imgNeedle {
+	position: absolute; 
+	top: 133px; 
+	left: 140px;	
+}

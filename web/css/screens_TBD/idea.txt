@@ -1,0 +1,4 @@
+- Minimize view while view is still animating
+- From Triangle JavaScript meetup
+- Found in LinkedIn application
+- CSS scale, rotation and animations all in one

@@ -1,0 +1,69 @@
+<html>
+<head>
+
+<title>User Interaction</title>
+
+<script src="scripts/jquery-1.5.1.min.js"></script>
+
+<script>
+$( document ).ready( function() {
+	var canvas = document.getElementById( 'canvas' );
+	var context = null;
+	var box = {x: 10, y: 10, width: 10, height: 10};
+	
+	if( canvas.getContext )
+	{
+		context = canvas.getContext( '2d' );
+		draw( context, box );
+		
+		$( '#canvas' ).mousedown( function( evt ) {
+			var offset = $( this ).offset();
+			
+			if( evt.pageX - offset.left >= box.x &&
+				evt.pageY - offset.top >= box.y &&
+				evt.pageX - offset.left <= box.x + box.width &&
+				evt.pageY - offset.top <= box.y + box.height ) {
+	
+				box.x = evt.pageX - offset.left - ( box.width / 2 );
+				box.y = evt.pageY - offset.left - ( box.height / 2 );
+							
+				draw( context, box );
+				
+				$( document ).mousemove( function( evt ) {
+					var offset = $( '#canvas' ).offset();
+				
+					box.x = evt.pageX - offset.top - ( box.width / 2 );
+					box.y = evt.pageY - offset.left - ( box.height / 2 );				
+					
+					draw( context, box );
+				} ).mouseup( function() {
+					$( document ).unbind( 'mousemove' );
+					$( document ).unbind( 'mouseup' );
+				} );										
+			}							
+		} );
+	} else {
+		alert( 'No canvas for you.' );	
+	}
+} );
+
+function draw( context, box )
+{
+	context.clearRect( 0, 0, 200, 200 );
+	
+	context.strokeStyle = '#0099FF';
+	context.fillStyle = '#66FFFF';
+	context.lineWidth = 5;
+	
+	context.strokeRect( box.x, box.y, box.width, box.height );
+	context.fillRect( box.x, box.y, box.width, box.height );
+}
+</script>
+
+</head>
+<body>
+
+<canvas id="canvas" width="200" height="200"></canvas>
+
+</body>
+</html>

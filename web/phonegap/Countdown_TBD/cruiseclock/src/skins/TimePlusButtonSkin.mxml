@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkButtonSkin 
+	width="95"
+	height="58"
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:fb="http://ns.adobe.com/flashbuilder/2009">
+	
+	<fx:Metadata>
+		<![CDATA[ 
+		[HostComponent( "spark.components.Button" )]
+		]]>
+	</fx:Metadata>
+	
+	<s:BitmapImage
+		source="@Embed( '../images/time.plus.up.png' )"
+		width="95"
+		height="58"
+		visible.up="true"
+		visible.over="true"
+		visible.down="false"/>
+	
+	<s:BitmapImage
+		source="@Embed( '../images/time.plus.down.png' )"
+		width="95"
+		height="58"
+		visible.up="false"
+		visible.over="false"
+		visible.down="true"/>	
+	
+	<s:states>
+		<s:State name="up" />
+		<s:State name="over" />
+		<s:State name="down" />
+		<s:State name="disabled" />
+	</s:states>
+	
+</s:SparkButtonSkin>

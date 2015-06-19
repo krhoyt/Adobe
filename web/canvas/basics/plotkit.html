@@ -1,0 +1,51 @@
+<html>
+<head>
+
+<title>PlotKit</title>
+
+<script src="scripts/mochikit-1.4.2.js"></script>
+<script src="scripts/plotkit/Base.js"></script>
+<script src="scripts/plotkit/Layout.js"></script>
+<script src="scripts/plotkit/Canvas.js"></script>
+<script src="scripts/plotkit/SweetCanvas.js"></script>
+
+<script>
+var options = {
+	'IECanvasHTC': 'scripts/plotkit/iecanvas.htc',
+	'colorScheme': PlotKit.Base.palette( PlotKit.Base.baseColors()[0] ),
+	'padding': {left: 0, right: 0, top: 10, bottom: 30},
+	'xTicks': [
+		{v: 0, label: 'zero'},
+		{v: 1, label: 'one'},
+		{v: 2, label: 'two'},
+		{v: 3, label: 'three'},
+		{v: 4, label: 'four'}
+	],
+	'drawYAxis': false
+};
+
+function draw()
+{
+	var canvas = MochiKit.DOM.getElement( 'bar' );
+	var layout = new PlotKit.Layout( 'bar', options );
+	var plotter = null;
+	
+	layout.addDataset( 'sqrt', [[0, 0], [1, 1], [2, 1.414], [3, 1.73], [4, 2]] );
+	layout.evaluate();	
+	
+	plotter = new PlotKit.SweetCanvasRenderer( canvas, layout, {} );	
+	plotter.render();
+}
+
+MochiKit.DOM.addLoadEvent( draw );
+</script>
+
+</head>
+<body>
+
+<div>
+<canvas id="bar" width="640" height="480"></canvas>
+</div>
+
+</body>
+</html>

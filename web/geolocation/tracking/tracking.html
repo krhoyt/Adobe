@@ -1,0 +1,102 @@
+<html>
+<head>
+
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+
+<title>Tracking Geolocation Over Time</title>
+
+<style type="text/css">
+#map {
+	bottom: 0px;
+	left: 0px;		
+	position: absolute;
+	right: 0px;
+	top: 0px;
+}
+</style>
+
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyArxQY1SGjnfLb2H2thiyYVZrte8VdXw5s&sensor=true" type="text/javascript"></script>
+
+<script type="text/javascript">
+var map = null;
+var track = null;
+var watching = null;
+
+function doLoad()
+{
+	map = new google.maps.Map( document.getElementById( 'map' ), {
+          center: new google.maps.LatLng( -34.397, 150.644 ),
+          zoom: 12,
+          mapTypeId: google.maps.MapTypeId.ROADMAP		
+	} );	
+	
+	google.maps.event.addListener( map, 'tilesloaded', doMapLoaded );	
+}
+
+function doMapLoaded()
+{
+	track = new google.maps.Polyline( {
+		strokeColor: '#FF0000',
+    	strokeOpacity: 1.0,
+    	strokeWeight: 3	
+	} );
+	track.setMap( map );	
+	
+	navigator.geolocation.getCurrentPosition( doPositionSuccess, doPositionError, {
+		enableHighAccuracy: true
+	} );
+}
+
+function doPositionError( error )
+{
+	console.log( 'Get error: ' + error.message );	
+}
+
+function doPositionSuccess( position )
+{
+	var latlng = null;
+	var path = null;
+
+	latlng = new google.maps.LatLng( position.coords.latitude, position.coords.longitude );
+	
+	path = track.getPath();
+	path.push( latlng );		
+			
+	watching = navigator.geolocation.watchPosition( doWatchSuccess, doWatchError, {
+		enableHighAccuracy: true,
+		timeout: ( 2 * 1000 ),
+		maximumAge: ( 1000 * 60 * 15 )
+	} );
+	
+	map.panTo( latlng );		
+}
+
+function doWatchError( error )
+{
+	console.log( 'Watch error: ' + error.message );	
+}
+
+function doWatchSuccess( position )
+{
+	var latlng = null;
+	var path = null;
+
+	latlng = new google.maps.LatLng( position.coords.latitude, position.coords.longitude );	
+	
+	path = track.getPath();
+	
+	if( !path.getAt( path.getLength() - 1 ).equals( latlng ) )
+	{
+		path.push( latlng );
+		map.panTo( latlng );				
+	}
+}
+</script>
+
+</head>
+<body onLoad="doLoad();">
+
+<div id="map"></div>
+
+</body>
+</html>

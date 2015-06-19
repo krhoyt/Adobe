@@ -1,0 +1,35 @@
+// Desktop Browser
+// XHR 2.0
+// Inline SVG
+// Drag and Drop
+// File Reader
+
+// Mobile Browser
+// XHR 2.0 out (responseType)
+// XHR 1.0 in (responseXML)
+// Meta viewport control
+// Default Punchy sizing
+// Touch support (all over the place)
+// Touch events are different (offset)
+// Prevent browser dragging
+// Resize handle too small
+// Add media query support for sizing
+// No drag and drop from system
+// No input type of file support
+// No SVG support on Android 2.3 (60%)
+// Orientation for added interest
+
+// Hybrid Application
+// Download PhoneGap SDK
+// Run Xcode plug-in
+// New Xcode project
+// Link source into build
+// Add PhoneGap JavaScript
+// Listen for device ready
+// Pro tip: Alt + Project -> Clean
+// Device styling (for what?)
+// Rounded corners
+// CSS linear gradient fill
+// CSS text shadows for depth
+// Launch camera for picture
+// Whoa! Provisioning

@@ -1,0 +1,110 @@
+<html>
+<head>
+
+<title>Animation</title>
+
+<script src="scripts/jquery-1.5.1.min.js"></script>
+<script src="scripts/interpolate.js"></script>
+
+<script>
+$( document ).ready( function() {
+	var canvas = document.getElementById( 'canvas' );
+	var context = null;
+	var imagex = null;
+	var logo = null;
+	var start = null;
+	var end = null;
+	var points = null;
+	var interval = null;
+	var index = 0;
+	
+	if( canvas.getContext )
+	{
+		context = canvas.getContext( '2d' );
+		
+		imagex = new Image();
+		imagex.src = 'images/x.png';
+		
+		logo = new Image();
+		logo.src = 'images/logo.png';
+		
+		$( '#canvas' ).click( function( evt ) {
+			var offset = $( this ).offset();
+			
+			if( start == null )
+			{
+				context.clearRect( 0, 0, 200, 200 );
+				
+				start = {
+					x: evt.pageX - offset.left,
+					y: evt.pageY - offset.top
+				}
+				
+				context.drawImage( 
+					imagex, 
+					start.x - ( imagex.width / 2 ),
+					start.y - ( imagex.height / 2 )
+				);
+			} else if( end == null ) {
+				end = {
+					x: evt.pageX - offset.left,
+					y: evt.pageY - offset.top
+				}		
+				
+				points = interpolate( start, end, 7 );
+				
+				context.drawImage( 
+					imagex, 
+					end.x - ( imagex.width / 2 ),
+					end.y - ( imagex.height / 2 )
+				);						
+			} else {
+				interval = setInterval( function() {
+					context.clearRect( 0, 0, 200, 200 );
+					
+					context.drawImage( 
+						imagex, 
+						start.x - ( imagex.width / 2 ),
+						start.y - ( imagex.height / 2 )
+					);					
+					
+					context.drawImage( 
+						imagex, 
+						end.x - ( imagex.width / 2 ),
+						end.y - ( imagex.height / 2 )
+					);											
+					
+					context.drawImage( 
+						logo, 
+						points[index].x - ( logo.width / 2 ),
+						points[index].y - ( logo.height / 2 )
+					);		
+					
+					index = index + 1;
+					
+					if( index == points.length )
+					{
+						clearInterval( interval );
+						
+						interval = null;
+						points = null;
+						start = null;
+						end = null;
+						index = 0;
+					}
+				}, 42 );
+			}
+		} );
+	} else {
+		alert( 'No canvas for you.' );	
+	}
+} );
+</script>
+
+</head>
+<body>
+
+<canvas id="canvas" width="200" height="200"></canvas>
+
+</body>
+</html>

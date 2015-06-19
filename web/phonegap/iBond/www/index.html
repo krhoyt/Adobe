@@ -1,0 +1,71 @@
+<html>
+<head>
+
+<title>iBond</title>
+
+<link href="styles/ibond.css" rel="stylesheet" type="text/css"/>
+
+<script src="scripts/phonegap-1.1.0.js" type="text/javascript"></script>
+<script src="scripts/jquery-1.7.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+document.addEventListener( 'deviceready', function() {
+	
+	$( '#camera' ).bind( 'touchstart', function() {
+		$( this ).attr( 'src', 'assets/camera.down.png' );
+		
+		navigator.camera.getPicture( function( data ) {
+			$( '#photo' )
+				.attr( 'src', 'data:image/jpeg;base64,' + data )
+				.css( 'visibility', 'visible' );
+				
+			$( '#camera' ).attr( 'src', 'assets/camera.up.png' );	
+		}, function( error ) {
+			console.log( 'Error' );
+		}, {
+			destinationType: Camera.DestinationType.DATA_URL,
+			sourceType: Camera.PictureSourceType.CAMERA,
+			allowEdit: false,
+			targetWidth: 260,
+			targetHeight: 435
+		} );		
+	} );
+	
+	$( '#roll' ).bind( 'touchstart', function() {
+		$( this ).attr( 'src', 'assets/roll.down.png' );
+		
+		navigator.camera.getPicture( function( data ) {
+			$( '#photo' )
+				.attr( 'src', 'data:image/jpeg;base64,' + data )
+				.css( 'visibility', 'visible' );
+				
+			$( '#roll' ).attr( 'src', 'assets/roll.up.png' );				
+		}, function( error ) {
+			console.log( 'Error' );
+		}, {
+			destinationType: Camera.DestinationType.DATA_URL,
+			sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+			allowEdit: false,
+			targetWidth: 260,
+			targetHeight: 435,
+			mediaType: Camera.MediaType.PICTURE
+		} );		
+	} );	
+	
+} );
+</script>
+
+</head>
+<body>
+
+<img class="upperleft" src="assets/checkered.background.png" width="321" height="481"/>
+
+<img id="photo" src="assets/test.jpg" width="260"/>
+
+<img class="upperleft" src="assets/overlay.foreground.png" width="320" height="480"/>
+
+<img id="camera" src="assets/camera.up.png" width="146" height="86"/>
+<img id="roll" src="assets/roll.up.png" width="146" height="86"/>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+#photo {
+	position: absolute;
+	left: 7px;
+	top: 8px;	
+}
+
+#photo-button {
+	background-image: url( 'photobutton.png' );	
+	height: 203px;
+	position: absolute;
+	visibility: hidden;	
+	width: 203px;
+}
+
+.work {
+	left: 0px;
+	position: absolute;
+	top: 0px;
+	visibility: hidden;	
+}

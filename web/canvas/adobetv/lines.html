@@ -1,0 +1,54 @@
+<html>
+<head>
+
+<title>Lines, Colors and Gradients</title>
+
+<script src="scripts/jquery-1.5.1.min.js"></script>
+
+<script>
+$( document ).ready( function() {
+	var canvas = document.getElementById( 'canvas' );
+	var context = null;
+	var gradient = null;
+	
+	if( canvas.getContext )
+	{
+		context = canvas.getContext( '2d' );
+		
+		gradient = context.createLinearGradient( 10, 10, 180, 180 );
+		gradient.addColorStop( 0, 'blue' );
+		gradient.addColorStop( 1, 'green' );
+		
+		context.fillStyle = gradient;
+		context.strokeStyle = 'red';
+		context.lineWidth = 5;
+		
+		// 1. Clear the drawing list
+		context.beginPath();
+		
+		// 2. Draw stuff
+		context.moveTo( 10, 10 );
+		context.lineTo( 190, 10 );
+		context.lineTo( 190, 190 );
+		context.lineTo( 10, 190 );
+		context.lineTo( 10, 10 );
+		
+		// 3. Close the path (optional)
+		context.closePath();
+		
+		// 4. Render the drawing
+		context.stroke();
+		context.fill();
+	} else {
+		alert( 'No canvas for you.' );	
+	}
+} );
+</script>
+
+</head>
+<body>
+
+<canvas id="canvas" width="200" height="200"></canvas>
+
+</body>
+</html>

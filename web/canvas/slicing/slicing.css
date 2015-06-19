@@ -1,0 +1,16 @@
+body {
+	cursor: default;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;	
+}
+
+#bus {
+	position: absolute;
+	visibility: hidden;	
+}
+
+#frame {
+	position: absolute;
+	visibility: hidden;	
+}

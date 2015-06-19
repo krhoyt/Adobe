@@ -1,0 +1,45 @@
+<html>
+<head>
+
+<title>Humidor</title>
+
+<!-- Styles -->
+<link rel="stylesheet" type="text/css" href="humidor.css">
+
+<!-- TypeKit for nice looking fonts -->
+<script type="text/javascript" src="http://use.typekit.com/evr0ipd.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+<!-- Date parsing and formatting library -->
+<script type="text/javascript" src="moment.min.js"></script>
+
+<!-- Humidor code -->
+<script type="text/javascript" src="humidor.js"></script>
+
+</head>
+<body onLoad="doLoad();">
+
+<!-- Main display -->
+<div id="display">
+
+	<!-- Temperature -->
+	<div id="temperature" class="field">
+    	<div class="title">Temperature</div>
+        <div class="rule"></div>
+        <div class="value">&nbsp;</div>
+    </div>
+	
+    <!-- Humidity -->
+    <div id="humidity" class="field">
+    	<div class="title">Humidity</div>
+        <div class="rule"></div>
+        <div class="value">&nbsp;</div>
+    </div>  
+      
+</div>
+
+<!-- Last updated -->
+<div id="created"></div>
+
+</body>
+</html>

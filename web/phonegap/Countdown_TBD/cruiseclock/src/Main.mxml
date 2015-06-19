@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ViewNavigatorApplication 
+	firstView="views.CountdownView"
+	firstViewData="{{preferences: preferences}}"
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:services="services.*">
+	
+	<fx:Declarations>
+		<services:PreferencesService
+			id="preferences"/>
+	</fx:Declarations>
+
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		
+		@font-face {
+			src:url( "../fonts/DroidSans.ttf" );
+			fontFamily: DroidSans;
+			embedAsCFF: true;
+		}
+	</fx:Style>	
+	
+</s:ViewNavigatorApplication>

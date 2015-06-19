@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group
+	width="100%"
+	height="100%"
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark">
+
+	<fx:Metadata>
+		[Event( name="cancel", type="events.DateDialogEvent" )]
+		[Event( name="set", type="events.DateDialogEvent" )]		
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+			import events.DateDialogEvent;
+			
+			import mx.events.FlexEvent;
+			
+			private var months:Array = [
+				"Jan", "Feb", "Mar", "Apr",
+				"May", "Jun", "Jul", "Aug",
+				"Sep", "Oct", "Nov", "Dec"
+			];
+			private var meridian:Boolean = false;
+			private var date:Number = 0;
+			private var hour:Number = 0;
+			private var minute:Number = 0;
+			private var month:Number = 0;
+			private var year:Number = 0;
+			
+			private function daysInMonth():Number
+			{
+				var projected:Date = new Date( year, month, 1 ); 
+				
+				while( projected.month == month )
+				{
+					projected.date = projected.date + 1;
+				}
+				
+				projected.date = projected.date - 1;
+				
+				return projected.date;
+			}
+			
+			private function padding():String
+			{
+				var result:String = minute.toString();
+				
+				while( result.length < 2 )
+				{
+					result = "0" + result;
+				}
+				
+				return result;
+			}
+			
+			private function sync():void
+			{
+				var now:Date = new Date();
+				
+				if( debarcation.time <= now.time )
+				{
+					btnSet.enabled = false;
+				} else {
+					btnSet.enabled = true;					
+				}
+				
+				lblMonth.text = months[month];
+				lblDate.text = date.toString();
+				lblYear.text = year.toString();
+				lblHour.text = hour.toString();
+				lblMinute.text = padding();
+				btnMeridian.selected = meridian;
+			}
+			
+			protected function doMonthPlus( event:MouseEvent ):void
+			{
+				var maximum:Number = 0;
+				
+				if( month == 11 )
+				{
+					month = 0;
+				} else {
+					month = month + 1;
+				}
+				
+				maximum = daysInMonth();
+				
+				if( date > maximum )
+				{
+					date = maximum;
+				}
+				
+				sync();
+			}
+			
+			protected function doMonthMinus( event:MouseEvent ):void
+			{
+				var maximum:Number = 0;
+				
+				if( month == 0 )
+				{
+					month = 11;
+				} else {
+					month = month - 1;
+				}
+				
+				maximum = daysInMonth();
+				
+				if( date > maximum )
+				{
+					date = maximum;
+				}				
+				
+				sync();
+			}
+			
+			protected function doDatePlus( event:MouseEvent ):void
+			{	
+				if( date == daysInMonth() )
+				{
+					date = 1;
+				} else {
+					date = date + 1;
+				}
+				
+				sync();
+			}
+			
+			protected function doDateMinus( event:MouseEvent ):void
+			{
+				if( date == 1 )
+				{
+					date = daysInMonth();
+				} else {
+					date = date - 1;
+				}
+				
+				sync();
+			}
+			
+			protected function doMinutePlus( event:MouseEvent ):void
+			{
+				if( minute == 59 )
+				{
+					minute = 0;
+				} else {
+					minute = minute + 1;
+				}
+				
+				sync();
+			}
+			
+			protected function doMinuteMinus( event:MouseEvent ):void
+			{
+				if( minute == 0 )
+				{
+					minute = 59;
+				} else {
+					minute = minute - 1;
+				}
+				
+				sync();
+			}
+			
+			protected function doHourPlus( event:MouseEvent ):void
+			{
+				if( hour == 12 )
+				{
+					hour = 1;
+				} else {
+					hour = hour + 1;
+				}
+				
+				sync();
+			}
+			
+			protected function doHourMinus( event:MouseEvent ):void
+			{
+				if( hour == 1 )
+				{
+					hour = 12;
+				} else {
+					hour = hour - 1;
+				}
+				
+				sync();
+			}
+			
+			protected function doYearPlus( event:MouseEvent ):void
+			{
+				var maximum:Number = 0;
+				
+				year = year + 1;
+				
+				maximum = daysInMonth();
+				
+				if( date > maximum )
+				{
+					date = maximum;
+				}								
+				
+				sync();
+			}
+			
+			protected function doYearMinus( event:MouseEvent ):void
+			{
+				var maximum:Number = 0;
+				
+				year = year - 1;
+				
+				maximum = daysInMonth();
+				
+				if( date > maximum )
+				{
+					date = maximum;
+				}								
+				
+				sync();
+			}
+			
+			protected function doSetClick( event:MouseEvent ):void
+			{
+				var dispatch:DateDialogEvent = new DateDialogEvent( DateDialogEvent.SET );
+				
+				dispatch.debarcation = new Date( debarcation.time );
+				dispatchEvent( dispatch );
+			}
+			
+			protected function doCancelClick( event:MouseEvent ):void
+			{
+				dispatchEvent( new DateDialogEvent( DateDialogEvent.CANCEL ) );
+			}
+			
+			protected function doMeridianClick( event:MouseEvent ):void
+			{
+				meridian = btnMeridian.selected;
+				sync();
+			}
+			
+			public function get debarcation():Date
+			{
+				var hours:Number = 0;
+				
+				if( meridian )
+				{
+					if( hour == 12 )
+					{
+						hours = hour;
+					} else {
+						hours = hour + 12;
+					}
+				} else {
+					if( hour == 12 )
+					{
+						hours = 0;
+					} else {
+						hours = hour;
+					}
+				}
+
+				return new Date( year, month, date, hours, minute );
+			}
+			
+			public function set debarcation( value:Date ):void
+			{
+				month = value.month;
+				date = value.date;
+				year = value.fullYear;
+				
+				if( value.hours == 0 )
+				{
+					hour = 12;
+					meridian = false;
+				} else if( value.hours > 12 ) {
+					hour = value.hours - 12;
+					meridian = true;
+				} else {
+					hour = value.hours;
+					meridian = false;
+				}
+				
+				minute = value.minutes;
+				
+				sync();
+			}
+		]]>
+	</fx:Script>	
+	
+	<s:Rect 
+		width="100%" 
+		height="100%">
+		<s:fill>
+			<s:SolidColor 
+				color="0x000000" 
+				alpha="0.40"/>
+		</s:fill>
+	</s:Rect>
+	
+	<s:BitmapImage 
+		id="bmpDialog"
+		source="@Embed( '../images/date.time.dialog.png' )"
+		width="767"
+		height="412"
+		horizontalCenter="0"
+		verticalCenter="0"/>		
+	<s:Label
+		x="{bmpDialog.x + 89}"
+		y="{bmpDialog.y + 39}"
+		fontFamily="DroidSans"
+		fontSize="28"
+		color="0xFFFFFF"
+		text="Debarkation Date and Time"/>
+	
+	<!-- Month -->
+	<s:BitmapImage
+		source="@Embed( '../images/month.background.png' )"
+		x="{bmpDialog.x + 28}"
+		y="{bmpDialog.y + 117}"
+		width="110"
+		height="185"/>
+	<s:Label 
+		id="lblMonth"
+		x="{bmpDialog.x + 28}"
+		y="{bmpDialog.y + 192}"
+		text="Mar" 
+		fontFamily="DroidSans" 
+		fontSize="46" 
+		width="110" 
+		textAlign="center"/>
+	<s:Button
+		skinClass="skins.MonthPlusButtonSkin"
+		x="{bmpDialog.x + 28}"
+		y="{bmpDialog.y + 117}"
+		width="110"
+		height="58"
+		click="doMonthPlus( event )"/>		
+	<s:Button
+		skinClass="skins.MonthMinusButtonSkin"
+		x="{bmpDialog.x + 28}"
+		y="{bmpDialog.y + 243}"
+		width="110"
+		height="59"
+		click="doMonthMinus( event )"/>				
+	
+	<!-- Date -->
+	<s:BitmapImage
+		source="@Embed( '../images/month.background.png' )"
+		x="{bmpDialog.x + 152}"
+		y="{bmpDialog.y + 117}"
+		width="110"
+		height="185"/>
+	<s:Label 
+		id="lblDate"
+		x="{bmpDialog.x + 152}"
+		y="{bmpDialog.y + 192}"
+		text="27" 
+		fontFamily="DroidSans" 
+		fontSize="46" 
+		width="110" 
+		textAlign="center"/>		
+	<s:Button
+		skinClass="skins.MonthPlusButtonSkin"
+		x="{bmpDialog.x + 152}"
+		y="{bmpDialog.y + 117}"
+		width="110"
+		height="58"
+		click="doDatePlus( event )"/>		
+	<s:Button
+		skinClass="skins.MonthMinusButtonSkin"
+		x="{bmpDialog.x + 152}"
+		y="{bmpDialog.y + 243}"
+		width="110"
+		height="59"
+		click="doDateMinus( event )"/>
+	
+	<!-- Year -->
+	<s:BitmapImage
+		source="@Embed( '../images/month.background.png' )"
+		x="{bmpDialog.x + 276}"
+		y="{bmpDialog.y + 117}"
+		width="133"
+		height="185"/>
+	<s:Label 
+		id="lblYear"
+		x="{bmpDialog.x + 276}"
+		y="{bmpDialog.y + 192}"
+		text="2010" 
+		fontFamily="DroidSans" 
+		fontSize="46" 
+		width="133" 
+		textAlign="center"/>		
+	<s:Button
+		skinClass="skins.YearPlusButtonSkin"
+		x="{bmpDialog.x + 276}"
+		y="{bmpDialog.y + 117}"
+		width="133"
+		height="58"
+		click="doYearPlus( event )"/>
+	<s:Button
+		skinClass="skins.YearMinusButtonSkin"
+		x="{bmpDialog.x + 276}"
+		y="{bmpDialog.y + 243}"
+		width="133"
+		height="59"
+		click="doYearMinus( event )"/>		
+	
+	<!-- Hour -->
+	<s:BitmapImage
+		source="@Embed( '../images/time.background.png' )"
+		x="{bmpDialog.x + 423}"
+		y="{bmpDialog.y + 117}"
+		width="95"
+		height="185"/>		
+	<s:Label 
+		id="lblHour"
+		x="{bmpDialog.x + 423}"
+		y="{bmpDialog.y + 192}"
+		text="4" 
+		fontFamily="DroidSans" 
+		fontSize="46" 
+		width="95" 
+		textAlign="center"/>		
+	<s:Button
+		skinClass="skins.TimePlusButtonSkin"
+		x="{bmpDialog.x + 423}"
+		y="{bmpDialog.y + 117}"
+		width="95"
+		height="58"
+		click="doHourPlus( event )"/>
+	<s:Button
+		skinClass="skins.TimeMinusButtonSkin"
+		x="{bmpDialog.x + 423}"
+		y="{bmpDialog.y + 243}"
+		width="95"
+		height="59"
+		click="doHourMinus( event )"/>		
+	
+	<!-- Minute -->
+	<s:BitmapImage
+		source="@Embed( '../images/time.background.png' )"
+		x="{bmpDialog.x + 532}"
+		y="{bmpDialog.y + 117}"
+		width="95"
+		height="185"/>		
+	<s:Label 
+		id="lblMinute"
+		x="{bmpDialog.x + 532}"
+		y="{bmpDialog.y + 192}"
+		text="00" 
+		fontFamily="DroidSans" 
+		fontSize="46" 
+		width="95" 
+		textAlign="center"/>		
+	<s:Button
+		skinClass="skins.TimePlusButtonSkin"
+		x="{bmpDialog.x + 532}"
+		y="{bmpDialog.y + 117}"
+		width="95"
+		height="58"
+		click="doMinutePlus( event )"/>
+	<s:Button
+		skinClass="skins.TimeMinusButtonSkin"
+		x="{bmpDialog.x + 532}"
+		y="{bmpDialog.y + 243}"
+		width="95"
+		height="59"
+		click="doMinuteMinus( event )"/>				
+	
+	<!-- Meridian -->
+	<s:ToggleButton
+		id="btnMeridian"
+		x="{bmpDialog.x + 641}"
+		y="{bmpDialog.y + 180}"			
+		width="98"
+		height="63"
+		skinClass="skins.MeridianToggleSkin"
+		click="doMeridianClick( event )"/>
+	
+	<!-- Set and Cancel -->
+	<s:Button
+		id="btnSet"
+		x="{bmpDialog.x + 21}"
+		y="{bmpDialog.y + 328}"			
+		skinClass="skins.SetButtonSkin"
+		click="doSetClick( event )"/>		
+	<s:Button
+		x="{bmpDialog.x + 381}"
+		y="{bmpDialog.y + 328}"			
+		skinClass="skins.CancelButtonSkin"
+		click="doCancelClick( event )"/>
+	
+</s:Group>

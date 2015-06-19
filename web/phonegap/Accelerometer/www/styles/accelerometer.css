@@ -1,0 +1,56 @@
+#lblFrequency {
+	left: 22px;	
+	top: 266px;
+}
+
+#txtFrequency {
+	left: 143px;	
+	top: 249px;
+	right: -1px;
+}
+
+#lblX {
+	left: 11px;	
+	top: 22px;
+}
+
+#txtX {
+	left: 126px;	
+	top: 7px;
+	right: -10px;
+}
+
+#lblY {
+	left: 11px;	
+	top: 80px;
+}
+
+#txtY {
+	left: 126px;	
+	top: 65px;
+	right: -10px;
+}
+
+#lblZ {
+	left: 11px;	
+	top: 138px;
+}
+
+#txtZ {
+	left: 126px;	
+	top: 123px;
+	right: -10px;
+}
+
+#divOptions {
+	position: absolute;
+	left: 22px;	
+	top: 208px;
+	font-weight: bold;
+}
+
+#btnWatch {
+	left: 10px;
+	right: 10px;
+	bottom: 10px;	
+}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Refine GPS Log Files</title>
+
+<style type="text/css">
+#map {
+	bottom: 0px;
+	left: 0px;
+	position: absolute;	
+	right: 0px;
+	top: 100px;
+}
+</style>
+
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCgVheTWz4lC_xFNed7e9VdXPu_spBvCCE&sensor=false" type="text/javascript"></script>
+
+<script type="text/javascript">
+var map = null;
+var reader = null;
+var worker = null;
+
+function doBrowseChange()
+{
+	console.log( 'Reading file.' );
+	
+	if( reader == null )
+	{
+		reader = new FileReader();
+		reader.onload = doReaderLoad;
+		reader.onprogress = doReaderProgress;	
+	}
+	
+	reader.readAsText( this.files[0] );
+}
+
+function doReaderLoad()
+{
+	var message = null;
+	
+	console.log( 'Done reading.' );	
+	
+	if( worker == null )
+	{
+		worker = new Worker( 'refine.js' );
+		worker.addEventListener( 'message', doWorkerMessage );	
+	}
+	
+	message = {
+		action: 'COUNT_RECORDS',
+		content: this.result
+	};
+	worker.postMessage( message );
+}
+
+function doReaderProgress( evt ) 
+{
+	console.log( ( Math.round( evt.loaded / evt.total ) * 100 ) + '% complete.' );
+}
+
+function doWindowLoad()
+{
+	var browse = null;
+	var options = null;
+	
+	browse = document.querySelector( '#browse' );
+	browse.addEventListener( 'change', doBrowseChange );	
+	
+	options = {
+		center: new google.maps.LatLng( -34.397, 150.644 ),
+		zoom: 8,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+        
+	map = new google.maps.Map( document.getElementById( 'map' ), options );
+}
+
+function doWorkerMessage( evt )
+{
+	var line = null;
+	var options = null;
+	var points = null;
+	
+	switch( evt.data.action )
+	{
+		case 'COUNT_RECORDS':
+			console.log( evt.data.count + ' records.' );
+			worker.postMessage( {
+				action: 'GIST_RECORDS',
+				content: reader.result,
+				resolution: 100				
+			} );
+			break;	
+			
+		case 'GIST_RECORDS':
+			points = new Array();
+		
+			for( var r = 0; r < evt.data.records.length; r++ )
+			{
+				points.push( new google.maps.LatLng( evt.data.records[r].latitude, evt.data.records[r].longitude ) );
+			}
+		
+			line = new google.maps.Polyline( {
+				path: points,
+				strokeColor: '#FF0000',
+    			strokeOpacity: 1.0,
+    			strokeWeight: 2
+			} );			
+		
+			line.setMap( map );
+		
+			console.log( 'Gist of ' + evt.data.records.length + ' records.' );
+			console.log( 'Sample record:' );
+			console.log( '    Date: ' + evt.data.records[2].datetime.toString() );			
+			console.log( '    Latitude: ' + evt.data.records[2].latitude );
+			console.log( '    Longitude: ' + evt.data.records[2].longitude );
+			console.log( '    Angle: ' + evt.data.records[2].angle );
+			console.log( '    Knots: ' + evt.data.records[2].knots );
+			console.log( '    MPH: ' + evt.data.records[2].mph );			
+			break;
+	}
+}
+
+window.onload = doWindowLoad;
+</script>
+
+</head>
+<body>
+
+<input id="browse" type="file">
+<div id="map"></div>
+
+</body>
+</html>

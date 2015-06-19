@@ -1,0 +1,160 @@
+#cancel {
+	position: absolute;	
+	right: 21px;
+	top: 329px;
+	width: 355px;		
+}
+
+#date {
+	background-image: url( ../images/month.png );
+	border-radius: 6px;
+	font-family: DroidSans;
+	font-size: 46px;
+	height: 184px;
+	left: 152px;
+	line-height: 184px;
+	position: absolute;
+	text-align: center;
+	top: 117px;	
+	width: 110px;
+	
+	-webkit-box-shadow: 0px 1px 0px 0px #3B3B3B;	
+}
+
+#dialog {
+	background-color: rgba( 0, 0, 0, 0.40 );
+	bottom: 0px;
+	left: 0px;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	visibility: hidden;
+}
+
+#hour {
+	background-image: url( ../images/time.png );
+	border-radius: 6px;
+	font-family: DroidSans;
+	font-size: 46px;
+	height: 184px;
+	left: 423px;
+	line-height: 184px;
+	position: absolute;
+	text-align: center;
+	top: 117px;	
+	width: 95px;
+	
+	-webkit-box-shadow: 0px 1px 0px 0px #3B3B3B;	
+}
+
+#meridian {
+	background-image: url( ../images/pm.up.png );
+	border-radius: 6px;
+	height: 63px;
+	left: 641px;
+	line-height: 184px;
+	position: absolute;
+	text-align: center;
+	top: 180px;	
+	width: 98px;
+	
+	-webkit-box-shadow: 0px 1px 0px 0px #3B3B3B;
+}
+
+#minute {
+	background-image: url( ../images/time.png );
+	border-radius: 6px;
+	font-family: DroidSans;
+	font-size: 46px;
+	height: 184px;
+	left: 532px;
+	line-height: 184px;
+	position: absolute;
+	text-align: center;
+	top: 117px;	
+	width: 95px;
+	
+	-webkit-box-shadow: 0px 1px 0px 0px #3B3B3B;	
+}
+
+#month {
+	background-image: url( ../images/month.png );
+	border-radius: 6px;
+	font-family: DroidSans;
+	font-size: 46px;
+	height: 184px;
+	left: 28px;
+	line-height: 184px;
+	position: absolute;
+	text-align: center;
+	top: 117px;	
+	width: 110px;
+	
+	-webkit-box-shadow: 0px 1px 0px 0px #3B3B3B;	
+}
+
+#panel {
+	background-image: url( ../images/dialog.png );
+	height: 412px;
+	position: absolute;
+	width: 767px;	
+}
+
+#set {
+	left: 21px;
+	position: absolute;	
+	top: 329px;
+	width: 355px;
+}
+
+#title {
+	color: #FFF;
+	font-family: DroidSans;
+	font-size: 28px;
+	left: 89px;
+	position: absolute;
+	top: 39px;	
+}
+
+#year {
+	background-image: url( ../images/year.png );
+	border-radius: 6px;
+	font-family: DroidSans;
+	font-size: 46px;
+	height: 184px;
+	left: 276px;
+	line-height: 184px;
+	position: absolute;
+	text-align: center;
+	top: 117px;	
+	width: 133px;
+	
+	-webkit-box-shadow: 0px 1px 0px 0px #3B3B3B;	
+}
+
+.button {
+	background-image: url( ../images/button.up.png );
+	background-repeat: repeat-x;
+	border: 1px solid #525252;	
+	border-radius: 6px;
+	color: #000;
+	font-family: DroidSans;
+	font-size: 22px;
+	height: 61px;
+	line-height: 61px;
+	text-align: center;
+	
+	-webkit-box-shadow: 0px 1px 0px 0px #949494;
+}
+
+.decrease {
+	left: 0px;
+	position: absolute;	
+	top: 126px;
+}
+
+.increase {
+	left: 0px;
+	position: absolute;	
+	top: 0px;
+}

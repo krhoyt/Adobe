@@ -1,0 +1,72 @@
+<html>
+<head>
+
+<title>RFID Beer Keg</title>
+
+<style type="text/css">
+body {
+	background-image: url( scene.png );	
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	overflow: hidden;
+}
+
+#about {
+	bottom: 80px;
+	left: 0px;
+	position: absolute;	
+}
+
+#bar {
+	bottom: 0px;
+	position: absolute;	
+}
+
+#coasters {
+	position: absolute;
+	left: 200px;
+	bottom: 250px;	
+}
+
+#halo {
+	background-image: url( halo.png );	
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	bottom: 0px;
+	left: 0px;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+}
+</style>
+
+<script type="text/javascript">
+function doLoad()
+{
+	window.onresize = doResize;
+	doResize();
+}
+
+function doResize() 
+{
+	var about = null;
+	var bar = null;
+	
+	bar = document.querySelector( '#bar' );
+	bar.style.left = Math.round( ( document.body.clientWidth - bar.clientWidth ) / 2 ) + 'px';
+
+	about = document.querySelector( '#about' );
+	about.style.left = Math.round( ( document.body.clientWidth - about.clientWidth ) / 2 ) + 'px';
+}
+</script>
+
+</head>
+<body onLoad="doLoad();">
+
+<img id="bar" src="bar.png" width="1200" height="319"/>
+<div id="halo"></div>
+<img id="about" src="about.png" width="368" height="42"/>
+<img id="coasters" src="coasters.png" width="234" height="86"/>
+ 
+</body>
+</html>

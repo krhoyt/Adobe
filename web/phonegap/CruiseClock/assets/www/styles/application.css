@@ -1,0 +1,38 @@
+@font-face {
+	font-family: DroidSans;
+	src: url( '../DroidSans.ttf' );
+}
+
+body {
+	background-color: #CCC;	
+	cursor: default;
+	overflow: hidden;
+	
+	-webkit-user-select: none;
+}
+
+#menu {
+	background-color: rgba( 255, 255, 255, 0.80 );
+	bottom: -110px;
+	height: 98px;
+	left: 0px;
+	position: absolute;
+	border-top-width: 3px;
+	border-right-width: 3px;
+	border-bottom-width: 3px;
+	border-left-width: 3px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-left-style: solid;
+	border-top-color: #6D6D6D;
+	border-right-color: #6D6D6D;
+	border-bottom-color: #6D6D6D;
+	border-left-color: #6D6D6D;
+	
+	-webkit-box-shadow: 0px 0px 5px 5px rgba( 0, 0, 0, 0.40 );	
+	/* -webkit-transition: bottom 0.50s linear; */
+}
+
+.menu-down {
+	background-color: #F5C03F !important;	
+}

@@ -1,0 +1,50 @@
+<html>
+<head>
+
+<title>Drawing</title>
+
+<script src="scripts/jquery-1.5.1.min.js"></script>
+
+<script>
+$( document ).ready( function() {
+	var canvas = document.getElementById( 'canvas' );
+	var context = null;
+	
+	if( canvas.getContext )
+	{
+		context = canvas.getContext( '2d' );
+		
+		$( '#canvas' ).mousedown( function( evt ) {
+			var offset = $( this ).offset();
+			var red = Math.round( Math.random() * 255 );
+			var green = Math.round( Math.random() * 255 );
+			var blue = Math.round( Math.random() * 255 );						
+			
+			context.strokeStyle = 'rgb(' + red + ',' + green + ',' + blue + ')';
+			
+			context.beginPath();
+			context.moveTo( evt.pageX - offset.left, evt.pageY - offset.top );
+			
+			$( document ).mousemove( function( evt ) { 
+				var offset = $( '#canvas' ).offset();
+			
+				context.lineTo( evt.pageX - offset.left, evt.pageY - offset.top );
+				context.stroke();
+			} ).mouseup( function() {
+				$( document ).unbind( 'mousemove' );
+				$( document ).unbind( 'mouseup' );
+			} );
+		} );
+	} else {
+		alert( 'No canvas for you.' );	
+	}
+} );
+</script>
+
+</head>
+<body>
+
+<canvas id="canvas" width="200" height="200"></canvas>
+
+</body>
+</html>

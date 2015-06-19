@@ -1,0 +1,41 @@
+<html>
+<head>
+
+<title>Canvas Template</title>
+
+<script>
+var canvas = null;
+var context = null;
+
+// Called when document is loaded
+// Checks for canvas support
+// Configures canvas context
+function doLoad()
+{
+	// Get a reference to a canvas element
+	canvas = document.getElementById( 'canvas' );
+	
+	// Does that element implement the getContext() method
+	// If it does, then support for canvas is present
+	if( canvas.getContext )
+	{
+		// Get a reference to the drawing context
+		context = canvas.getContext( '2d' );
+		alert( 'Woot!' );
+	} else {
+		// Let the user know they are lame
+		alert( 'You do not have a browser that supports canvas.' );
+	}
+}
+</script>
+
+</head>
+<body onLoad="doLoad();">
+
+<!-- Canvas element used for drawing -->
+<canvas id="canvas" width="100" height="100">
+	You do not have a browser that supports canvas.
+</canvas>
+
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, maximum-scale=1.0">
+
+<title>Virus</title>
+
+<style type="text/css">
+body {
+	background-image: url( background.jpg );
+	background-repeat: no-repeat;		
+	background-size: 100%, 100%;
+	overflow: hidden;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+#game {
+	left: 0px;
+	position: absolute;
+	top: 0px;	
+}
+</style>
+
+<script src="createjs/easeljs-0.4.2.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+var assets = null;
+var game = null;
+var loading = null;
+var sheets = null;
+var stage = null;
+var touch = null;
+
+function addGerm( id, x, y )
+{
+	var animation = null;
+	var index = null;
+	
+	index = Math.floor( Math.random() * sheets.length );
+	
+	animation = new BitmapAnimation( sheets[index] );
+	animation.id = id;
+	animation.x = x;
+	animation.y = y;
+	animation.gotoAndPlay( 'infect' );	
+	
+	stage.addChild( animation );
+}
+
+function preload()
+{
+	var connect = null;
+	var sprites = null;
+	
+	if( loading == null )
+	{
+		loading = 0;
+	} else {
+		loading = loading + 1;	
+	}
+	
+	if( loading < assets.length )
+	{
+		sprites = new Image();
+		sprites.addEventListener( 'load', doSpritesLoad );
+		sprites.src = assets[loading].source;
+	} else {
+		loading = null;			
+		
+		alert( 'Sprites loaded.' );
+		
+		stage.removeAllChildren();				
+		game.addEventListener( touch ? 'touchstart' : 'mousedown', doGameDown );
+		Ticker.addListener( window );	
+	}
+}
+
+function tick()
+{
+	stage.update();	
+}
+
+function doGameDown( evt )
+{
+	evt.preventDefault();
+	evt.stopPropagation();
+	
+	if( stage.getNumChildren() == 0 )
+	{
+		game.addEventListener( touch ? 'touchmove' : 'mousemove', doGameMove );
+		game.addEventListener( touch ? 'touchend' : 'mouseup', doGameUp );		
+	}	
+	
+	if( touch )
+	{
+		for( var t = 0; t < evt.changedTouches.length; t++ )
+		{
+			addGerm( 
+				evt.changedTouches[t].identifier,
+				evt.changedTouches[t].clientX,
+				evt.changedTouches[t].clientY			
+			);
+		}
+	} else {
+		addGerm(
+			0,
+			evt.clientX,
+			evt.clientY	
+		);		
+	}
+}
+
+function doGameMove( evt )
+{	
+	var child = null;
+
+	evt.preventDefault();
+	evt.stopPropagation();	
+	
+	if( touch )
+	{
+		for( var t = 0; t < evt.changedTouches.length; t++ )
+		{
+			for( var c = 0; c < stage.getNumChildren(); c++ )
+			{
+				child = stage.getChildAt( c );
+				
+				if( child.id == evt.changedTouches[t].identifier )
+				{
+					child.x = evt.changedTouches[t].clientX;
+					child.y = evt.changedTouches[t].clientY;						
+				
+					break;
+				}
+			}
+		}
+	} else {
+		stage.getChildAt( 0 ).x = evt.clientX;
+		stage.getChildAt( 0 ).y = evt.clientY;
+	}	
+}
+
+function doGameUp( evt )
+{
+	var child = null;
+	
+	if( touch )
+	{
+		for( var t = 0; t < evt.changedTouches.length; t++ )
+		{
+			for( var c = 0; c < stage.getNumChildren(); c++ )
+			{
+				child = stage.getChildAt( c );
+				
+				if( child.id == evt.changedTouches[t].identifier )
+				{
+					stage.removeChild( child );				
+					break;
+				}
+			}
+		}		
+	} else {
+		stage.removeChildAt( 0 );
+	}
+	
+	if( stage.getNumChildren() == 0 )
+	{
+		game.removeEventListener( touch ? 'touchmove' : 'mousemove', doGameMove );
+		game.removeEventListener( touch ? 'touchend' : 'mouseup', doGameUp );		
+	}
+}
+
+function doSpritesLoad()
+{
+	var sheet = null;
+	
+	sheet = new SpriteSheet( {
+		images: [this],
+		frames: {
+			width: assets[loading].width, 
+			height: assets[loading].height, 
+			regX: assets[loading].registrationX, 
+			regY: assets[loading].registrationY
+		}, animations: {
+			infect: [0, assets[loading].frames, 'infect']
+		}
+	} );	
+	
+	sheets.push( sheet );
+	preload();
+}
+
+function doWindowLoad()
+{	
+	touch = ( 'ontouchstart' in document.documentElement ) ? true : false;	
+	
+	assets = [
+		{source: 'blue.png', width: 183, height: 183, registrationX: 88, registrationY: 96, frames: 74},
+		{source: 'green.png', width: 136, height: 126, registrationX: 63, registrationY: 65, frames: 85},
+		{source: 'orange.png', width: 119, height: 121, registrationX: 57, registrationY: 62, frames: 57},
+		{source: 'purple.png', width: 161, height: 81, registrationX: 80, registrationY: 41, frames: 93}						
+	];
+	
+	sheets = new Array();
+		
+	game = document.querySelector( '#game' );
+	stage = new Stage( game );		
+		
+	doWindowResize();	
+	preload();
+}
+
+function doWindowResize()
+{
+	game.width = window.innerWidth;
+	game.height = window.innerHeight;	
+}
+
+window.onresize = doWindowResize;
+window.onload = doWindowLoad;
+</script>
+
+</head>
+<body>
+
+<canvas id="game"></canvas>
+
+</body>
+</html>

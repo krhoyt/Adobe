@@ -1,0 +1,14 @@
+body {
+	background: url( 'bricks.jpg' );
+	background-repeat: repeat;
+	cursor: default;
+	margin: 0px;
+	padding: 0px;
+	
+	-webkit-user-select: none;
+}
+
+canvas {
+	width: 100%; 
+	height: 100%;	
+}

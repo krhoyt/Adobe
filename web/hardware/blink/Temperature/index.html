@@ -1,0 +1,81 @@
+<html>
+<head>
+
+<title>Temperature</title>
+
+<!-- Styles -->
+<style type="text/css">
+#reading {
+	color: #000;	
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 96px;	
+	left: 0px;
+	position: absolute;
+	top: 0px;
+}
+</style>
+
+<!-- Hooks into AIR runtime features -->
+<script src="AIRAliases.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+// Constants
+var LOCALHOST = '127.0.0.1';
+var PORT = '8080';
+
+// Persistant reference to socket
+var socket = null;
+
+// Called when data has come in from the socket
+// Displays the data in the page
+// Layout based on new data
+function doSocketData( evt )
+{
+	var reading = null
+	
+	// Display
+	reading = document.querySelector( '#reading' );
+	reading.innerHTML = evt.data.toString();
+	
+	// Layout
+	doWindowResize();
+}
+
+// Called when the window has loaded
+// Configures socket connection
+// Performs initial layout of button
+function doWindowLoad()
+{
+	// Configure socket
+	socket = new air.XMLSocket();
+	socket.addEventListener( air.DataEvent.DATA, doSocketData );
+	socket.connect( LOCALHOST, PORT );	
+		
+	// Layout
+	doWindowResize();	
+}
+
+// Called when the window is resized
+// Performs layout of temperature display
+function doWindowResize()
+{
+	var reading = null;
+	
+	reading = document.querySelector( '#reading' );
+	reading.style.left = Math.round( ( document.body.clientWidth - reading.clientWidth ) / 2 ) + 'px';
+	reading.style.top = Math.round( ( document.body.clientHeight - reading.clientHeight ) / 2 ) + 'px';	
+}
+
+// Load and resize listeners
+window.onload = doWindowLoad;
+window.onresize = doWindowResize;
+</script>
+
+</head>
+<body>
+
+<!-- Thermistor reading -->
+<div id="reading"></div>
+
+</body>
+</html>

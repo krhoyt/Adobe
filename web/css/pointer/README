@@ -1,0 +1,4 @@
+CSS3 transform example.  Use jQuery 1.4.4 to determine the angle from the bottom center of the screen to the mouse position in the page, and then rotates an element (DIV with background image) to that angle.  The element is rotated around an offset point of origin.  The resulting effect is an arrow that always points to the mouse position.  Practical uses include games (e.g. target item and shoot at it), and UI elements that require interaction around an axis (e.g. spinning a record to "scratch").
+
+Note:
+You might be wondering about the Flash file that is included.  Flash Player is not used in this example.  Flash Professional CS5 was used to create the arrow graphic.  The graphic was then exported as PNG, which is the file used in the project.  I included the Flash project file for others that may want to reference the original graphic artwork or modify it in some fashion.

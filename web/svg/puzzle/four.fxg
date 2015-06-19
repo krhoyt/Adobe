@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Graphic version="2.0" viewHeight="400" viewWidth="550" ATE:version="1.0.0" flm:version="1.0.0" d:using="" xmlns="http://ns.adobe.com/fxg/2008" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+  <Library/>
+  <Group d:type="layer" d:userLabel="Selected Items">
+    <Path data="M550 0.3 354 175.2 284.15 186.75 251.55 0.3 550 0.3">
+      <fill>
+        <RadialGradient x="398.65" y="96.2" scaleX="330.075" scaleY="481.075">
+          <GradientEntry ratio="0" color="#DFE33F"/>
+          <GradientEntry ratio="1" color="#ABC437"/>
+        </RadialGradient>
+      </fill>
+    </Path>
+  </Group>
+  <Private/>
+</Graphic>

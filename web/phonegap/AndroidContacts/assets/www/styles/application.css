@@ -1,0 +1,84 @@
+body {
+	background-image: url( ../assets/background.png );
+	background-repeat: repeat-x;
+	color: #3F3F3F;	
+	cursor: default;
+	font-family: Helvetica, sans-serif;		
+	margin: 0px;
+	overflow: hidden;
+	padding: 0px;
+
+	-webkit-user-select: none;
+}
+
+input {
+	border-width: 7px 7px 7px 7px;
+	font-size: 15px;		
+	height: 51px;	
+	position: absolute;
+	
+	-webkit-border-image: url( ../assets/input.border.png ) 7 7 7 7 stretch stretch;	
+}
+
+input:focus {
+	outline: none;
+	
+	-webkit-border-image: url( ../assets/input.focus.border.png ) 7 7 7 7 stretch stretch;	
+}
+
+label {
+	position: absolute;	
+}
+
+.control {
+	background-image: url( ../assets/control.up.png );
+	background-repeat: no-repeat;	
+	height: 31px;
+	padding-top: 8px;
+	position: absolute;
+	right: 4px;
+	top: 6px;
+	width: 35px;
+}
+
+.header {
+	background-image: url( ../assets/title.bar.png );
+	background-repeat: repeat-x;
+	font-size: 20px;
+	font-weight: bold;	
+	height: 45px;	
+	left: 0px;
+    line-height: 43px;		
+	position: absolute;
+	right: 0px;
+	text-align: center;
+	top: 0px;
+}
+
+.hotspot {
+	border-width: 4px 4px 4px 4px;	
+	font-size: 19px;
+	height: 29px;
+	padding-left: 14px;	
+	padding-right: 14px;
+	padding-top: 8px;
+	position: absolute;
+	text-align: center;
+
+	-webkit-border-image: url( ../assets/button.up.png ) 4 4 4 4 stretch stretch;	
+}
+
+.hotspot:active {
+	-webkit-border-image: url( ../assets/button.down.png ) 4 4 4 4 stretch stretch;	
+}
+
+.panel {
+	border-width: 4px 4px 4px 4px;
+	bottom: 7px;	
+	left: 7px;
+	position: absolute;
+	right: 7px;
+	top: 53px;
+	
+	-webkit-border-image: url( ../assets/panel.border.png ) 4 4 4 4 stretch stretch;
+}

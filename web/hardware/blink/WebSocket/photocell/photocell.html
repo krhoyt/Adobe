@@ -1,0 +1,85 @@
+<html>
+<head>
+
+<title>Web Socket Light Gauge</title>
+
+<script type="text/javascript">
+var GAUGE_MAXIMUM = 63;
+var GAUGE_MINIMUM = -202;
+var GAUGE_RADIUS = 400;
+var GAUGE_RANGE = 265;
+var LIGHT_MAXIMUM = 1000;
+var LIGHT_MINIMUM = 190;
+var LIGHT_RANGE = 810;
+var SOCKET_URI = 'ws://192.168.1.59/';
+
+var socket = null;
+
+function doLoad()
+{
+	var xhr = null;
+		
+	xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = doReadyState;
+	xhr.open( 'GET', 'gauge.svg', true );
+	xhr.send( null );	
+}
+
+function doReadyState()
+{
+	var needle = null;
+	var svg = null;
+	
+	if( this.readyState == 4 )
+	{
+		svg = this.responseXML.getElementsByTagName( 'svg' )[0];
+		svg.id = 'gauge';				
+		svg.style.position = 'absolute';
+		
+		needle = svg.querySelector( '#needle' );		
+		needle.setAttribute( 'transform', 'rotate(' + GAUGE_MINIMUM + ' 48 48)' );		
+		
+		document.body.appendChild( svg );
+	
+		doResize();
+		
+		socket = new WebSocket( SOCKET_URI );
+		socket.onmessage = doSocketMessage;		
+	}
+}
+
+function doResize()
+{
+	var svg = null;
+	
+	svg = document.querySelector( '#gauge' );
+	svg.style.left = Math.round( ( window.innerWidth - GAUGE_RADIUS ) / 2 ) + 'px';
+	svg.style.top = Math.round( ( window.innerHeight - GAUGE_RADIUS ) / 2 ) + 'px';			
+}
+
+function doSocketMessage( evt )
+{
+	var needle = null;
+	var value = null;
+	
+	value = new Number( evt.data ) - LIGHT_MINIMUM;
+	value = value / LIGHT_RANGE;
+	value = ( value * GAUGE_RANGE ) + GAUGE_MINIMUM;
+
+	needle = document.querySelector( '#needle' );
+	needle.setAttribute( 'transform', 'rotate(' + value + ' 48 48)' );	
+
+	console.log( evt.data );
+}
+
+window.onload = doLoad;
+window.onresize = doResize;
+</script>
+
+</head>
+<body>
+
+
+
+</body>
+</html>

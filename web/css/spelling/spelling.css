@@ -1,0 +1,83 @@
+@font-face {
+	font-family: balloon;
+	src: url( 'balloon.ttf' );
+}
+
+@font-face {
+	font-family: suplexmentary;
+	src: url( 'suplexmentary.ttf' );
+}
+
+body {
+	overflow: hidden;
+}
+
+#banner {
+	background-color: rgba( 255, 255, 255, 0.40 );
+	box-shadow: 0px 0px 10px 10px rgba( 0, 0, 0, 0.20 );
+	height: 200px;
+	left: 0px;
+	position: absolute;
+	right: 0px;
+	top: -240px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-top-color: #FFF;
+	border-bottom-color: #FFF;
+
+	-webkit-transition: top 0.80s ease;
+}
+
+#prompt {
+	cursor: default;
+	font-family: suplexmentary;
+	font-size: 100px;
+	line-height: 160px;
+	padding-top: 20px;
+	text-align: center;
+	
+	-webkit-user-select: none;	
+}
+
+#scene {
+	background-image: url( grass-hill-sky.jpg );	
+	background-size: 100% 100%;
+	bottom: 0px;
+	left: 0px;
+	position: absolute;	
+	right: 0px;
+	top: 0px;
+}
+
+#word {
+	bottom: 0px;
+	cursor: default;
+	font-family: balloon;
+	font-size: 150px;
+	left: 0px;
+	position: absolute;
+	right: 0px;	
+	text-align: center;
+
+	-webkit-user-select: none;
+}
+
+.bubble {
+	cursor: default;		
+	font-family: balloon;
+	font-size: 150px;
+	position: absolute;	
+	
+	-webkit-user-select: none;	
+}
+
+.popped {
+	cursor: default;		
+	font-family: balloon;
+	font-size: 150px;
+	position: absolute;
+		
+	-webkit-user-select: none;	
+}

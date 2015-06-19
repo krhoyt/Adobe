@@ -1,0 +1,111 @@
+<html>
+<head>
+
+<title>Paint Brush</title>
+
+<link rel="stylesheet" type="text/css" href="brush.css"/>
+
+<script type="text/javascript">
+var canvas = null;
+var context = null;
+
+function doCanvasDown( evt )
+{
+	var logo = null;			
+	var maximum = null;
+	var scale = null;
+	
+	logo = document.getElementById( 'logo' );
+	
+	imageh = logo.height;
+	imagew = logo.width;
+	
+	if( imagew > imageh )
+	{
+		maximum = Math.round( Math.random() * imagew )
+		
+		scale = maximum / imagew;
+		imagew = maximum;
+		imageh = imageh * scale;				
+	} else {
+		maximum = Math.round( Math.random() * imageh )
+		
+		scale = maximum / imageh;
+		imageh = maximum;
+		imagew = imagew * scale;				
+	}			
+	
+	context.drawImage( 
+		logo, 
+		evt.offsetX - ( imagew / 2 ), 
+		evt.offsetY - ( imageh / 2 ), 
+		imagew, 
+		imageh 
+	);	
+
+	canvas.addEventListener( 'mousemove', doCanvasMove );
+	canvas.addEventListener( 'mouseup', doCanvasUp );
+}
+
+function doCanvasMove( evt )
+{
+	var logo = null;
+	
+	logo = document.getElementById( 'logo' );	
+	
+	context.drawImage( 
+		logo, 
+		evt.offsetX - ( imagew / 2 ), 
+		evt.offsetY - ( imageh / 2 ), 
+		imagew, 
+		imageh 
+	);						
+}
+
+function doCanvasUp( evt )
+{
+	canvas.removeEventListener( 'mousemove', doCanvasMove );
+	canvas.removeEventListener( 'mouseup', doCanvasUp );
+	
+	imagew = null;
+	imageh = null;	
+}
+
+function doWindowLoad()
+{
+	canvas = document.getElementById( 'canvas' );	
+	
+	if( canvas.getContext )
+	{
+		context = canvas.getContext( '2d' );	
+		canvas.addEventListener( 'mousedown', doCanvasDown );
+	}	
+	
+	doWindowResize();
+}
+
+function doWindowResize()
+{
+	var frame = document.querySelector( '#frame' );
+	var horizontal = Math.round( ( window.innerWidth - frame.clientWidth ) / 2 );
+	var vertical = Math.round( ( window.innerHeight - frame.clientHeight ) / 2 );	
+	
+	frame.style.left = horizontal + 'px';
+	frame.style.top = vertical + 'px';
+}
+
+window.onload = doWindowLoad;
+window.onresize = doWindowResize;
+</script>
+
+</head>
+<body>
+
+<div id="frame">
+	<canvas id="canvas" width="640" height="480"></canvas>
+</div>
+
+<img id="logo" src="logo.png" width="364" height="512">
+
+</body>
+</html>

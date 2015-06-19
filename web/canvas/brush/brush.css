@@ -1,0 +1,23 @@
+body {
+	background-color: #EDEDED;
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+}
+
+canvas {
+	background-color: #FFFFFF;	
+}
+
+#logo {
+	visibility: hidden;	
+}
+
+#frame {
+	width: 640px;
+	height: 480px;
+	border-width: 15px 21px 27px 21px;
+	-moz-border-image: url( 'frame.png' ) 15 21 27 21;
+	-webkit-border-image: url( 'frame.png' ) 15 21 27 21;	
+	position: absolute;
+}

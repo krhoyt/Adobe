@@ -1,0 +1,17 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	background-image: url( grass.jpg );
+	background-repeat: repeat;
+}
+
+#ball {
+	left: 100px;
+	position: absolute;
+}
+
+#hole {
+	position: absolute;
+	right: 100px;	
+}

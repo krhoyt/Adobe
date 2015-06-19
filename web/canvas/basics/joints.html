@@ -1,0 +1,35 @@
+<html>
+<head>
+
+<title>Line Joints</title>
+
+<script>
+var context = null;
+var joins = ['round', 'bevel', 'miter'];
+
+function doLoad()
+{
+	context = document.getElementById( 'canvas' ).getContext( '2d' );
+	context.lineWidth = 10;
+
+	for( i = 0; i < joins.length; i++ )
+	{
+		context.lineJoin = joins[i];
+		context.beginPath();
+		context.moveTo( -5, 5 + i * 40 );
+		context.lineTo( 35, 45 + i * 40 );
+		context.lineTo( 75, 5 + i * 40 );
+		context.lineTo( 115, 45 + i * 40 );
+		context.lineTo( 155, 5 + i * 40 );
+		context.stroke();
+	}
+}
+</script>
+
+</head>
+<body onLoad="doLoad();">
+
+<canvas id="canvas" width="150" height="150"></canvas> 
+
+</body>
+</html>

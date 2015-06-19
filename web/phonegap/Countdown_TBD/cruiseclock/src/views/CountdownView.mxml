@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View
+	add="doViewAdd( event )"
+	menuKeyPressed="doMenuKey( event)"
+	actionBarVisible="false"
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:comps="comps.*">
+	
+	<fx:Declarations>
+		<s:Move
+			id="effMenuShow"
+			yFrom="{height}"
+			yTo="{height - menu.height}"/>
+		
+		<s:Sequence
+			id="effMenuHide">
+			<s:Move
+				yFrom="{height - menu.height}"
+				yTo="{height}"
+				target="{menu}"/>
+			<s:SetAction
+				target="{menu}"
+				property="visible"
+				value="false"/>
+		</s:Sequence>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import events.DateDialogEvent;
+			
+			import mx.events.FlexEvent;
+			
+			import services.PreferencesService;
+			
+			protected function doChangeClick( event:MouseEvent ):void
+			{
+				menu.visible = false;
+				menu.y = height;
+				
+				dlgDate.debarcation = PreferencesService( data.preferences ).debarcation;
+				dlgDate.visible = true;
+			}			
+			
+			protected function doDateCancel( event:DateDialogEvent ):void
+			{
+				dlgDate.visible = false;
+			}			
+			
+			protected function doDateSet( event:DateDialogEvent ):void
+			{
+				PreferencesService( data.preferences ).storeDebarcation( event.debarcation );
+				
+				clock.debarcation = event.debarcation;
+				clock.visible = true;
+				
+				dlgDate.visible = false;
+			}
+			
+			protected function doMenuKey( event:FlexEvent ):void
+			{
+				if( menu.y < height )
+				{
+					effMenuHide.play();
+				} else {
+					menu.visible = true;
+				}
+			}
+			
+			protected function doSwipe( event:TransformGestureEvent ):void
+			{
+				if( event.offsetX == -1 )
+				{			
+					scenes.next();
+				} else {
+					scenes.previous();
+				}
+			}						
+			
+			protected function doSwipeClick( event:MouseEvent ):void
+			{
+				if( event.stageX > ( width / 2 ) ) 
+				{
+					scenes.next();
+				} else {
+					scenes.previous();
+				}
+			}			
+			
+			protected function doViewAdd( event:FlexEvent ):void
+			{
+				if( PreferencesService( data.preferences ).debarcation == null )
+				{
+					PreferencesService( data.preferences ).debarcation = new Date();
+					PreferencesService( data.preferences ).debarcation.hours = 16;
+					PreferencesService( data.preferences ).debarcation.minutes = 0;
+					
+					dlgDate.debarcation = PreferencesService( data.preferences ).debarcation;
+					dlgDate.visible = true;
+				} else {
+					clock.debarcation = PreferencesService( data.preferences ).debarcation;
+					clock.visible = true;
+				}
+			}						
+		]]>
+	</fx:Script>
+
+	<comps:Scenes
+		id="scenes"
+		horizontalCenter="0"
+		verticalCenter="0"/>
+	
+	<comps:Clock
+		id="clock"
+		y="39"
+		horizontalCenter="0"
+		visible="false"/>
+	
+	<s:Group
+		left="0"
+		right="0"
+		top="0"
+		bottom="0"
+		click="doSwipeClick( event )"
+		gestureSwipe="doSwipe( event)">
+		
+		<s:Rect 
+			width="100%" 
+			height="100%">
+			<s:fill>
+				<s:SolidColor 
+					color="0x00FF00" 
+					alpha="0"/>
+			</s:fill>
+		</s:Rect>
+		
+	</s:Group>
+	
+	<comps:DateDialog
+		id="dlgDate"
+		visible="false"
+		width="100%"
+		height="100%"
+		set="doDateSet( event )"
+		cancel="doDateCancel( event )"/>	
+	
+	<s:Button
+		skinClass="skins.DebarkationButtonSkin"
+		id="menu"
+		y="{height}"
+		width="{width}"
+		visible="false"
+		showEffect="{effMenuShow}"
+		click="doChangeClick( event )"/>
+	
+</s:View>

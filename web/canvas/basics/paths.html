@@ -1,0 +1,50 @@
+<html>
+<head>
+
+<title>Paths</title>
+
+<script>
+var context = null;
+
+function doLoad()
+{
+	context = document.getElementById( 'canvas' ).getContext( '2d' );
+	
+	// 1. beginPath()
+	// 2. closePath()
+	// 3. stroke()
+	// 4. fill()
+	
+	// Start a new list of sub-paths
+	context.beginPath();
+	
+	// Head
+    // Implicit moveTo() called with beginPath()
+	// Arc: x, y, radius, start angle, end angle, anti-clockwise
+	// Angles are in radians: ( Math.PI / 180 ) * degrees
+	context.arc( 75, 75, 50, 0, Math.PI * 2, true );
+    
+	// Mouth
+	context.moveTo( 110, 75 );
+    context.arc( 75, 75, 35, 0, Math.PI, false );
+    
+	// Left eye
+	context.moveTo( 65, 65 );
+    context.arc( 60, 65, 5, 0, Math.PI * 2, true );
+    
+	// Right eye
+	context.moveTo( 95, 65 );
+    context.arc( 90, 65, 5, 0, Math.PI * 2, true );
+    
+	// Render the path
+	context.stroke();
+}
+</script>
+
+</head>
+<body onLoad="doLoad();">
+
+<canvas id="canvas" width="150" height="150"></canvas>
+
+</body>
+</html>

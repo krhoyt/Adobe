@@ -1,0 +1,61 @@
+<html>
+<head>
+
+<title>Miter Limits</title>
+
+<script src="scripts/jquery-1.5.min.js"></script>
+
+<script>
+$( document ).ready( function() {
+	var context = document.getElementById( 'canvas' ).getContext( '2d' );
+	
+	$( '#update' ).click( function( evt ) {
+		var miter = parseFloat( $( '#miter' ).attr( 'value' ) );
+		
+		redraw( context, miter );
+	} );
+
+	redraw( context, 10 );
+} );
+
+function redraw( context, miter ) 
+{
+	var dy = 0;
+
+	context.clearRect( 0, 0, 150, 150 );
+
+	context.strokeStyle = '#09f';
+	context.lineWidth = 2;
+	context.strokeRect( -5, 50, 160, 50 );
+
+	context.strokeStyle = '#000';
+	context.lineWidth = 10;
+	context.miterLimit = miter;
+
+	context.beginPath();
+	context.moveTo( 0, 100 );
+	
+	for( i = 0; i < 24; i++ )
+	{
+		dy = i % 2 == 0 ? 25 : -25;
+		context.lineTo( Math.pow( i, 1.5 ) * 2, 75 + dy );
+	}
+	
+	context.stroke();
+}
+</script>
+
+</head>
+<body>
+
+<div>
+	<canvas id="canvas" width="150" height="150"></canvas> 
+</div>
+
+<div>
+	<input id="miter" type="number" min="0" max="50" value="10"/>
+    <input id="update" type="button" value="Update"/>
+</div>
+
+</body>
+</html>

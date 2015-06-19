@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- Grass -->
+<link rel="stylesheet" type="text/css" href="grass.css">
+<script src="grass.js" type="text/javascript"></script>
+
+<!-- Specific styles -->
+<style type="text/css">
+#sun {
+	left: 0px;
+	position: absolute;
+	top: 0px;
+}
+</style>
+
+<!-- Starter script -->
+<script type="text/javascript">
+var interval = null;
+
+function doMoveSun()
+{
+	var sun = document.querySelector( '#sun' );
+	
+	if( sun.offsetLeft < window.innerWidth - sun.clientWidth )
+	{
+		sun.style.left = ( sun.offsetLeft + 10 ) + 'px';	
+	} else {
+		clearInterval( interval );	
+	}
+}
+
+// Called when the page has loaded
+// Builds the basic interface used in this series
+function doWindowLoad()
+{
+	// Plant some grass on this sunny day	
+	plant();
+	
+	interval = setInterval( doMoveSun, 100 );
+}
+
+// Catch when the page has loaded
+window.onload = doWindowLoad;
+</script>
+
+<title>Just Some Grass</title>
+
+</head>
+<body>
+
+<!-- Daytime sky -->
+<div id="day"></div>
+
+<!-- Nearby star -->
+<img id="sun" src="sun.png" width="344" height="346">
+
+<!-- Grass -->
+<div id="grass"></div>
+
+<!-- Blade of grass -->
+<!-- SVG allows easy changing of color -->
+<svg 
+    version="1.1" 
+    id="blade" 
+    xmlns="http://www.w3.org/2000/svg" 
+    x="0px"
+    y="0px" 
+    width="43px" 
+    height="269px" 
+    viewBox="0 0 43 269">
+    <path 
+        fill-rule="evenodd" 
+        clip-rule="evenodd" 
+        fill="#008C00" 
+        d="M42.5,270H30.15C26.433,184.324,17.05,94.657,2,1C22.973,83.692,36.473,173.359,42.5,270z"/>
+</svg>
+
+</body>
+</html>

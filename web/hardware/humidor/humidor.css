@@ -1,0 +1,60 @@
+body {
+	background-image: url( cigars.jpg );
+	background-size: 100%, 100%;
+	background-repeat: no-repeat;
+	color: #FFF;
+	font-family: "facitweb-1", "facitweb-2";
+	overflow: hidden;
+}
+
+#created {
+	bottom: 5px;
+	font-size: 12px;
+	position: absolute;
+	text-align: center;
+	text-shadow: 1px 1px rgba( 0, 0, 0, 0.60 );	
+	width: 100%;	
+}
+
+#display {
+	left: 0px;
+	position: absolute;
+	top: 0px;
+	width: 620px;	
+}
+
+#humidity {
+	float: right;	
+}
+
+#temperature {
+	float: left;	
+}
+
+.field {
+	background-color: rgba( 0, 0, 0, 0.40 );
+	border-radius: 10 10 10 10;
+	width: 300px;
+}
+
+.rule {
+	border-bottom-color: rgba( 255, 255, 255, 0.40 );
+	border-bottom-style: dashed;			
+	border-bottom-width: 1px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.title {
+	font-size: 24px;
+	padding-bottom: 15px;
+	padding-top: 20px;
+	text-align: center;	
+	text-shadow: 1px 1px rgba( 0, 0, 0, 0.50 );		
+}
+
+.value {
+	font-size: 112px;
+	text-align: center;
+	text-shadow: 1px 1px rgba( 0, 0, 0, 0.60 );	
+}

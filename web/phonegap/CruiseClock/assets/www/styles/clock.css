@@ -1,0 +1,107 @@
+#clock {
+	left: 39px;		
+	position: absolute;
+	top: 39px;
+	visibility: hidden;
+}
+
+#colon-one {
+	left: 231px;		
+	position: absolute;
+	top: 6px;	
+}
+
+#colon-three {
+	left: 593px;		
+	position: absolute;
+	top: 6px;	
+}
+
+#colon-two {
+	left: 412px;		
+	position: absolute;
+	top: 6px;	
+}
+
+#day-hundred {
+	left: 0px;		
+}
+
+#day-one {
+	left: 156px;		
+}
+
+#day-ten {
+	left: 78px;		
+}
+
+#hour-one {
+	left: 337px;	
+}
+
+#hour-ten {
+	left: 259px;	
+}
+
+#minute-one {
+	left: 518px;	
+}
+
+#minute-ten {
+	left: 440px;	
+}
+
+#second-one {
+	left: 699px;	
+}
+
+#second-ten {
+	left: 621px;	
+}
+
+.bevel {
+	left: 0px;
+	position: absolute;	
+	top: 0px;
+}
+
+.digit {
+	background-image: url( ../images/digit.background.png );
+	height: 120px;
+	overflow: hidden;
+	position: absolute;
+	top: 0px;	
+	width: 77px;
+}
+
+.flop {
+	font-family: DroidSans;
+	font-size: 96px;
+	height: 120px;
+	left: 0px;
+	line-height: 122px;
+	position: absolute;
+	text-align: center;
+	top: 0px;	
+	width: 77px;	
+}
+
+.indicator {
+	font-family: DroidSans;
+	font-size: 96px;
+	height: 120px;
+	left: 0px;
+	line-height: 122px;
+	position: absolute;
+	text-align: center;	
+	top: 120px;
+	width: 77px;	
+}
+
+.slide {
+	height: 240px;
+	left: 0px;		
+	position: absolute;
+	top: -120px;
+	width: 77px;
+}

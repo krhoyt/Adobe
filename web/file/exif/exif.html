@@ -1,0 +1,49 @@
+<html>
+<head>
+
+<title>Read EXIF Data</title>
+
+<link href="exif.css" type="text/css" rel="stylesheet"/>
+
+<script src="scripts/ExifInfo.js" type="text/javascript"></script>
+<script src="scripts/Header.js" type="text/javascript"></script>
+<script src="scripts/Set.js" type="text/javascript"></script>
+<script src="scripts/IFD.js" type="text/javascript"></script>
+<script src="scripts/Entry.js" type="text/javascript"></script>
+<script src="scripts/Tags.js" type="text/javascript"></script>
+<script src="scripts/Utility.js" type="text/javascript"></script>
+<script src="exif.js" type="text/javascript"></script>
+
+</head>
+<body onLoad="doLoad();">
+
+<div id="outer-border">
+	<div id="holder"></div>
+    <div id="gradient"></div>
+    <div id="control-bar"></div>
+	<div id="gutter">
+		<div id="bottom-buffer"></div>
+        <div id="bottom-stop"></div>
+        <div id="top-stop"></div>
+        <div id="handle">
+        	<div class="handle-top"></div>
+            <div class="handle-bottom"></div>
+        </div>
+	</div>       
+    <div id="panel">
+    	<div id="panel-fill"></div>
+        <div id="scroll-view">
+        	<div id="metadata"></div>        
+        </div>
+        <div id="select-button">
+        	Open image file...
+			<input id="select-form" type="file"/>            
+        </div>        
+    	<div id="top-gradient"></div>   
+        <div id="left-gradient"></div> 
+    	<div id="bottom-gradient"></div>      
+    </div> 
+</div>
+
+</body>
+</html>

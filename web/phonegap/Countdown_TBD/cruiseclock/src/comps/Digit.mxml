@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group 
+	width="77" 
+	height="120"
+	clipAndEnableScrolling="true"
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark">
+
+	<fx:Script>
+		<![CDATA[
+			import mx.effects.Move;
+			import mx.effects.Parallel;
+			import mx.events.EffectEvent;
+			
+			private var enter:Move = null;
+			private var leave:Move = null;
+			private var spin:Parallel = null;
+			
+			protected function doSpinEnd( event:EffectEvent ):void
+			{
+				lblDigit.text = lblSpin.text;
+				lblDigit.y = 20;
+				
+				lblSpin.y = -120;
+				
+				leave = null;
+				enter = null;
+				
+				spin.removeEventListener( EffectEvent.EFFECT_END, doSpinEnd );
+				spin = null;
+			}
+			
+			public function get value():Number
+			{
+				var result:Number = -1;
+				
+				if( lblDigit.text != "X" )
+				{
+					result = parseInt( lblDigit.text );
+				}
+				
+				return result; 
+			}
+			
+			public function set value( digit:Number ):void
+			{				
+				if( value == -1 )
+				{
+					lblDigit.text = digit.toString();
+					lblSpin.text = digit.toString();
+					return;
+				}
+				
+				if( value != digit )
+				{
+					lblSpin.text = digit.toString();
+					
+					leave = new Move( lblDigit );
+					leave.yTo = 120;
+					leave.yFrom = 20;
+					leave.duration = 650;
+					
+					enter = new Move( lblSpin );
+					enter.yFrom = -120;
+					enter.yTo = 20;
+					enter.duration = 650;
+
+					spin = new Parallel();
+					spin.addChild( leave );
+					spin.addChild( enter );
+					spin.duration = 650;
+					spin.addEventListener( EffectEvent.EFFECT_END, doSpinEnd );
+					spin.play();
+				}
+			}			
+		]]>
+	</fx:Script>
+	
+	<s:BitmapImage
+		source="@Embed( '../images/digit.background.png' )"
+		width="77"
+		height="120"
+		horizontalCenter="0"
+		verticalCenter="0"/>			
+	<s:Label
+		id="lblDigit"
+		width="77"
+		y="20"
+		text="X"
+		textAlign="center"
+		fontFamily="DroidSans"
+		fontSize="96"/>
+	<s:Label
+		id="lblSpin"
+		width="77"
+		y="-120"
+		text="X"
+		textAlign="center"
+		fontFamily="DroidSans"
+		fontSize="96"/>
+	<s:BitmapImage
+		source="@Embed( '../images/digit.shadow.png' )"
+		width="77"
+		height="120"
+		horizontalCenter="0"
+		verticalCenter="0"/>					
+
+</s:Group>

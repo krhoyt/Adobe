@@ -1,0 +1,9 @@
+#bus {
+	position: absolute;
+	visibility: hidden;	
+}
+
+#frame {
+	position: absolute;
+	visibility: hidden;	
+}

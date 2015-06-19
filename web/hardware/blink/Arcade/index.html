@@ -1,0 +1,109 @@
+<html>
+<head>
+
+<title>Arcade Button</title>
+
+<!-- Styles -->
+<style type="text/css">
+#button {
+	background-image: url( arcade.button.png );
+	background-position: 0px;
+	background-repeat: no-repeat;
+	height: 226px;
+	position: absolute;
+	width: 238px;	
+}
+
+#button:active {
+	background-position: -238px;	
+}
+</style>
+
+<!-- Hooks into AIR runtime features -->
+<script src="AIRAliases.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+// Constants
+var LOCALHOST = '127.0.0.1';
+var PORT = '8080';
+
+// Persistant reference to socket
+var socket = null;
+
+// Called when the arcade button is pressed
+// Writes an integer to turn on LED
+function doButtonDown()
+{
+	socket.writeInt( 49 );
+}
+
+// Called when the arcade button is released
+// Writes an integer to turn off LED
+function doButtonUp()
+{
+	socket.writeInt( 48 );
+}
+
+// Called when the socket closes
+// Removes event listeners from button
+// No need to make socket calls if there is no socket
+function doSocketClose()
+{
+	var button = null;	
+	
+	button = document.querySelector( '#button' );
+	button.removeEventListener( 'mousedown', doButtonDown );
+	button.removeEventListener( 'mouseup', doButtonUp );	
+}
+
+// Called when the socket connects
+// Adds event listeners to the arcade button
+// Events send data across socket
+function doSocketConnect()
+{
+	var button = null;	
+	
+	button = document.querySelector( '#button' );
+	button.addEventListener( 'mousedown', doButtonDown );
+	button.addEventListener( 'mouseup', doButtonUp );	
+}
+
+// Called when the window has loaded
+// Configures socket connection
+// Performs initial layout of button
+function doWindowLoad()
+{
+	// Configure socket
+	socket = new air.Socket();
+	socket.addEventListener( air.Event.CONNECT, doSocketConnect );
+	socket.addEventListener( air.Event.CLOSE, doSocketClose );
+	socket.connect( LOCALHOST, PORT );	
+		
+	// Layout
+	doWindowResize();	
+}
+
+// Called when the window is resized
+// Performs layout of arcade button
+function doWindowResize()
+{
+	var button = null;
+	
+	button = document.querySelector( '#button' );
+	button.style.left = Math.round( ( document.body.clientWidth - button.clientWidth ) / 2 ) + 'px';
+	button.style.top = Math.round( ( document.body.clientHeight - button.clientHeight ) / 2 ) + 'px';	
+}
+
+// Load and resize listeners
+window.onload = doWindowLoad;
+window.onresize = doWindowResize;
+</script>
+
+</head>
+<body>
+
+<!-- Arcade button -->
+<div id="button"></div>
+
+</body>
+</html>

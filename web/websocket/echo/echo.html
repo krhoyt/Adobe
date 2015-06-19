@@ -1,0 +1,31 @@
+<html>
+<head>
+
+<title>Web Socket Echo</title>
+
+<link href="echo.css" type="text/css" rel="stylesheet"/>
+
+<script src="balloon.js" type="text/javascript"></script>
+
+<script src="http://js.pusher.com/1.12/pusher.min.js"></script>
+<script src="pusher.js" type="text/javascript"></script>
+
+<!-- <script src="echo-complete.js" type="text/javascript"></script> -->
+
+</head>
+<body onLoad="doLoad();">
+
+<!-- Using a form to capture <Enter> -->
+<!-- Send button is also available for mousekateers -->
+<form id="form" onSubmit="return doSend();">
+    <div id="message">
+        <input type="text" placeholder="Enter message to send"/>    
+    </div>
+	<input id="send" type="button" value="Send"/>
+</form>
+
+<!-- Picturesque background -->
+<div id="canyon"></div>
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group
+	width="960"
+	height="540"
+	creationComplete="doCreationComplete( event )"
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.effects.Parallel;
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			
+			import spark.core.SpriteVisualElement;
+			import spark.effects.Move;
+			
+			private var incoming:Move = null;
+			private var outgoing:Move = null;
+			private var day:Number = 0;
+			private var slide:Parallel = null;
+			
+			public function next():void
+			{
+				var current:BitmapImage = getElementAt( day ) as BitmapImage;
+				
+				if( day == ( numElements - 1 ) )
+				{
+					day = 0;
+				} else {
+					day = day + 1;
+				}
+				
+				getElementAt( day ).x = 960;
+				getElementAt( day ).visible = true;
+				
+				outgoing = new Move( current );
+				outgoing.xTo = -960;
+				outgoing.duration = 800;
+				
+				incoming = new Move( getElementAt( day ) );
+				incoming.xTo = 0;
+				incoming.duration = 800;
+				
+				slide = new Parallel();
+				slide.addChild( outgoing );
+				slide.addChild( incoming );
+				slide.addEventListener( EffectEvent.EFFECT_END, doSlideEnd );
+				slide.play();
+			}
+			
+			public function previous():void
+			{
+				var current:BitmapImage = getElementAt( day ) as BitmapImage;
+			
+				if( day == 0 )
+				{
+					day = ( numElements - 1 );
+				} else {
+					day = day - 1;
+				}
+			
+				getElementAt( day ).x = -960;
+				getElementAt( day ).visible = true;
+			
+				outgoing = new Move( current );
+				outgoing.xTo = 960;
+				outgoing.duration = 800;
+				
+				incoming = new Move( getElementAt( day ) );
+				incoming.xTo = 0;
+				incoming.duration = 800;
+				
+				slide = new Parallel();
+				slide.addChild( outgoing );
+				slide.addChild( incoming );
+				slide.addEventListener( EffectEvent.EFFECT_END, doSlideEnd );
+				slide.play();				
+			}						
+			
+			protected function doCreationComplete( event:FlexEvent ):void
+			{
+				day = Math.floor( Math.random() * numElements );				
+				getElementAt( day ).visible = true;
+			}			
+			
+			protected function doSlideEnd( event:EffectEvent ):void
+			{
+				for( var d:Number = 0; d < numElements; d++ )
+				{
+					if( d != day )
+					{
+						getElementAt( d ).visible = false;
+					}
+				}
+				
+				outgoing = null;
+				incoming = null;
+				
+				slide.removeEventListener( EffectEvent.EFFECT_END, doSlideEnd );
+				slide = null;
+			}
+		]]>
+	</fx:Script>
+	
+	<s:BitmapImage
+		id="montego"
+		source="@Embed( '../images/montego.png' )"
+		width="960"
+		height="540"
+		visible="false"/>	
+	
+	<s:BitmapImage
+		id="cayman"
+		source="@Embed( '../images/cayman.png' )"
+		width="960"
+		height="540"
+		visible="false"/>		
+	
+	<s:BitmapImage
+		id="cozumel"
+		source="@Embed( '../images/cozumel.png' )"
+		width="960"
+		height="540"
+		visible="false"/>		
+	
+	<s:BitmapImage
+		id="fish"
+		source="@Embed( '../images/fish.png' )"
+		width="960"
+		height="540"
+		visible="false"/>
+	
+	<s:BitmapImage
+		id="drink"
+		source="@Embed( '../images/drink.png' )"
+		width="960"
+		height="540"
+		visible="false"/>		
+	
+	<s:BitmapImage
+		id="turtle"
+		source="@Embed( '../images/turtle.png' )"
+		width="960"
+		height="540"
+		visible="false"/>		
+	
+	<s:BitmapImage
+		id="cigars"
+		source="@Embed( '../images/cigars.png' )"
+		width="960"
+		height="540"
+		visible="false"/>			
+	
+</s:Group>

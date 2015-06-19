@@ -1,0 +1,111 @@
+var picture = null;
+var samples = null;
+var sensor = null;
+var xhr = null;
+	
+function doAccelerationError() 
+{
+	console.log( 'Accelerometer error' );
+}
+	
+function doAccelerationSuccess( acceleration )
+{
+	var degrees = null;
+	
+	if( acceleration.y < 0 )
+	{
+		degrees = 90 - Math.abs( acceleration.y * 90 );
+	} else {
+		degrees = 90 + ( acceleration.y * 90 );	
+	}
+	
+	samples.push( {
+		angle: degrees,
+		timestamp: acceleration.timestamp 
+	} );
+	document.querySelector( '#tilt' ).innerHTML = degrees;
+}
+	
+function doBodyLoad()
+{	
+	document.addEventListener( 'deviceready', doDeviceReady, false );
+	document.addEventListener( 'touchmove', doTouchMove, false );			
+	
+	document.querySelector( '#picture' ).onclick = doPictureClick;
+}
+	
+function doDeviceReady() {;}
+
+function doPictureClick()
+{
+	samples = new Array();
+	
+	sensor = navigator.accelerometer.watchAcceleration( 
+		doAccelerationSuccess, 
+		doAccelerationError, 
+		{
+			frequency: 500
+		} 
+	);	
+	
+	navigator.camera.getPicture( 
+		doPictureSuccess, 
+		doPictureError, 
+		{
+			quality: 50,
+			destinationType: Camera.DestinationType.FILE_URI,
+			sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+			allowEdit: false,
+			encodingType: Camera.EncodingType.JPEG
+		} 
+	);
+}
+
+function doPictureError()
+{
+	console.log( 'Picture error' );
+}
+
+function doPictureSuccess( uri )
+{
+	navigator.accelerometer.clearWatch( sensor );
+	sensor = null;
+
+	xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = doRequestReady;
+	xhr.open( 'GET', uri );	
+	xhr.send();
+
+	/*
+	 * TODO: Scale picture to fit screen
+	if( picture == null )
+	{
+		picture = new Image();
+		picture.id = 'picture';		
+	}
+
+	picture.src = uri;
+	
+	document.body.appendChild( picture );	
+	*/
+}
+
+function doReaderLoad( evt ) 
+{
+	alert( evt.target.result.charCodeAt( 0 ) );
+	console.log( 'File read success: ' + evt.target.result );	
+}
+
+function doRequestReady( evt ) 
+{
+	if( xhr.readyState == 4 )
+	{
+		alert( xhr.responseType );
+		alert( xhr.responseText.charCodeAt( 0 ) );
+	}
+}
+
+function doTouchMove( evt ) 
+{ 
+	evt.preventDefault(); 
+}

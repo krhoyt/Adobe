@@ -1,0 +1,15 @@
+body {
+	overflow: hidden;
+}
+
+#arrow {
+	position: absolute;
+	width: 283px;
+	height: 636px;
+	bottom: -113px;
+	background-image: url( arrow.png );
+	background-repeat: no-repeat;
+
+	-moz-transform-origin: 142px 523px;
+    -webkit-transform-origin: 142px 523px; 			
+}

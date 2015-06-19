@@ -1,0 +1,51 @@
+<html>
+<head>
+
+<title>RGraph</title>
+
+<script src="scripts/rgraph/RGraph.common.core.js"></script>
+<script src="scripts/rgraph/RGraph.bar.js"></script>
+<script src="scripts/jquery-1.5.min.js"></script>
+
+<script>
+$( document ).ready( function() {
+	var bar = null;
+	var canvas = document.getElementById( 'chart' );	
+	var data = null;
+	
+	if( canvas.getContext )
+	{
+		data = new Array();
+		
+		for( var v = 0; v < 12; v++ )
+		{
+			data[v] = Math.floor( Math.random() * 25 );
+		}
+		
+		bar = new RGraph.Bar( 'chart', data );
+		bar.max = 25;
+		bar.Set( 'chart.gutter', 35 );
+		bar.Set( 'chart.colors', ['red'] );
+		bar.Set( 'chart.title', 'A basic graph (big, but basic)' );
+		bar.Set( 'chart.labels', ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] );
+		bar.Draw();
+		
+		setInterval( function() {
+			data.splice( 0, 1 );
+			data.push( Math.floor( Math.random() * 25 ) );
+			
+			RGraph.Clear( canvas );
+			bar.data = data;
+			bar.Draw();
+		}, 500 );
+	}	
+} );
+</script>
+
+</head>
+<body>
+
+<canvas id="chart" width="640" height="480"></canvas>
+
+</body>
+</html>

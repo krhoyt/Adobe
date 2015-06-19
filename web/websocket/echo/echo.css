@@ -1,0 +1,120 @@
+@font-face {
+	font-family: droid;
+	src: url( 'DroidSans.ttf' );
+}
+
+::-webkit-input-placeholder {
+   color: #838183;
+}
+
+body {
+	background-color: #5C6367;
+}
+
+input[type="button"] {
+	background-color: rgba( 0, 255, 0, 0 );
+	border-width: 20px 20px 20px 20px;
+	font-family: droid;
+	font-size: 22px;
+	height: 64px;
+	outline: none;
+
+	-moz-border-image: url( button.png ) 20 20 20 20 round round;	
+	-webkit-border-image: url( button.png ) 20 20 20 20 round round;	
+}
+
+input[type="button"]:active {
+	-moz-border-image: url( button.focus.png ) 20 20 20 20 round round;
+	-webkit-border-image: url( button.focus.png ) 20 20 20 20 round round;		
+}
+
+input[type="text"] {
+	background-color: rgba( 0, 255, 0, 0 );
+	border-width: 20px 20px 20px 20px;
+	font-family: droid;
+	font-size: 28px;
+	height: 64px;
+	outline: none;
+	width: 100%;
+	
+	-moz-border-image: url( text.png ) 20 20 20 20 round round;	
+	-webkit-border-image: url( text.png ) 20 20 20 20 round round;	
+}
+
+input[type="text"]:focus {
+	-moz-border-image: url( text.focus.png ) 20 20 20 20 round round;
+	-webkit-border-image: url( text.focus.png ) 20 20 20 20 round round;		
+}
+
+#canyon {
+	background-image: url( canyon.jpg );
+	background-size: 100% 100%;
+	bottom: 0px;
+	box-shadow: 0px 10px 20px rgba( 0, 0, 0, 0.60 );
+	left: 0px;
+	position: absolute;
+	right: 0px;
+	top: 0px;	
+	
+	-moz-transition: bottom 0.8s;
+	-moz-transition-delay: 2s;
+	
+	-webkit-transition: bottom 0.8s;
+	-webkit-transition-delay: 2s;	
+}
+
+#measure {
+	bottom: 0px;
+	font-family: Helvetica, sans-serif;
+	font-size: 16px;	
+	position: absolute;
+	right: 0px;	
+	visibility: hidden;
+	white-space: nowrap;
+}
+
+#message {
+	bottom: 15px;
+	left: 15px;
+	position: absolute;	
+	right: 131px;
+}
+
+#send {
+	bottom: 15px;
+	position: absolute;	
+	right: 15px;	
+}
+
+.echo {
+	font-family: Helvetica, sans-serif;
+	font-size: 16px;	
+	position: absolute;	
+	text-shadow: rgba( 255, 255, 255, 0.80 ) 0px 1px 0px;	
+
+	-moz-transition-property: opacity;
+	-moz-transition-delay: 5s;
+	-moz-transition-duration: 1s;
+
+	-webkit-transition-property: opacity;
+	-webkit-transition-delay: 5s;
+	-webkit-transition-duration: 1s;
+}
+
+.echo span {
+	position: absolute;
+	left: 18px;
+	top: 5px;
+}
+
+.balloon {
+	border-width: 15px 24px 15px 24px;
+	bottom: 0px;
+	left: 0px;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	
+	-moz-border-image: url( balloon.png ) 15 24 15 24 round round;	
+	-webkit-border-image: url( balloon.png ) 15 24 15 24 round round;	
+}

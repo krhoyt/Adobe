@@ -1,0 +1,15 @@
+<svg 
+	version="1.1" 
+	id="blade" 
+	xmlns="http://www.w3.org/2000/svg" 
+	x="0px"
+	y="0px" 
+	width="43px" 
+	height="269px" 
+	viewBox="0 0 43 269">
+	<path 
+		fill-rule="evenodd" 
+		clip-rule="evenodd" 
+		fill="#008C00" 
+		d="M42.5,270H30.15C26.433,184.324,17.05,94.657,2,1C22.973,83.692,36.473,173.359,42.5,270z"/>
+</svg>

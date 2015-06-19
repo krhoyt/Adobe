@@ -1,0 +1,55 @@
+#lblFirst {
+	left: 11px;	
+	top: 22px;
+}
+
+#txtFirst {
+	left: 98px;	
+	top: 7px;
+	right: 5px;
+}
+
+#lblLast {
+	left: 11px;	
+	top: 80px;
+}
+
+#txtLast {
+	left: 98px;	
+	top: 65px;
+	right: 5px;
+}
+
+#lblEmail {
+	left: 11px;	
+	top: 138px;
+}
+
+#txtEmail {
+	left: 98px;	
+	top: 123px;
+	right: 5px;
+}
+
+#lblMobile {
+	left: 11px;	
+	top: 196px;
+}
+
+#txtMobile {
+	left: 98px;	
+	top: 181px;
+	right: 5px;
+}
+
+#btnCreate {
+	left: 10px;
+	right: 10px;
+	bottom: 66px;	
+}
+
+#btnFind {
+	left: 10px;
+	right: 10px;
+	bottom: 10px;	
+}

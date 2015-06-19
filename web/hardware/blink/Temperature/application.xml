@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/3.2">
+	<id>com.adobe.khoyt.Temperature</id>
+	<name>
+		<text xml:lang="en">Temperature</text>
+	</name>
+	<versionNumber>1.0.0</versionNumber>
+	<filename>Temperature</filename>
+	<description>
+		<text xml:lang="en">Displays the ambient temperature from a thermistor.</text>
+	</description>
+	<initialWindow>
+		<content>index.html</content>
+		<title>Temperature</title>
+		<systemChrome>standard</systemChrome>
+		<transparent>false</transparent>
+		<visible>true</visible>
+		<minimizable>true</minimizable>
+		<maximizable>false</maximizable>
+		<resizable>false</resizable>
+		<width>500</width>
+		<height>500</height>
+	</initialWindow>
+</application>

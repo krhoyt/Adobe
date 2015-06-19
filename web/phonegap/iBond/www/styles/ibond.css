@@ -1,0 +1,28 @@
+body {
+	-webkit-user-select: none;
+	cursor: default;	
+}
+
+#camera {
+	position: absolute;
+	left: 10px;
+	top: 360px;	
+}
+
+#photo {
+	position: absolute;
+	left: 30px;
+	top: 30px;
+}
+
+#roll {
+	position: absolute;
+	right: 10px;
+	top: 360px;	
+}
+
+.upperleft {
+	position: absolute;
+	left: 0px;
+	top: -10px;
+}

@@ -1,0 +1,76 @@
+<html>
+<head>
+
+<title>Saving</title>
+
+<link rel="stylesheet" type="text/css" href="styles/painting.css"/>
+
+<script src="scripts/jquery-1.5.min.js"></script>
+<script src="scripts/layout.js"></script>
+<script src="scripts/base64.js"></script>
+<script src="scripts/canvas2image.js"></script>
+
+<script>
+$( document ).ready( function() {
+	var canvas = document.getElementById( 'canvas' );	
+	var context = null;
+	
+	if( canvas.getContext )
+	{
+		context = canvas.getContext( '2d' );
+		
+		$( '#canvas' ).mousedown( function( evt ) {
+			var coord = coordinate( evt, this );
+
+			context.strokeStyle = color();			
+			context.moveTo( coord.x, coord.y );
+			context.beginPath();					
+			
+			$( '#canvas' ).mousemove( function( evt ) {
+				var coord = coordinate( evt, this );
+							
+				context.lineTo( coord.x, coord.y );		
+				context.stroke();
+			} ).mouseup( function( evt ) {
+				$( '#canvas' ).unbind( 'mousemove' );
+				$( '#canvas' ).unbind( 'mouseup' );
+			} );
+		} );
+		
+		$( '#save' ).click( function() {
+			// Jacob Seidelin
+			// http://www.nihilogic.dk/labs/canvas2image/
+			Canvas2Image.saveAsPNG( canvas );
+		} );
+	}
+} );
+
+function color()
+{
+	var red = Math.round( Math.random() * 255 );
+	var green = Math.round( Math.random() * 255 );
+	var blue = Math.round( Math.random() * 255 );	
+	
+	return 'rgb( ' + red + ', ' + green + ', ' + blue + ' )';	
+}
+
+function coordinate( evt, target )
+{
+	return {
+		x: evt.pageX - $( target ).offset().left,
+		y: evt.pageY - $( target ).offset().top
+	};
+}
+</script>
+
+</head>
+<body>
+
+<div id="frame">
+<canvas id="canvas" width="640" height="480"></canvas>
+</div>
+
+<input id="save" type="button" value="Save..."/>
+
+</body>
+</html>
