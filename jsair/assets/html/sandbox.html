@@ -1,0 +1,23 @@
+<html>
+<head>
+
+<title>Potentially Untrusted Content</title>
+
+<script type="text/javascript">
+var exposed = {}; 
+
+exposed.greetings = function( name )
+{ 
+	alert( 'Hello "' + name + '" from child!' ); 
+} 
+ 
+window.childSandboxBridge = exposed;
+</script>
+
+</head>
+<body>
+
+
+
+</body>
+</html>

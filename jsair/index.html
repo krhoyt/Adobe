@@ -1,0 +1,215 @@
+<html>
+<head>
+
+<title>AIR Samples</title>
+
+<link rel="stylesheet" type="text/css" href="assets/css/samples.css" />
+
+<script src="lib/as3corelib.swf" type="application/x-shockwave-flash"></script>
+<script src="lib/as3base64.swf" type="application/x-shockwave-flash"></script>
+<script src="lib/servicemonitor.swf" type="application/x-shockwave-flash"></script>
+
+<script src="scripts/air/AIRAliases.js" type="text/javascript"></script>
+<script src="scripts/air/AIRIntrospector.js" type="text/javascript"></script>
+<script src="scripts/jquery/jquery-1.3.min.js" type="text/javascript"></script>
+
+<script src="scripts/samples.js" type="text/javascript"></script>
+
+<script src="scripts/samples/file/synctext.js" type="text/javascript"></script>
+<script src="scripts/samples/file/syncbin.js" type="text/javascript"></script>
+<script src="scripts/samples/clipboard/clipboard.js" type="text/javascript"></script>
+<script src="scripts/samples/dragdrop/dragdrop.js" type="text/javascript"></script>
+<script src="scripts/samples/database/sync.js" type="text/javascript"></script>
+<script src="scripts/samples/localstore/localstore.js" type="text/javascript"></script>
+<script src="scripts/samples/window/window.js" type="text/javascript"></script>
+<script src="scripts/samples/network/network.js" type="text/javascript"></script>
+<script src="scripts/samples/other/other.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+<div class="header">
+	<span>Welcome to the Adobe AIR JavaScript Samples</span>
+	<span class="count"></span>
+</div>
+
+<div id="list">
+
+	<div class="section">
+
+        <div class="header">
+            <span>Synchronous File Access (Text)</span>
+            <span class="count"></span>
+        </div>
+        
+        <div id="createtxt" class="button">Create a Text File</div>
+        <div id="selectany" class="button">Select Any Single File</div>
+        <div id="selecttxt" class="button">Select a Single Text File</div>
+        <div id="selectmulti" class="button">Select Multiple Image Files</div>
+        <div id="selectdir" class="button">Select a Directory</div>
+        <div id="dirlisting" class="button">Get a Directory Listing</div>    
+        <div id="checkexists" class="button">Determine if a File Exists</div>
+        <div id="getsize" class="button">Determine the Size of a File</div>
+        <div id="readtxt" class="button">Read a Text File</div>
+        <div id="deleteone" class="button">Delete a Single File</div>
+        <div id="makedir" class="button">Create a Directory</div>
+        <div id="deletedir" class="button">Delete a Directory</div>
+        <div id="appendtxt" class="button">Append Text to an Existing File</div>
+        <div id="createtmp" class="button">Create a Temporary File</div>
+        <div id="movetmp" class="button">Move a Temporary File to the Desktop</div>
+
+	</div>
+    
+	<div class="section">
+
+        <div class="header">
+            <span>Synchronous File Access (Binary)</span>
+            <span class="count"></span>
+        </div>
+        
+        <div id="determineimg" class="button">Determine if a Selected File is JPG, PNG or GIF</div>
+        <div id="determinedim" class="button">Determine the Dimensions of an Image File</div>
+        <div id="encodepng" class="button">Encode a PNG Image File</div>
+        <div id="encodejpg" class="button">Encode a JPG Image File</div>
+        <div id="scaleimg" class="button">Scale an Image File to Fit</div>
+
+	</div>    
+    
+    <div class="section">
+    
+        <div class="header">
+            <span>Clipboard Access</span>
+            <span class="count"></span>
+        </div>
+    
+        <div id="putcliptxt" class="button">Put Text on the Clipboard</div>
+        <div id="putclipfile" class="button">Put a File on the Clipboard</div> 
+        <div id="putclipmulti" class="button">Put Multiple Files on the Clipboard</div>     
+        <div id="putclipboth" class="button">Put Both Text and File on the Clipboard</div>
+        <div id="putclipbmp" class="button">Put a Bitmap on the Clipboard</div>    
+        <div id="determineclip" class="button">Determine the Types of Content on the Clipboard</div>
+        <div id="getcliptxt" class="button">Get Text From the Clipboard</div>
+        <div id="getclipfile" class="button">Get Files From the Clipboard</div>             
+        <div id="getclipbmp" class="button">Get a Bitmap From the Clipboard</div>                     
+        <div id="clipclear" class="button">Clear the Clipboard</div>                 
+        <div id="clipclearone" class="button">Remove a Specific Type of Content from the Clipboard</div>                           
+
+	</div>
+
+	<div class="section">
+
+        <div class="header">
+            <span>Drag and Drop</span>
+            <span class="count"></span>
+        </div>
+    
+        <div id="dragtxtout" class="button">Drag Text Out of This Application</div>
+        <div id="dragfileout" class="button">Drag a File Out of This Application</div> 
+        <div id="dragstuff" class="button">Drag Something From Another Source Onto Here</div>   
+        <div id="dragtextin" class="button">Access Only the Text Content Dragged Onto Here</div>
+        <div id="dragfilein" class="button">Access Only the Files Dragged Onto Here</div>             
+        <div id="dragbmpin" class="button">Drag a Bitmap Into This Application</div>    
+        <div id="dragbmppng" class="button">Convert a Dragged Bitmap to a PNG Image File</div>                    
+        <div id="dragonlytxt" class="button">Allow Only Text Dragged Onto Here</div>                 
+        <div id="dragonlyfile" class="button">Allow Only Files Dragged Onto Here</div>                                               
+
+	</div>
+
+	<div class="section">
+
+        <div class="header">
+            <span>Synchronous SQLite Access</span>
+            <span class="count"></span>
+        </div>
+        
+        <div id="createdb" class="button">Create a Blank Database</div>
+        <div id="checktbl" class="button">Determine if a Table Exists</div>
+        <div id="createtbl" class="button">Create a New Table</div>
+        <div id="filltbl" class="button">Populate a Database Table</div>
+        <div id="readrecs" class="button">Read All Records From a Database Table</div>
+        <div id="readrec" class="button">Read a Single Record From a Database Table</div>
+        <div id="updaterec" class="button">Update a Record in a Database Table</div>
+        <div id="deleterec" class="button">Delete a Record From a Database Table</div>
+        <div id="deleteall" class="button">Delete All the Records From a Database Table</div>
+
+	</div>
+    
+	<div class="section">
+
+        <div class="header">
+            <span>Encrypted Local Store</span>
+            <span class="count"></span>
+        </div>
+        
+        <div id="putels" class="button">Put Some Data Into the Local Store</div>
+        <div id="getels" class="button">Get Some Data Out of Local Store</div>        
+        <div id="removeels" class="button">Remove Some Data in the Local Store</div>
+        <div id="resetels" class="button">Remove All the Data in the Local Store</div>        
+
+	</div>       
+    
+	<div class="section">
+
+        <div class="header">
+            <span>Native Windows</span>
+            <span class="count"></span>
+        </div>
+        
+        <div id="newnative" class="button">Create a New Native Window</div> 
+        <div id="noresize" class="button">Create a Native Window That Cannot Be Resized</div>            
+        <div id="nomaxwin" class="button">Create a Native Window That Cannot Be Maximized</div>       
+        <div id="nominwin" class="button">Create a Native Window That Cannot Be Minimized</div> 
+        <div id="maxsizewin" class="button">Enforce a Maximum Size for a Native Window</div>
+        <div id="minsizewin" class="button">Enforce a Minimum Size for a Native Window</div>                                       
+        <div id="centerwin" class="button">Position a New Window in the Center of the Screen</div>
+        <div id="nativebounds" class="button">Control Initial Position and Size of New Window</div>                  
+        <div id="nativeinit" class="button">Create a Native Window With Initial Content</div>                  
+        <div id="frontwin" class="button">Make a Native Window Always in Front</div>        
+        <div id="nakedwin" class="button">Create a Native Window Without System Chrome</div>        
+        <div id="seethruwin" class="button">Create a Transparent Native Window</div>   
+        <div id="closewin" class="button">Programmatically Close This Application</div>                  
+        <div id="maxwin" class="button">Programmatically Maximize This Application</div>                        
+        <div id="restorewin" class="button">Programmatically Restore Window Size After Maximizing</div>                                    
+        <div id="minwin" class="button">Programmatically Minimize This Application</div>                          
+        <div id="movewin" class="button">Provide an Alternative Handle for Moving a Window</div> 
+        <div id="chromewin" class="button">Create Custom Chrome on a New Window</div>                                                          
+
+	</div>         
+    
+	<div class="section">
+
+        <div class="header">
+            <span>Network Availability</span>
+            <span class="count"></span>
+        </div>
+        
+        <div id="httpcheck" class="button">Determine if Application Can Connect to HTTP Endpoint</div>
+        <div id="socketcheck" class="button">Determine if Application Can Connect to Socket Endpoint</div>
+
+	</div>    
+
+	<div class="section">
+
+        <div class="header">
+            <span>Other</span>
+            <span class="count"></span>
+        </div>
+        
+        <div id="playsound" class="button">Play an MP3 Sound File</div>
+        <div id="callnonapp" class="button">Call a Function in the Non-Application Sandbox</div>        
+
+	</div>    
+
+	<!-- Force list to respect bottom margin -->
+	<div style="height: 0px;"></div>
+
+</div>
+
+<iframe 
+	id="sandbox" 
+    src="assets/html/sandbox.html" 
+    sandboxRoot="http://www.example.com/air/"
+    documentRoot="app:/"></iframe>
+
+</body>
+</html>

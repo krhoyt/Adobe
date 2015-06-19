@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/1.5">
+	<id>com.adobe.air.Samples</id>
+	<name>
+		<text xml:lang="en">Various Adobe AIR Samples</text>
+	</name>
+	<version>1.0</version>
+	<filename>AIR Samples</filename>
+	<description>
+		<text xml:lang="en">Demonstrates a variety of Adobe AIR functionality.</text>
+	</description>
+	<initialWindow>
+		<content>index.html</content>
+		<title>AIR Samples</title>
+		<systemChrome>standard</systemChrome>
+		<transparent>false</transparent>
+		<visible>true</visible>
+		<minimizable>true</minimizable>
+		<maximizable>true</maximizable>
+		<resizable>true</resizable>
+		<width>640</width>
+		<height>480</height>
+	</initialWindow>
+</application>
