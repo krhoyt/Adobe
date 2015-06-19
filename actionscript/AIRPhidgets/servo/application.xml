@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/1.1">
+	<id>com.adobe.khoyt.Servo</id>
+	<name>
+		<text xml:lang="en">Servo</text>
+	</name>
+	<version>1.0</version>
+	<filename>Servo</filename>
+	<description>Basic demonstration of a servo controlled by JavaScript interaction.</description>
+	<initialWindow>
+		<content>index.html</content>
+		<title>Servo</title>
+		<systemChrome>standard</systemChrome>		
+		<transparent>false</transparent>
+		<visible>true</visible>
+		<minimizable>false</minimizable>
+		<maximizable>false</maximizable>
+		<resizable>false</resizable>
+		<width>640</width>
+		<height>480</height>
+	</initialWindow>
+</application>

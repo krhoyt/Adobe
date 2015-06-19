@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/1.1">
+	<id>com.adobe.khoyt.Weather</id>
+	<name>
+		<text xml:lang="en">Weather</text>
+	</name>
+	<version>1.0</version>
+	<filename>Weather</filename>
+	<description>Displays weather station data.</description>
+	<initialWindow>
+		<content>index.html</content>
+		<title>Weather</title>
+		<transparent>false</transparent>
+		<visible>true</visible>
+		<minimizable>true</minimizable>
+		<maximizable>false</maximizable>
+		<resizable>false</resizable>
+		<width>320</width>
+		<height>502</height>
+	</initialWindow>
+</application>

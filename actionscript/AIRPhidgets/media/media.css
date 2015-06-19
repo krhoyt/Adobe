@@ -1,0 +1,246 @@
+body {
+	overflow: hidden;	
+}
+
+.placemark {
+	position: absolute;
+	height: 44px;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	background-image: url( images/placemark.png );
+	background-repeat: repeat-x;
+	-webkit-user-select: none;
+	cursor: default;		
+}
+
+#case {
+	position: absolute;
+	top: 44px;
+	width: 320px;
+	height: 414px;
+	overflow: hidden;
+}
+
+.shelf {
+	height: 265px;
+	left: 6px;
+	right: 6px;
+	background-image: url( images/shelf.png );
+	background-repeat: no-repeat;
+}
+
+.sectionBlack {
+	position: absolute;
+	font: Verdana, Geneva, sans-serif;
+	font-size: 20px;
+	color: #666666;
+	text-align: center;
+	line-height: 44px;	
+	left: 6px;
+	right: 6px;
+	top: -3px;
+	-webkit-user-select: none;
+	cursor: default;
+}
+
+.sectionWhite {
+	position: absolute;
+	font: Verdana, Geneva, sans-serif;
+	font-size: 20px;
+	color: #FFF;
+	text-align: center;
+	line-height: 44px;
+	top: -2px;
+	left: 6px;
+	right: 6px;
+	-webkit-user-select: none;
+	cursor: default;	
+}
+
+#btnadd {
+	position: absolute;
+	right: 6px;
+	top: 7px;
+}
+
+#editor {
+	position: absolute;
+	top: 44px;
+	left: 320px;
+	width: 320px;
+	height: 414px;
+	background-image: url( images/editor_background.png );
+}
+
+.blank {
+	border-width: 11 11 11 11; 
+	-webkit-border-image: url( images/blank.png ) 11 11 11 11 stretch stretch;
+}
+
+#nameborder {
+	position: absolute;
+	height: 25px;
+	left: 29px;
+	right: 29px;
+	top: 29px;
+}
+
+#idsborder {
+	position: absolute;
+	height: 69px;
+	left: 29px;
+	right: 29px;
+	top: 91px;
+}
+
+#isbnborder {
+	position: absolute;
+	top: 89px;
+	left: 31px;
+	right: 31px;
+	height: 47px;
+	border-bottom: solid 1px #AAAAAA;
+}
+
+#descborder {
+	position: absolute;
+	height: 166px;
+	left: 29px;
+	right: 29px;
+	top: 197px;	
+}
+
+#namelabel {
+	position: absolute;
+	left: 41px;
+	top: 48px;
+	font: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+	color: #56668A;
+}
+
+#nametext {
+	position: absolute;
+	left: 81px;
+	top: 42px;
+	font-weight: bold;	
+}
+
+#isbnlabel {
+	position: absolute;
+	left: 41px;
+	top: 109px;
+	font: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+	color: #56668A;
+}
+
+#isbntext {
+	position: absolute;
+	left: 81px;
+	top: 103px;
+}
+
+input {
+	font: Verdana, Geneva, sans-serif;
+	font-size: 15px;	
+	border: none;	
+	width: 197px;
+}
+
+textarea {
+	font: Verdana, Geneva, sans-serif;
+	font-size: 15px;	
+	border: none;	
+	width: 242px;
+	height: 147px;
+}
+
+#rfidlabel {
+	position: absolute;
+	left: 41px;
+	top: 152px;
+	font: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+	color: #56668A;
+}
+
+#rfidtext {
+	position: absolute;
+	left: 83px;
+	top: 149px;
+	font: Verdana, Geneva, sans-serif;
+	font-size: 15px;	
+}
+
+#desclabel {
+	position: absolute;
+	left: 41px;
+	top: 207px;
+	font: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+	color: #56668A;
+}
+
+#desctext {
+	position: absolute;
+	left: 37px;
+	top: 226px;
+}
+
+#btndone {
+	background-image: url( images/done_up.png );
+	position: absolute;
+	width: 50px;
+	height: 29px;
+	font: Verdana, Geneva, sans-serif;
+	font-size: 13px;
+	color: #374B90;
+	line-height: 26px;
+	text-align: center;
+	right: 6px;
+	top: 7px;	
+	visibility: hidden;
+}
+
+#btndone span {
+	position: absolute;
+	left: 0px;
+	width: 50px;
+	top: 1px;
+	color: #FFF;
+}
+
+#btnmedia {
+	position: absolute;
+	left: 6px;
+	top: 7px;
+	visibility: hidden;
+}
+
+.light {
+	width: 53px;
+	height: 29px;
+	position: absolute;
+	color: #FFF;
+	left: 10px;
+	top: 1px;
+	font: Verdana, Geneva, sans-serif;
+	font-size: 13px;
+	line-height: 26px;
+	text-align: center;		
+}
+
+.dark {
+	width: 53px;
+	height: 29px;
+	position: absolute;
+	color: #000;
+	left: 10px;
+	top: 0px;
+	font: Verdana, Geneva, sans-serif;
+	font-size: 13px;
+	line-height: 26px;
+	text-align: center;	
+}

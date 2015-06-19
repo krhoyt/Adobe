@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/1.1">
+	<id>com.adobe.khoyt.CSSChrome</id>
+	<name>
+		<text xml:lang="en">CSS Chrome</text>
+	</name>
+	<version>1.0</version>
+	<filename>CSS Chrome</filename>
+	<description>An example of building custom chrome using CSS 3.</description>
+	<initialWindow>
+		<content>index.html</content>
+		<title>CSS Chrome</title>
+		<systemChrome>none</systemChrome>
+		<transparent>true</transparent>
+		<visible>false</visible>
+		<minimizable>true</minimizable>
+		<maximizable>false</maximizable>
+		<resizable>true</resizable>
+		<width>640</width>
+		<height>480</height>
+	</initialWindow>
+</application>

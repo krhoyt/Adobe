@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/1.1">
+	<id>com.adobe.khoyt.Emotions</id>
+	<name>
+		<text xml:lang="en">Emotions</text>
+	</name>
+	<version>1.0</version>
+	<filename>Emotions</filename>
+	<description>Allows the user to retrieve the emotional Twitter profile of a specific user.</description>
+	<initialWindow>
+		<content>index.html</content>
+		<title>Emotions</title>
+		<systemChrome>none</systemChrome>		
+		<transparent>true</transparent>
+		<visible>false</visible>
+		<minimizable>false</minimizable>
+		<maximizable>false</maximizable>
+		<resizable>false</resizable>
+		<width>606</width>
+		<height>411</height>
+	</initialWindow>
+</application>

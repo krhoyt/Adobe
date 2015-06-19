@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<application xmlns="http://ns.adobe.com/air/application/2.5">
+    <id>com.adobe.khoyt.Virus</id>
+    <versionNumber>1.0.1</versionNumber>
+	<versionLabel>1.0.1</versionLabel>
+    <filename>Virus</filename>
+    <description>Example interactive application across multiple screens.</description>
+    <name>Virus</name>
+    <initialWindow>
+        <content>Virus.swf</content>
+        <systemChrome>standard</systemChrome>
+        <transparent>false</transparent>
+        <visible>true</visible>
+        <fullScreen>false</fullScreen>
+        <autoOrients>false</autoOrients>
+        <aspectRatio>portrait</aspectRatio>
+        <renderMode>cpu</renderMode>
+    </initialWindow>
+	<supportedProfiles>desktop mobileDevice tv</supportedProfiles>
+	<icon>
+		<image36x36>virus_36.png</image36x36>
+		<image48x48>virus_48.png</image48x48>
+		<image72x72>virus_72.png</image72x72>
+	</icon>
+	<android>
+		<manifestAdditions>
+			<![CDATA[
+				<manifest>
+					<uses-permission android:name="android.permission.INTERNET"/> 	
+				</manifest>
+			]]>
+		</manifestAdditions>
+	</android>
+</application>

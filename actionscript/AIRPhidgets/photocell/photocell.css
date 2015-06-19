@@ -1,0 +1,26 @@
+#chart {
+	position: absolute; 
+	left: 145px; 
+	top: 82px; 
+	width: 470px; 
+	height: 363px;
+}
+#highlow {
+	position: absolute; 
+	left: 34px; 
+	top: 82px; 
+	height: 353px; 
+	width: 80px; 
+	background-image: url( images/high_low_bar.png ); 
+	background-repeat: no-repeat;	
+}
+#imghigh {
+	position: absolute; 
+	left: 30px; 
+	top: 125px;	
+}
+#imglow {
+	position: absolute; 
+	left: 30px; 
+	top: 325px;	
+}

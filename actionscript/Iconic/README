@@ -1,0 +1,10 @@
+In creating device applications, I often have the need of creating multiple sizes of icons.  This application allows you to drop an image file onto the designated area, and get multiple icon sizes automatically generated for you.  This is not an icon editor, and you may want to adjust lower resolution images, or have entirely different icons for each resolution - this application does not do that.  This is a simple, down and dirty, automated icon generator.
+
+The application expects a square image to be used as the source file - ideally, the highest resolution version of your icon.  The application supports transparent PNG files both on input and output.  The output of this application will go into a directory named "iconic".  The sizes generated are eleven (11) of the more common icon sizes used across different devices.  You can place the "sizes.txt" file in the users document directory, and specify whatever sizes you need for customization.
+
+Note: The term "original" is a keyword used to deliver the original image in the "iconic" output directory along with the rest of the icon sizes.
+
+To Do:
+- Button to select input image in addition to drag/drop
+- Button to select output directory for further customization
+- UI for managing custom icon sizes

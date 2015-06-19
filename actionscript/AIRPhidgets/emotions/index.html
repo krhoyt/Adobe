@@ -1,0 +1,105 @@
+<html>
+<head>
+
+<title>Emotions</title>
+
+<!-- Styles -->
+<link rel="stylesheet" type="text/css" href="emotions.css" />
+
+<!-- External libraries -->
+<script src="lib/phidgets.swf" type="application/x-shockwave-flash"></script>
+
+<!-- AIR aliases -->
+<script src="scripts/air-aliases-1.1.js" type="text/javascript"></script>
+
+<!-- Framework and plugins  -->
+<script src="scripts/jquery-1.2.6.min.js" type="text/javascript"></script>
+<script src="scripts/jquery.easing.1.3.js" type="text/javascript"></script>
+
+<!-- Application logic -->
+<script src="scripts/servo.js" type="text/javascript"></script>
+<script src="scripts/emotions.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+<!-- Application chrome -->
+<div class="chrome"></div>
+
+<!-- Search field -->
+<!-- Also "Close" button -->
+<div class="who">Who?</div>
+<form><input type="text" value="parkerkrhoyt"/></form>
+<div class="search">Search</div>
+<div class="close">Close</div>
+
+<!-- Seven day history -->
+
+<div id="day0" class="calendar" style="left: 36px;">
+	<div class="day"></div>
+	<div class="month"></div>
+	<div class="date"></div>		
+	<div class="year"></div>	
+</div>
+
+<div id="day1" class="calendar" style="left: 112px;">
+  <div class="day"></div>
+	<div class="month"></div>
+	<div class="date"></div>		
+	<div class="year"></div>	
+</div>
+
+<div id="day2" class="calendar" style="left: 188px;">
+  <div class="day"></div>
+	<div class="month"></div>
+	<div class="date"></div>		
+	<div class="year"></div>	
+</div>
+
+<div id="day3" class="calendar" style="left: 264px;">
+  <div class="day"></div>
+	<div class="month"></div>
+	<div class="date"></div>		
+	<div class="year"></div>	
+</div>
+
+<div id="day4" class="calendar" style="left: 340px;">
+  <div class="day"></div>
+	<div class="month"></div>
+	<div class="date"></div>		
+	<div class="year"></div>	
+</div>
+
+<div id="day5" class="calendar" style="left: 416px;">
+  <div class="day"></div>
+	<div class="month"></div>
+	<div class="date"></div>		
+	<div class="year"></div>	
+</div>
+
+<div id="day6" class="calendar" style="left: 492px;">
+  <div class="day"></div>
+	<div class="month"></div>
+	<div class="date"></div>		
+	<div class="year"></div>	
+</div>
+
+<!-- Slider bar -->
+<div class="bar"></div>
+
+<!-- Slider handle -->
+<img id="slider" src="images/slider_handle.png" width="84" height="167"/>
+
+<!-- Divider -->
+<div class="divider"></div>
+
+<!-- Emotion reference -->
+<div id="face"></div>
+
+<!-- Brought to you by emotionstream -->
+<a href="http://www.emotionstream.com" target="_blank">
+<img src="images/logo.png" width="148" height="25" class="logo"/>
+</a>
+
+</body>
+</html>

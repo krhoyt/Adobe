@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/1.1">
+	<id>com.adobe.khoyt.Rfid</id>
+	<name>
+		<text xml:lang="en">RFID</text>
+	</name>
+	<version>1.0</version>
+	<filename>RFID</filename>
+	<description>Displays RFID tag data.</description>
+	<initialWindow>
+		<content>index.html</content>
+		<title>RFID</title>
+		<transparent>false</transparent>
+		<visible>true</visible>
+		<minimizable>true</minimizable>
+		<maximizable>false</maximizable>
+		<resizable>false</resizable>
+		<width>320</width>
+		<height>240</height>
+	</initialWindow>
+</application>

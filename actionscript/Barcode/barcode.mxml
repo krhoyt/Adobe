@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	pageTitle="Barcode Scanner"
+	layout="absolute"
+	backgroundGradientColors="[#F6F5F4, #F6F5F4]"
+	xmlns:mx="http://www.adobe.com/2006/mxml">
+
+	<mx:Style>
+		.progress
+		{
+			border-style: solid;
+			corner-radius: 10;
+			background-color: #FFFFFF;
+			horizontal-center: 0;
+			vertical-center: 0;
+		}
+	
+		.scanline
+		{
+			background-alpha: 0.4;
+			background-color: #FFFF00;
+			left: 0;
+			right: 0;
+		}		
+	</mx:Style>
+
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.listClasses.TileBaseDirection;
+			import mx.events.ToolTipEvent;
+			import mx.controls.dataGridClasses.DataGridColumn;
+			import mx.controls.Alert;		
+			import mx.events.CloseEvent;
+			import mx.managers.PopUpManager;			
+			import mx.rpc.events.ResultEvent;
+
+			namespace amazon = "http://webservices.amazon.com/AWSECommerceService/2005-10-05";
+
+			public static const AMAZON_ENDPOINT:String = "http://webservices.amazon.com/onca/xml";
+			public static const AMAZON_SERVICE_NAME:String = "AWSECommerceService";
+			public static const AMAZON_OPERATION:String = "ItemLookup";
+			public static const AMAZON_ACCESS_KEY:String = "0BEM7D1JBXMA1DSD6T02";
+			public static const AMAZON_ID_TYPE:String = "ASIN";
+			public static const AMAZON_RESPONSE_GROUP:String = "Large";
+			public static const FLICKR_ENDPOINT:String = "http://api.flickr.com/services/rest/";
+			public static const FLICKR_API_KEY:String = "603dd9126d7e0b572b0da6a7e4cbe463";
+			public static const FLICKR_SEARCH_METHOD:String = "flickr.photos.search";
+
+			public var scanner:ScanWindow = null;
+			
+			public function formatPrice( item:Object, col:DataGridColumn ):String
+			{
+				return fmtPrice.format( item.price );
+			}
+			
+			public function doAdd( event:Event ):void
+			{
+				scanner = ScanWindow( PopUpManager.createPopUp( this, ScanWindow, false ) );
+				scanner.addEventListener( ScanEvent.SCAN, doScan );
+				scanner.addEventListener( ScanEvent.REGISTER, doRegister );				
+				scanner.addEventListener( CloseEvent.CLOSE, doClose );
+				
+				PopUpManager.centerPopUp( scanner );
+			}
+
+			public function doAmazon( event:Event ):void
+			{
+				Alert.show( "Coming to an Apollo application near you soon!", "Inline Amazon Details Page" );
+			}
+
+			public function doClose( event:Event ):void
+			{
+				PopUpManager.removePopUp( scanner );
+				scanner = null;
+			}
+				
+			public function doFlickr( event:Event, item:AmazonBook = null ):void
+			{
+				var values:Object = new Object();				
+				
+				if( item == null )
+				{
+					item = AmazonBook( grdInventory.selectedItem );					
+				}
+				
+				values.api_key = FLICKR_API_KEY;
+				values.method = FLICKR_SEARCH_METHOD;
+				values.tags = item.author.replace( " ", "," );	
+				values.tags = String( values.tags ).replace( ", ", "," );					
+				
+				svcFlickr.send( values );
+			}
+				
+			public function doRegister( event:ScanEvent ):void
+			{
+				// txtDebug.text = txtDebug.text + event.barcode + "\n";
+			}	
+						
+			public function doResult( event:ResultEvent ):void
+			{
+				var item:AmazonBook = new AmazonBook();
+				
+				use namespace amazon;
+				
+				PopUpManager.removePopUp( scanner );
+				scanner = null;
+				
+				item.asin = event.result..ASIN;
+				
+				if( event.result..Author.length() > 1 ) 
+				{
+					item.authors = new Array();
+					item.author = "";
+					
+					for( var a:int = 0; a < event.result..Author.length(); a++ )
+					{
+						item.authors.push( event.result..Author[a] );
+						
+						if( a > 0 )
+						{
+							item.author = item.author + ", " + event.result..Author[a];							
+						} else {
+							item.author = event.result..Author[a];							
+						}
+					}
+				} else {
+					item.author = event.result..Author;					
+				}
+				
+				item.details = event.result..DetailPageURL;
+				item.group = event.result..ProductGroup;
+				item.manufacturer = event.result..Manufacturer;
+				item.title = event.result..ItemAttributes.Title;
+				item.price = Number( event.result..ListPrice.Amount ) / 100;
+				item.rating = event.result..AverageRating;
+
+				inventory.addItem( item );
+				
+				cvsProgress.visible = false;
+				
+				// doFlickr( event, item );
+			}
+			
+			public function doScan( event:ScanEvent ):void
+			{
+				var item:Object = new Object();
+				var values:Object = new Object();
+				
+				if( event.barcode.indexOf( "978" ) != 0 )
+				{
+					Alert.show( "Only books in the US are supported at this time.  The UPC " + event.barcode + " is not a valid US book UPC." );
+					return;
+				}
+				
+				cvsProgress.visible = true;
+				
+				// TODO: Track country-code to access correct Amazon store
+				// HOWTO: Change com to co.uk for now (AWS to support in the future)
+				
+				values.Service = AMAZON_SERVICE_NAME;
+				values.AWSAccessKeyId = AMAZON_ACCESS_KEY;
+				values.Operation = AMAZON_OPERATION;
+				values.ItemId = event.isbn;
+				values.IdType = AMAZON_ID_TYPE;
+				values.ResponseGroup = AMAZON_RESPONSE_GROUP;
+				
+				svcAmazon.send( values );
+			}
+			
+			public function doState( event:Event ):void
+			{
+				if( btnFlickr.selected )
+				{
+					currentState = "flickr";
+				} else {
+					currentState = null;
+				}
+			}
+			
+			public function doTotal( event:Event ):void
+			{
+				var item:AmazonBook = null;
+				var cost:Number = 0;
+				
+				if( inventory.length == 0 )
+				{
+					return;
+				}
+				
+				for( var b:int = 0; b < inventory.length; b++ )
+				{
+					item = AmazonBook( inventory.getItemAt( b ) );
+					cost = cost + item.price;
+				}
+				
+				lblTotal.text = inventory.length + " book(s) (" + fmtPrice.format( cost ) + ")";
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:CurrencyFormatter id="fmtPrice" currencySymbol="$" precision="2" />
+	
+	<mx:ArrayCollection id="inventory" collectionChange="doTotal( event )" />
+
+	<mx:HTTPService 
+		id="svcAmazon" 
+		url="{AMAZON_ENDPOINT}" 
+		resultFormat="e4x"
+		result="doResult( event )" />
+
+	<mx:XMLListCollection id="flickr" source="{svcFlickr.lastResult..photo}" />
+	<mx:HTTPService 
+		id="svcFlickr" 
+		url="{FLICKR_ENDPOINT}" 
+		resultFormat="e4x"
+		result="doFlickr( event )" />
+	
+	<mx:DataGrid 
+		id="grdInventory" 
+		bottom="42"
+		left="10" 
+		right="10" 
+		top="10"
+		dataProvider="{inventory}"
+		change="doFlickr( event )">
+		<mx:columns>
+			<mx:DataGridColumn headerText="Title" dataField="title" width="400" />
+			<mx:DataGridColumn headerText="Author" dataField="author" width="135" />
+			<mx:DataGridColumn headerText="Rating" dataField="rating" width="80" />			
+			<mx:DataGridColumn headerText="Price" dataField="price" width="80" labelFunction="formatPrice" />
+		</mx:columns>
+	</mx:DataGrid>	
+
+	<mx:Button 
+		id="btnAdd"
+		height="22" 
+		bottom="10" 
+		left="10"
+		icon="@Embed( 'add.gif' )" 
+		toolTip="Scan a Barcode (US books only)"
+		click="doAdd( event )" />
+		
+	<mx:Button 
+		id="btnFlickr"
+		height="22" 		
+		bottom="10" 
+		right="10" 
+		toggle="true" 
+		icon="@Embed( 'flickr.gif' )" 
+		toolTip="Flickr"
+		click="doState( event )" />		
+		
+	<mx:Button 
+		height="22" 
+		right="58" 
+		bottom="10" 
+		icon="@Embed( 'amazon.gif' )" 
+		toolTip="Amazon"
+		click="doAmazon( event )" />		
+		
+	<mx:Canvas 
+		id="cvsProgress" 
+		width="270" 
+		height="45" 
+		visible="false"
+		styleName="progress">
+	
+		<mx:ProgressBar 
+			x="10" 
+			y="10" 
+			width="248"
+			indeterminate="true" 
+			label="Looking up book details..." />
+		
+	</mx:Canvas>
+	
+	<mx:Label id="lblTotal" text="0 books ($0.00)" horizontalCenter="0" bottom="12" fontWeight="bold"/>
+
+	<mx:states>
+	
+		<mx:State name="flickr">
+		
+			<mx:SetStyle target="{grdInventory}" name="bottom" value="40" />
+			<mx:AddChild position="lastChild">
+			
+				<mx:TileList 
+					width="142"					
+					bottom="40" 
+					right="10"
+					top="10" 					
+					horizontalScrollPolicy="off"
+					columnCount="1"
+					maxColumns="1"
+					dataProvider="{flickr}"
+					rowHeight="120">
+					<mx:itemRenderer>
+					
+						<mx:Component>
+							<mx:Canvas width="100%" height="100%">
+							
+								<mx:Image 
+									horizontalCenter="0" 
+									verticalCenter="0" 
+									source="{'http://static.flickr.com/' + data.@server + '/' + data.@id + '_' + data.@secret + '_t.jpg'}" />
+									
+							</mx:Canvas>
+						</mx:Component>
+						
+					</mx:itemRenderer>
+				</mx:TileList>
+				
+			</mx:AddChild>
+			
+			<mx:SetStyle target="{grdInventory}" name="right" value="160" />
+		
+		</mx:State>
+		
+	</mx:states>
+
+</mx:Application>

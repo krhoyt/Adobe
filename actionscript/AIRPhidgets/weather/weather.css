@@ -1,0 +1,162 @@
+body {
+	background-image: url( images/background.png );	
+}
+
+#pup {
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	visibility: hidden;
+}
+
+#plevel {
+	position: absolute;
+	left: 10px;
+	top: 25px;
+}
+
+#pdown {
+	position: absolute;
+	left: 10px;
+	top: 33px;
+	visibility: hidden;
+}
+
+#skies {
+	position: absolute;
+	left: 61px;
+	top: 0px;
+	background-image: url( images/sunny.png );
+	width: 259px;
+	height: 114px;
+}
+
+#tup {
+	position: absolute;
+	right: 12px;
+	top: 132px;
+	visibility: hidden;
+}
+
+#tlevel {
+	position: absolute;
+	right: 8px;
+	top: 147px;
+}
+
+#tdown {
+	position: absolute;
+	right: 12px;
+	top: 155px;
+	visibility: hidden;
+}
+
+#hup {
+	position: absolute;
+	right: 15px;
+	top: 253px;
+	visibility: hidden;
+}
+
+#hlevel {
+	position: absolute;
+	right: 11px;
+	top: 268px;
+}
+
+#hdown {
+	position: absolute;
+	right: 15px;
+	top: 276px;
+	visibility: hidden;
+}
+
+#tempt {
+	position: absolute;
+	right: 70px;
+	top: 128px;
+}
+
+#otemp {
+	position: absolute;
+	right: 135px;
+	top: 128px;
+}
+
+#ttemp {
+	position: absolute;
+	right: 190px;
+	top: 128px;
+}
+
+#htemp {
+	position: absolute;
+	right: 245px;
+	top: 128px;
+}
+
+#ohumid {
+	position: absolute;
+	right: 70px;
+	top: 248px;
+}
+
+#thumid {
+	position: absolute;
+	right: 125px;
+	top: 248px;
+}
+
+#ominute {
+	position: absolute;
+	right: 111px;
+	top: 374px;
+}
+
+#tminute {
+	position: absolute;
+	right: 154px;
+	top: 374px;
+}
+
+#ohour {
+	position: absolute;
+	right: 211px;
+	top: 374px;
+}
+
+#thour {
+	position: absolute;
+	right: 254px;
+	top: 374px;
+}
+
+#oday {
+	position: absolute;
+	right: 14px;
+	top: 435px;	
+}
+
+#tday {
+	position: absolute;
+	right: 35px;
+	top: 435px;	
+}
+
+#omonth {
+	position: absolute;
+	right: 70px;
+	top: 435px;	
+}
+
+#tmonth {
+	position: absolute;
+	right: 91px;
+	top: 435px;	
+}
+
+#ampm {
+	position: absolute;
+	left: 18px;
+	top: 418px;		
+}

@@ -1,0 +1,18 @@
+This is an ActionScript list component designed for touch devices.  
+
+There is no fixed scroll bar on the side of the list, nor buttons for previous/next operations.  A scrollbar is present, and will show when touch interaction occurs.  The scrollbar will hide again when a touch interaction is complete.  The size of the scrollbar reflects the overall size of the data elements in the list down to the size of a single row, at which point the scrollbar will no longer shrink, but will still scroll according to the size of the list.
+
+The list itself supports both virtual listing and smooth scrolling.  A virtual list is one where only the number of rows necessary to be viewed on the screen are actually created, regardless of the size of the data.  When scrolling occurs, the list rows themselves don't move, but rather the data is moved from renderer to renderer.  The resulting visual effect is that of scrolling.  The resulting performance impact however means that a list with ten items scrolls as fast as a list with 10,000 items.
+
+An artifact of a virtual list is that the list itself does not actually move.  This is acceptable on the desktop, as the eyes make up the difference.  It is far more noticeable on a touch screen.  The addition to solve this problem is called, smooth scrolling.
+
+Smooth scrolling leverages the virtual list, but adds a few extra rows to the list beyond the viewable space.  As the list is scrolled, movement of the entire list takes place, and the extra rows come into view.  As those rows come into view however, others are going out of the view.  In a classic smooth scrolling implementation, those rows that were pushed off the view and then recycled back to the other side of the view, and eventually back into the view itself.  The result is the performance of the virtual list with the expected user experience.
+
+This list also supports custom row item renderers.  A few are included for reference.  In order to keep the renderers easy to build, and flat in nature (e.g. keeping performance high), it is expected that the row height of a renderer is passed to the list itself.  This number is used in calculations across making and scrolling of the list.  The only expectation of a renderer implementation is that it has a "data" property.
+
+This is an incomplete work...
+
+TO DO:
+- Row item selection
+- Scroll physics (e.g. throw)
+- Some general code clean-up

@@ -1,0 +1,10 @@
+Cell 1: Humidity
+Cell 2: SHT15 Fahrenheit
+Cell 3: SCP1000 Celsius
+Cell 4: SCP1000 Fahrenheit
+Cell 5: SCP1000 Pascal
+Cell 6: TEMT6000 Light (1 == Light, 1023 == Dark)
+Cell 7: Battery Level (0 == No Battery)
+Cell 8: Record Number
+
+#42.38,073.60,022.9,073.30,082600,997,0,000024$

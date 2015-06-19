@@ -1,0 +1,5 @@
+When Flash Player introduced the ability to work with the pixels of the stage, my mind immediately jumped to object recognition in the real world via the web camera.  I have done a number of experiments since then with color and proximity, but the most popular continues to be a UPC barcode scanner I built as a demonstration.
+
+The main functionality here is found in the ScanWindow MXML file.  There's very few Flex API hooks, so if a non-Flex version is what you're interested in having, you should be able to extract that out pretty easily.  This barcode reader is only good for UPC symbols, and is particularly brute force in nature.  I've seen other, more efficient ones out in the wild (commercial) since I built this one.
+
+If you want to contribute, I'm happy to add you.

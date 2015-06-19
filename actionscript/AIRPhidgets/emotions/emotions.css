@@ -1,0 +1,169 @@
+.chrome {
+	background-image: url('images/frame.png');
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+}
+
+.day {
+	font-size: 18px; 
+	width: 40px; 
+	text-align: center; 
+	height: 24px; 
+	width: 84px;	
+}
+
+.month {
+	font-size: 18px; 
+	width: 40px; 
+	text-align: center; 
+	height: 24px; 
+	margin-top: -6px; 
+	width: 84px;	
+}
+
+.date {
+	font-size: 34px; 
+	text-align: center; 
+	margin-top: -10px; 
+	width: 84px;	
+}
+
+.year {
+	font-size: 16px; 
+	width: 40px; 
+	text-align: center; 
+	margin-top: -4px; 
+	width: 84px;	
+}
+
+.calendar {
+	top: 211px; 
+	font-family: Arial, Helvetica, sans-serif;	
+	position: absolute; 
+	-webkit-user-select: none;
+	cursor: default;		
+	visibility: hidden;
+}
+
+#slider {
+	position: absolute; 
+	top: 151px;	
+	left: 36px;	
+	visibility: hidden;
+}
+
+.bar {
+	border: solid 1px #999; 
+	background-color: #EAEAEA; 
+	height: 4px; 
+	width: 455px; 
+	position: absolute; 
+	left: 75px; 
+	top: 180px;	
+	visibility: hidden;
+}
+
+.who {
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 26px; 
+	position: absolute; 
+	left: 46px; 
+	top: 57px;	
+	-webkit-user-select: none;
+	cursor: default;		
+}
+
+input {
+	border: solid 1px #999999; 
+	position: absolute; 
+	left: 125px; 
+	top: 49px; 
+	width: 213px; 
+	height: 47px; 
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 26px; 
+	padding-left: 5px;	
+}
+
+.close {
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 26px; 
+	position: absolute; 
+	right: 54px; 
+	top: 57px;
+	-webkit-user-select: none;
+	cursor: default;		
+	text-decoration: underline;
+}
+
+.close:hover {
+	color: #FF7E00;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.search {
+	position: absolute; 
+	width: 129px; 
+	height: 61px; 
+	background-image: url(images/button_up.png); 
+	right: 130px; 
+	top: 42px; 
+	line-height: 61px; 
+	text-align: center; 
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 26px;
+	-webkit-user-select: none;	
+	cursor: default;	
+}
+
+.search:hover {
+	color: #FF7E00;
+	cursor: pointer;	
+	background-image: url(images/button_hover.png);	
+}
+
+.disabled {
+	position: absolute; 
+	width: 129px; 
+	height: 61px; 
+	background-image: url(images/button_disabled.png); 
+	right: 130px; 
+	top: 42px; 
+	line-height: 61px; 
+	text-align: center; 
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size: 26px;	
+	color: #999;
+	text-decoration: none;
+	cursor: default;
+	-webkit-user-select: none;		
+}
+
+.logo {
+	position: absolute; 
+	right: 42px; 
+	bottom: 40px;	
+}
+
+.divider {
+	border-bottom: dotted 1px orange; 
+	height: 3px; 
+	position: absolute; 
+	left: 41px;
+	right: 41px;
+	bottom: 80px;	
+}
+
+#face {
+	position: absolute;
+	left: 41px;
+	bottom: 40px;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 18px;
+	height: 25px;
+	line-height: 25px;
+}

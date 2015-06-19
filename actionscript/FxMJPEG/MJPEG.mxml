@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication 
+	title="MJPEG"
+	showStatusBar="false"
+	width="800"
+	height="600"
+	creationComplete="doCreationComplete( event )"
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:local="*">
+
+	<fx:Script>
+		<![CDATA[
+			public static const PORT:Number = 81;
+			public static const FILE:String = "/?action=stream";			
+			public static const HOST:String = "192.168.15.108";
+			
+			protected function doCreationComplete( event:Event ):void
+			{
+				webcam.stream( HOST, PORT, FILE );
+			}
+		]]>
+	</fx:Script>
+	
+	<local:Webcam 
+		id="webcam" 
+		horizontalCenter="0" 
+		verticalCenter="0"/>
+	
+</s:WindowedApplication>

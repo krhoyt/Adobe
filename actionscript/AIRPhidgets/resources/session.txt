@@ -1,0 +1,3 @@
+Integrating Hardware and the Web
+
+With the continually decreasing cost of hardware, and the trend towards open source, it is now easier to get started with electronics than ever before.  The next obvious step is to connect your electronics project to the web - but how?  In this session get an overview of two prototyping platforms (Phidgets and Arduino) and instruction on how to leverage them from Adobe AIR using JavaScript.  We'll explore various components and sensors ranging from photocells and servos, to weather stations and RFID, and connect it all to the web.

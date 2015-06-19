@@ -1,0 +1,17 @@
+// Run Virus on desktop
+./AIR_2.5/bin/adl Desktop/chicago/virus/application.xml Desktop/chicago/virus/bin-release/
+
+// Package for desktop
+./AIR_2.5/bin/adt -package -storetype pkcs12 -keystore Desktop/chicago/virus/virus.p12 Desktop/chicago/deploy/virus.air Desktop/chicago/virus/application.xml -C Desktop/chicago/virus/bin-release Virus.swf -C Desktop/chicago/virus/icons virus_36.png virus_48.png virus_72.png
+
+// Package for Android
+./AIR_2.5/bin/adt -package -target apk -storetype pkcs12 -keystore Desktop/chicago/virus/virus.p12 Desktop/chicago/deploy/virus.apk Desktop/chicago/virus/application.xml -C Desktop/chicago/virus/bin-release Virus.swf -C Desktop/chicago/virus/icons virus_36.png virus_48.png virus_72.png
+
+// Install on Android
+./Android_2.2/tools/adb install Desktop/chicago/deploy/virus.apk
+
+// Install on PlayBook
+./PlayBook/blackberry-tablet-sdk-0.9.0/bin/blackberry-airpackager -package Desktop/chicago/deploy/virus.bar -installApp -launchApp Desktop/chicago/virus/playbook.xml -C Desktop/chicago/virus/bin-release Virus.swf -device 172.16.77.129
+
+// Uninstall on PlayBook
+./PlayBook/blackberry-tablet-sdk-0.9.0/bin/blackberry-deploy -package Desktop/chicago/deploy/virus.bar -uninstallApp -device 172.16.77.129 -password pass

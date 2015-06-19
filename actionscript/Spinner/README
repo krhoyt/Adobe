@@ -1,0 +1,12 @@
+This is an iOS-esque spinner implementation.  
+
+The non-Flex version (listed in the "as3" directory) has not been optimize for mobile.  It makes use of runtime filters, which degrade performance on mobile.
+
+The Flex version has been partially optimized for mobile and will work for most general use-cases.  Where it will not perform well is in handling large lists.
+
+TO DO:
+- Update AS3 version to use virtual list with smooth scrolling (ASList repository)
+- Remove filters from AS3 version and replace with bitmap gradients
+- Potentially swap out custom list for Flex virtual list component
+- Continue work to expose dials, data and renderers on component
+- Make a formal SWC package for the component

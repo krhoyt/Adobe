@@ -1,0 +1,28 @@
+This repository consists of several example of how to connect Flash Player/AIR to Arduino hardware.  The examples are used in an Adobe TV series on this particular subject.  The various sensors included, and their corresponding videos are:
+
+Getting Started
+http://www.youtube.com/watch?v=tAHjq-mJqp0
+
+Connecting to Adobe Flash
+http://www.youtube.com/watch?v=ogSvvYSdews
+
+Accelerometer
+http://www.youtube.com/watch?v=yIX-_wDStgI
+
+Passive Infrared (PIR)
+http://www.youtube.com/watch?v=gsFQ3OZojBk
+
+Photocells
+http://www.youtube.com/watch?v=LJe8dhvmjeo
+
+RGB LED
+http://www.youtube.com/watch?v=_YcLwpsAlAo
+
+Temperature and Humidity
+http://www.youtube.com/watch?v=EyzKsejOsPs
+
+Ultrasonic Range Finder
+http://www.youtube.com/watch?v=VXie_PE-T4c
+
+XBee Wireless
+http://www.youtube.com/watch?v=9VfiyDBjegs

@@ -1,0 +1,9 @@
+LiveCycle Collaboration Services (LCCS) allows developers to leverage real-time communication in their applications, without having to purchase, manage, or install their own server infrastructure.  Essentially, collaboration in the cloud.  LCCS supports real-time audio and video communication (e.g. microphone and web camera), as well as robust real-time data sharing.  LCCS applications require Flash Player/AIR, however there is also a JavaScript layer for integration.
+
+This example represents how basic collaboration is achieved in a game-like setting.  It does not include any artificial intelligence, scoring, or other game logic.  It is does however, demonstrate some practices around architecting for hundreds of simultaneous users.  Techniques such as when to use local mouse coordinates, and when to wait for distribution of the coordinates before moving a sprite.
+
+The basic interaction of the application is to simply click and hold your mouse to see a randomly generated character appear.  That same character will appear on others screens in real-time.  With the mouse still down, you can then drag the character around the screen.  Again, coordinates will be updated in real-time across all other screens (even inclusive of mobile devices).  
+
+As mentioned, the application is architected as such to present maximum performance and scalability for hundreds of users moving characters around at the same time.  Each mouse down event triggers a new random character.  Character art was done by Paul Trani (ptrani@adobe.com).  
+
+This application has been successfully testing in the browser on the desktop and on Android devices, as well as deployed as an application for desktop, Android devices, BlackBerry PlayBook, and Adobe AIR on television.  The Android application can be found in the Android Market.

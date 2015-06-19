@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group 
+	width="640" 
+	height="480"
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<!-- Script block -->
+	<fx:Script>
+		<![CDATA[
+			// Imports
+			import flash.events.Event;
+			import flash.events.ProgressEvent;
+			import flash.net.Socket;
+			import flash.utils.ByteArray;
+			
+			import mx.utils.Base64Encoder;
+			
+			// Private properties
+			private var buffer:ByteArray = null;
+			private var _last:ByteArray = null;
+			private var _port:int = 0;
+			private var start:int = 0;
+			private var socket:Socket = null;
+			private var _host:String = null;
+			private var _file:String = null;
+			private var _password:String = null;
+			private var _username:String = null;
+			
+			// **
+			// Public methods
+			// **
+			
+			// Called to start stream capture
+			// Setup buffer and connect socket
+			public function stream( host:String, port:Number, file:String ):void
+			{
+				this.host = host;
+				this.port = port;
+				this.file = file;
+				
+				buffer = new ByteArray();
+				
+				socket = new Socket();
+				socket.addEventListener( Event.CONNECT, doSocketConnect );
+				socket.addEventListener( ProgressEvent.SOCKET_DATA, doSocketData );
+				socket.connect( host, port );				
+			}
+			
+			// **
+			// Private methods
+			// **
+			
+			// Called to load the latest image
+			private function display( image:ByteArray ):void
+			{
+				var loader:SWFLoader = null;
+			
+				// Save reference to last JPEG
+				last = image;
+				
+				// Get loader from  back
+				// Populate with new image
+				// Event handler triggers swap
+				// Minimizes flicker
+				loader = getElementAt( 0 ) as SWFLoader;
+				loader.source = image;
+			}			
+			
+			// Called to find a JPEG image in the loaded bytes
+			private function find():Boolean
+			{
+				var value:Boolean = false;
+				var copy:ByteArray = null;				
+				var image:ByteArray = null;
+				var marker:ByteArray = null;
+				var end:int = 0;				
+				var offset:int = 0;				
+
+				offset = start;
+				marker = new ByteArray();
+				
+				// If there are bytes and the offset is at the start
+				// Look for a JPEG image
+				if( buffer.length > 1 ) 
+				{
+					if( start == 0 )
+					{
+						// Look for the start of the JPEG
+						for( offset; offset < buffer.length - 1; offset++ ) 
+						{
+							buffer.position = offset;
+							buffer.readBytes( marker, 0, 2 );
+							
+							if( marker[0] == 255 && marker[1] == 216 ) 
+							{
+								start = offset;
+								break;					
+							}
+						}
+					}
+					
+					// Look for the end of the JPEG
+					for( offset; offset < buffer.length - 1; offset++ ) 
+					{
+						buffer.position = offset;
+						buffer.readBytes( marker, 0, 2 );
+						
+						if( marker[0] == 255 && marker[1] == 217 ) 
+						{
+							end = offset;
+							
+							// Grab image if an end is found
+							image = new ByteArray();
+
+							buffer.position = start;
+							buffer.readBytes( image, 0, end - start );
+							
+							// Display
+							display( image );
+							
+							// Remove image from incoming buffer
+							copy = new ByteArray();
+							
+							buffer.position = end;
+							buffer.readBytes( copy, 0 );
+							buffer = copy;
+							
+							// Reset values
+							start = 0;
+							offset = 0;
+
+							// Denote that an image has been found
+							value = true;
+						}
+					}
+				}
+				
+				// No image found by default
+				return value;				
+			}
+			
+			// **
+			// Event handlers
+			// **
+			
+			// Called when the background image has finished loading
+			// Swaps the two loaders to pull background to front
+			// Called when loaded to minimize flicker
+			protected function doLoadComplete( event:Event ):void
+			{
+				swapElements( one, two );
+			}
+			
+			// Called when the socket has connected
+			// Sends the initial HTTP request to start the stream
+			protected function doSocketConnect( event:Event ):void
+			{
+				var auth:Base64Encoder = null;
+				var request:String = null;
+				var source:String = null;
+				
+				// HTTP GET
+				request = "GET " + file + " HTTP/1.1\r\nHost: localhost:80\r\n";				
+				
+				// Include username and password if needed
+				// Your specific implementation may vary
+				if( username != null && password != null )
+				{
+					source = username + ":" + password;
+					
+					auth = new Base64Encoder();
+					auth.encode( source );
+			
+					request = request + "Authorization: Basic " + auth.toString() + "\r\n";
+				}
+				
+				// Keep the HTTP connection alive
+				// Stream the image bytes for as long as the socket is connected
+				request = request + "Connection: keep-alive\r\n\r\n";
+				
+				// Send HTTP GET request
+				// Starts the stream
+				socket.writeMultiByte( request, "us-ascii" );				
+			}
+			
+			// Called when there are new bytes on the socket
+			// Reads the bytes into the buffer
+			// Attempts to find, extract and display the image
+			protected function doSocketData( event:ProgressEvent ):void
+			{
+				socket.readBytes( buffer, buffer.length );
+				
+				while( find() ) {;}				
+			}
+			
+			// **
+			// Access methods
+			// **
+			
+			public function get last():ByteArray
+			{
+				return _last;
+			}
+			
+			public function set last( value:ByteArray ):void
+			{
+				_last = value;
+			}						
+			
+			public function get port():int
+			{
+				return _port;
+			}
+			
+			public function set port( value:int ):void
+			{
+				_port = value;
+			}			
+			
+			public function get file():String
+			{
+				return _file;
+			}
+			
+			public function set file( value:String ):void
+			{
+				_file = value;
+			}			
+			
+			public function get host():String
+			{
+				return _host;
+			}
+			
+			public function set host( value:String ):void
+			{
+				_host = value;
+			}
+			
+			public function get password():String
+			{
+				return _password;
+			}
+			
+			public function set password( value:String ):void
+			{
+				_password = value;
+			}			
+			
+			public function get username():String
+			{
+				return _username;
+			}
+			
+			public function set username( value:String ):void
+			{
+				_username = value;
+			}			
+		]]>
+	</fx:Script>
+	
+	<!-- Two instances -->
+	<!-- Swapped out to reduce flicker -->
+	<!-- Versus loading new bytes into single loader -->
+	<mx:SWFLoader 
+		id="one" 
+		horizontalCenter="0" 
+		verticalCenter="0" 
+		complete="doLoadComplete( event )"/>
+	<mx:SWFLoader 
+		id="two" 
+		horizontalCenter="0" 
+		verticalCenter="0" 
+		complete="doLoadComplete( event )"/>
+	
+</s:Group>

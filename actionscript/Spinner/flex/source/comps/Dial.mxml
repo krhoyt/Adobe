@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group 
+	width="296"
+	mouseDown="doMouseDown( event )"
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark">
+
+	<fx:Metadata>
+		[Event( name="dialEnd", type="events.DialEvent" )]
+	</fx:Metadata>		
+	
+	<fx:Script>
+		<![CDATA[
+			import events.DialEvent;
+			
+			import mx.events.EffectEvent;
+			import mx.events.FlexEvent;
+			
+			import spark.effects.Move;
+			
+			private var _data:Array = null;
+			private var isMouseDown:Boolean = false;
+			private var _itemRenderer:Class = null;
+			private var snap:Move = null;
+			private var created:Number = 0;
+			private var single:Number = 0;
+			
+			// Let list get fully created before actually caching
+			protected function doItemComplete( event:FlexEvent ):void
+			{
+				created = created + 1;
+				
+				if( created == _data.length )
+				{
+					created = 0;
+					cacheAsBitmap = true;
+				}
+			}
+			
+			// Handle mouse down by adding movement/up listeners
+			// Use stage to allow for broader mouse tracking
+			protected function doMouseDown( event:MouseEvent ):void
+			{
+				isMouseDown = true;
+				
+				stage.addEventListener( MouseEvent.MOUSE_MOVE, doMouseMove );
+				stage.addEventListener( MouseEvent.MOUSE_UP, doMouseUp );
+			}						
+			
+			// Use classic MovieClip.starDrag() method to move list around
+			// 172 is the y value of the bezel
+			// Represents initial vertical offset
+			protected function doMouseMove( event:MouseEvent ):void
+			{
+				list.startDrag( false, new Rectangle( list.x, 172, 0, 0 - ( list.height - 172 ) - single ) );
+			}
+			
+			// Stop dragging and remove event listeners
+			protected function doMouseUp( event:MouseEvent ):void
+			{
+				var rows:Number = Math.round( list.y / single );
+				
+				list.stopDrag();
+				
+				stage.removeEventListener( MouseEvent.MOUSE_MOVE, doMouseMove );
+				stage.removeEventListener( MouseEvent.MOUSE_UP, doMouseUp );
+				
+				// Snapping animation to closest line item
+				// TODO: WTF?! Minus 4?
+				// TODO: Where is that offset coming from?
+				snap = new Move( list );
+				snap.duration = 500;
+				snap.yTo = ( rows * single ) - 4;
+				snap.addEventListener( EffectEvent.EFFECT_END, doSnapEnd );
+				snap.play();
+			}
+			
+			// Called when the snapping animation has finished playing
+			// Cleans up, dispatches that a selection has been made
+			protected function doSnapEnd( event:EffectEvent ):void
+			{
+				snap = null;
+				
+				if( isMouseDown )
+				{
+					dispatchEvent( new DialEvent( DialEvent.DIAL_END ) );			
+				}
+				
+				isMouseDown = false;
+			}
+			
+			// Access methods for data
+			public function get data():Array
+			{
+				return _data;
+			}
+			
+			// Clean the existing list
+			// Build the new list
+			// Track some basic information about the desired renderer
+			public function set data( value:Array ):void
+			{
+				var item:Group = null;
+				
+				cacheAsBitmap = false;
+				_data = value;
+				
+				while( list.numElements > 0 )
+				{
+					list.removeElementAt( 0 );
+				}
+				
+				if( value != null )
+				{
+					for( var i:Number = 0; i < value.length; i++ )
+					{
+						item = new _itemRenderer();
+						item.addEventListener( FlexEvent.CREATION_COMPLETE, doItemComplete );
+						item.y = i * item.height;
+						_itemRenderer( item ).text = value[i];
+						
+						list.addElement( item );						
+					}
+				}
+				
+				single = item.height;
+			}
+			
+			// Allow item renderer to be specified as a property
+			public function get itemRenderer():Class
+			{
+				return _itemRenderer;
+			}
+			
+			public function set itemRenderer( value:Class ):void
+			{
+				_itemRenderer = value;
+			}
+			
+			// Set the list to show a specific item to be centered (selected)
+			// Animate to designated item if not already there
+			public function get selectedIndex():Number
+			{
+				return Math.round( Math.abs( list.y - 172 ) / single );				
+			}
+			
+			public function set selectedIndex( value:Number ):void
+			{
+				snap = new Move( list );
+				snap.duration = 500;
+				snap.yTo = 172 - ( single * value ); 
+				snap.addEventListener( EffectEvent.EFFECT_END, doSnapEnd );
+				snap.play();
+			}
+			
+			// Alternatively allow item designation by item renderer data
+			public function get selectedItem():Object
+			{
+				return _data[selectedIndex];
+			}
+			
+			public function set selectedItem( value:Object ):void
+			{
+				for( var d:Number = 0; d < _data.length; d++ )
+				{
+					if( _data[d] == value )
+					{
+						break;
+					}
+				}
+				
+				selectedIndex = d;
+			}			
+		]]>
+	</fx:Script>
+	
+	<!-- List graphics -->
+	<s:BitmapImage
+		source="@Embed( '../images/left.bevel.png' )"
+		width="10"
+		height="432"
+		fillMode="repeat"/>
+	<s:BitmapImage
+		source="@Embed( '../images/white.fill.png' )"
+		left="10"
+		right="8"
+		height="432"
+		fillMode="scale"/>
+	<s:BitmapImage
+		source="@Embed( '../images/right.bevel.png' )"
+		width="8"
+		height="432"
+		right="0"
+		fillMode="repeat"/>	
+	
+	<!-- List -->
+	<s:Group
+		id="list"
+		x="8"
+		y="172"
+		width="573"/>	
+	
+</s:Group>

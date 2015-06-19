@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow 
+	width="340" 
+	height="280"
+	title="Scanning"
+	layout="absolute"
+	showCloseButton="true"
+	creationComplete="doCreationComplete( event )"
+	xmlns:mx="http://www.adobe.com/2006/mxml">
+	
+	<mx:Metadata>
+		[Event( name="scan", type="ScanEvent" )]
+		[Event( name="register", type="ScanEvent" )]		
+	</mx:Metadata>
+	
+	<mx:Script>
+		<![CDATA[
+			import com.adobe.barcode.HistogramData;
+			import com.adobe.barcode.Line;					
+	
+			import mx.controls.Alert;	
+			import mx.core.UIComponent;
+
+			public static const UPC_LENGTH:int = 59;
+			public static const UPC_0:String = "3211";															
+			public static const UPC_1:String = "2221";
+			public static const UPC_2:String = "2122";
+			public static const UPC_3:String = "1411";
+			public static const UPC_4:String = "1132";
+			public static const UPC_5:String = "1231";												
+			public static const UPC_6:String = "1114";
+			public static const UPC_7:String = "1312";
+			public static const UPC_8:String = "1213";
+			public static const UPC_9:String = "3112";
+
+			public var webcam:Camera = null;			
+			public var rate:Timer = new Timer( 100 );
+			public var upc:Array = new Array( UPC_0, UPC_1, UPC_2, UPC_3, UPC_4,	
+											  UPC_5, UPC_6, UPC_7, UPC_8, UPC_9 );
+		
+			public function check( barcode:String ):Boolean
+			{
+				var valid:Boolean = false;
+				var odds:int = 0;
+				var evens:int = 0;
+				var check:int = 0;
+				
+				for( var c:int = 0; c < barcode.length - 1; c++ )
+				{
+					if( ( c % 2 ) == 0 )
+					{
+						evens = evens + Number( barcode.charAt( c ) );							
+					} else {
+						odds = odds + Number( barcode.charAt( c ) );							
+					}
+				}
+
+				if( ( barcode.length % 12 ) == 0 )
+				{
+					check = odds;
+					odds = evens;
+					evens = check;
+				}
+							
+				odds = odds * 3;
+				check = odds + evens;			
+
+				check = 10 - ( check % 10 );
+
+				if( check == 10 )
+				{
+					check = 0;
+				}
+				
+				if( check == Number( barcode.charAt( barcode.length - 1 ) ) )
+				{
+					valid = true;
+				}
+				
+				return valid;
+			}
+
+			public function clamp( c:int ):int 
+			{
+				if( c < 0 )
+					return 0;
+
+				if( c > 255 )
+					return 255;
+
+				return c;
+			}			
+			
+			public function combine( bmp:BitmapData, summary:HistogramData ):Array
+			{
+				var image:Array = new Array();
+				var current:Boolean = false;
+				var count:int = 1;
+				var lines:Array = null;
+				var pixel:int = 0;
+				var matches:int = 0;
+				
+				for( var col:int = 0; col < bmp.width; col++ )
+				{
+					matches = 0;
+					
+					for( var row:int = 0; row < bmp.height; row++ )
+					{
+						pixel = bmp.getPixel( col, row );
+						
+						if( pixel > summary.gray )
+						{
+							matches = matches + 1;
+						}
+					}
+					
+					if( matches > Math.round( bmp.height / 2 ) )
+					{
+						image.push( new Boolean( true ) );
+					} else {
+						image.push( new Boolean( false ) );
+					}
+				}
+
+				// Determine lines and their sizes				
+				current = image[0];
+				
+				for( col = 1; col < image.length; col++ )
+				{
+					if( image[col] == current )
+					{
+						count = count + 1;
+					} else {
+						if( lines == null )
+						{
+							lines = new Array();
+						}
+						
+						lines.push( new Line( current, count ) );
+						count = 1;
+						current = image[col];
+					}
+				}	
+				
+				return lines;			
+			}
+			
+			public function decode( group:Array, bar:int ):String
+			{
+				var digits:String = new String();
+				var invert:String = new String();
+				var value:String = "X";
+
+				digits = Math.round( group[0].count / bar ).toString();
+				digits += Math.round( group[1].count / bar ).toString();
+				digits += Math.round( group[2].count / bar ).toString();
+				digits += Math.round( group[3].count / bar ).toString();												
+				
+				invert = Math.round( group[3].count / bar ).toString();
+				invert += Math.round( group[2].count / bar ).toString();
+				invert += Math.round( group[1].count / bar ).toString();
+				invert += Math.round( group[0].count / bar ).toString();																
+				
+				for( var u:int = 0; u < upc.length; u++ )
+				{
+					if( upc[u] == digits || upc[u] == invert )
+					{
+						value = u.toString();
+						break;
+					}
+				}
+			
+				return value;
+			}		
+		
+			public function grayscale( bmp:BitmapData ):BitmapData
+			{
+				var pixel:int = 0;
+				var red:int = 0;
+				var green:int = 0;
+				var blue:int = 0;
+				var gray:int = 0;				
+				
+				for( var row:int = 0; row < bmp.height; row++ )
+				{				
+					for( var col:int = 0; col < bmp.width; col++ )
+					{
+						pixel = bmp.getPixel( col, row );
+						
+						red =   ( pixel & 0xFF0000 ) >> 16;
+						green = ( pixel & 0xFF00   ) >> 8;
+						blue =  ( pixel & 0xFF     );
+												
+						gray = ( ( red * 3 ) + ( green * 4 ) + ( blue * 2 ) ) / 9;
+						pixel = ( pixel & 0xFF000000 ) + ( gray << 16 ) + ( gray << 8 ) + gray;
+						
+						bmp.setPixel( col, row, pixel );
+					}
+				}			
+				
+				return bmp;					
+			}
+		
+			public function histogram( bmp:BitmapData ):HistogramData
+			{
+				var pixel:int = 0;
+				var red:int = 0;
+				var green:int = 0;
+				var blue:int = 0;
+				var summary:HistogramData = new HistogramData();
+				
+				summary.sum = new Array( bmp.width );
+				
+				// Average pixel rows
+				for( var row:int = 0; row < bmp.height; row++ )
+				{				
+					for( var col:int = 0; col < bmp.width; col++ )
+					{
+						pixel = bmp.getPixel( col, row );
+						
+						red =   ( pixel & 0xFF0000 ) >> 16;
+						green = ( pixel & 0xFF00   ) >> 8;
+						blue =  ( pixel & 0xFF     );						
+					
+						if( summary.sum[col] == undefined )
+						{
+							summary.sum[col] = ( red + green + blue ) / 3;							
+						} else {
+							summary.sum[col] += ( red + green + blue ) / 3;							
+						}
+					}
+				}					
+				
+				// Determine minimum and maximum ranges from sums
+				for( var r:int = 0; r < bmp.width; r++ )
+				{
+					summary.sum[r] = summary.sum[r] / bmp.height;
+					
+					if( summary.sum[r] > summary.max )
+					{
+						summary.max = summary.sum[r];
+					}
+					
+					if( summary.sum[r] < summary.min )
+					{
+						summary.min = summary.sum[r];
+					}
+				}			
+
+				// Get halftone based on minimum and maximum ranges
+				summary.halftone = summary.min + ( ( summary.max - summary.min ) / 2 );
+				summary.gray = new Number( "0x" + summary.halftone.toString( 16 ) + summary.halftone.toString( 16 ) + summary.halftone.toString( 16 ) );
+				
+				return summary;				
+			}		
+		
+			public function isbn( barcode:String ):String
+			{
+				var value:String = null;
+				var xsum:int = 0;
+				var add:int = 0;
+				var check:String = null;
+				
+				if( barcode.indexOf( "978" ) == 0 ) 
+				{
+   					value = barcode.substr( 3, 9 );
+
+					for( var i:int = 0; i < 9; i++ ) 
+					{
+        				add = Number( value.substr( i, 1 ) );
+        				xsum += ( 10 - i ) * add;
+   					}
+   
+   					xsum %= 11;
+   					xsum = 11 - xsum;
+   
+   					if( xsum == 10 ) 
+   					{ 
+   						check = "X"; 
+   					}
+   
+   					if( xsum == 11 ) 
+   					{ 
+   						check = "0"; 
+   					}
+   			
+   					if( check == null )
+   					{
+   						check = xsum.toString();
+   					}
+   			
+   					value += check;
+				}				
+				
+				return value;
+			}
+
+			public function scan( bmp:BitmapData ):String
+			{
+				var summary:HistogramData = null;
+				var lines:Array = new Array();
+				var bar:int = 0;
+				var line:String = new String();
+				var stripes:Array = new Array();
+				var gap:int = 5;
+
+				// Convert scan area to grayscale for better halftone
+				bmp = grayscale( bmp );
+				
+				// Pass unsharp filter for more accurate line detection
+				bmp = unsharp( bmp, 0.5, 0, 15 );
+	
+				// Average out histogram data
+				summary = histogram( bmp );
+				
+				// Convert two-dimensional image to single-dimensional array of booleans
+				// Either white or black lines - on/off (boolean)
+				lines = combine( bmp, summary );
+
+				// Don't go any further if there are no lines
+				if( lines == null )
+				{
+					return "X";
+				} else {
+					// Threshold for minimum number of lines		
+					if( lines.length < UPC_LENGTH )
+					{
+						return "X";
+					}
+				}
+
+				// TODO: Clean up line decoding  // *******************************				
+
+				// Get average bar width from average of three start markers
+				bar = Math.round( ( lines[1].count + lines[2].count + lines[3].count ) / 3 );
+
+				// Extract line values (both white and black lines)
+				for( var l:int = 1; l < lines.length; l++ )
+				{
+					if( line.length < 6 )
+					{
+						line = line + decode( lines.slice( l * 4, ( l * 4 ) + 4 ), bar );							
+					} else {
+						line = line + decode( lines.slice( ( l * 4 ) + gap, ( l * 4 ) + 9 ), bar );							
+					}
+					
+					if( line.length == 12 )
+					{
+						break;
+					}
+				}
+				
+				return line;
+			}
+
+			public function unsharp( original:BitmapData, amount:Number, threshold:int, radius:int ):BitmapData
+			{
+				var blur:BlurFilter = new BlurFilter( radius, radius, BitmapFilterQuality.HIGH );
+				var blurred:BitmapData = new BitmapData( original.width, original.height );
+								
+				var rgb1:int = 0;
+				var red1:int = 0;
+				var green1:int = 0;
+				var blue1:int = 0;
+
+				var rgb2:int = 0;
+				var red2:int = 0;
+				var green2:int = 0;
+				var blue2:int = 0;
+
+				amount = amount * 4;
+
+				blurred = original.clone();
+				blurred.applyFilter( blurred, new Rectangle( 0, 0, original.width, original.height ), new Point( 0, 0 ), blur );
+
+				for( var row:int = 0; row < original.height; row++ ) 
+				{
+					for( var col:int = 0; col < original.width; col++ ) 
+					{
+						rgb1 = original.getPixel( col, row );
+						red1 =   ( rgb1 >> 16 ) & 0xFF;
+						green1 = ( rgb1 >> 8  ) & 0xFF;
+						blue1 =  rgb1 & 0xFF;
+
+						rgb2 = blurred.getPixel( col, row );
+						red2 =   ( rgb2 >> 16 ) & 0xFF;
+						green2 = ( rgb2 >> 8  ) & 0xFF;
+						blue2 = rgb2 & 0xFF;
+
+						if( Math.abs( red1 - red2 ) >= threshold )
+							red1 = clamp( int( ( amount + 1 ) * ( red1 - red2 ) + red2 ) );
+						if( Math.abs( green1 - green2 ) >= threshold )
+							green1 = clamp( int( ( amount + 1 ) * ( green1 - green2 ) + green2 ) );
+						if( Math.abs( blue1 - blue2 ) >= threshold )
+							blue1 = clamp( int( ( amount + 1 ) * ( blue1 - blue2 ) + blue2 ) );
+
+						original.setPixel( col, row, ( ( rgb1 & 0xFF000000 ) | ( red1 << 16 ) | ( green1 << 8 ) | blue1 ) );
+					}
+				}
+
+				return original;
+			}
+		
+			public function doCreationComplete( event:Event ):void
+			{
+				webcam = Camera.getCamera();
+				webcam.setMode( 320, 240, 12 );				
+				
+				vidCamera.attachCamera( webcam );
+				
+				rate.addEventListener( TimerEvent.TIMER, doScan );
+				rate.start();
+			}
+			
+			public function doScan( event:Event ):void
+			{
+				var capture:BitmapData = new BitmapData( vidCamera.width, vidCamera.height );
+				var line:BitmapData = new BitmapData( capture.width, 2 );
+				var child:UIComponent = null;
+				var dispatch:ScanEvent = null;
+				var upc:String = null;
+
+				// Capture web cam display
+				capture.draw( vidCamera );
+				
+				// Extract scan area from web cam display
+				for( var s:int = 1; s < numChildren; s++ )
+				{
+					child = UIComponent( getChildAt( s ) );
+					line.copyPixels( capture, new Rectangle( 0, child.y, child.width, child.height ), new Point( 0, 0 ) );
+					upc = scan( line );
+					
+					if( upc.indexOf( "X" ) == -1 )
+					{
+						// Account for a bookland barcode
+						if( upc.indexOf( "78" ) == 0 )
+						{
+							upc = "9" + upc;
+						}
+						
+						// Validate number sequence through check-digit calculation
+						if( check( upc ) )
+						{					
+							rate.stop();
+							rate.removeEventListener( TimerEvent.TIMER, doScan );
+		
+							dispatch = new ScanEvent( ScanEvent.SCAN, upc );
+	
+							// Add ISBN number from bookland barcode						
+							if( upc.indexOf( "978" ) == 0 )
+							{
+								dispatch.isbn = isbn( upc );						
+							}
+
+							dispatchEvent( dispatch );
+							
+							break;
+						}
+					}
+		
+					if( upc.length >= 11 )
+					{
+						dispatch = new ScanEvent( ScanEvent.REGISTER, upc );
+						dispatchEvent( dispatch );
+						dispatch = null;
+					}
+				}
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:VideoDisplay id="vidCamera" width="320" height="240" />		
+
+	<mx:Canvas y="120" height="2" styleName="scanline" />
+	<mx:Canvas y="60" height="2" styleName="scanline" />
+	<mx:Canvas y="180" height="2" styleName="scanline" />		
+	
+</mx:TitleWindow>
