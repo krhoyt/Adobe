@@ -1,0 +1,27 @@
+/*
+ * Background gradient generated using ColorZilla
+ * http://www.colorzilla.com/gradient-editor
+ */
+body {
+	background: #dddedd;
+	background: -moz-linear-gradient( -45deg, #dddedd 0%, #d5d6d6 100% );
+	background: -webkit-linear-gradient( -45deg, #dddedd 0%, #d5d6d6 100% );
+	background: -o-linear-gradient( -45deg, #dddedd 0%, #d5d6d6 100% );
+	background: -ms-linear-gradient( -45deg, #dddedd 0%, #d5d6d6 100% );
+	background: linear-gradient( 135deg, #dddedd 0%, #d5d6d6 100% );
+	margin: 0px;
+	padding: 0px;		
+}
+
+/* 
+ * Thanks to All Vectors for the switch assets
+ * http://www.allvectors.com/vector-switch
+ */
+.switch {
+	background-image: url( switch.png );
+	background-position: 0px;	
+	background-repeat: no-repeat;
+	height: 225px;
+	overflow: hidden;
+	width: 500px;
+}

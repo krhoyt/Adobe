@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MP3 Player</title>
+
+<!-- Code -->
+<script type="text/javascript">
+// Web Socket connection
+var socket = null;
+
+// Called when the mouse is down on the button
+// Sends a command across the socket to indicate state
+function doButtonClick()
+{
+	socket.send( Math.floor( Math.random() * 10 ) + 1 );	
+}
+
+// Called when there is an error with the socket
+// Sends a message to the console for debugging
+function doSocketError( evt )
+{
+	console.log( 'Socket error' );	
+}
+
+// Called when the socket has been opened
+// Send a message to the console for debugging
+function doSocketOpen( evt )
+{
+	console.log( 'Socket open' );	
+}
+
+// Called when the document loads
+// Setup user interface and socket
+function doWindowLoad()
+{
+	var button = document.querySelector( 'input[type=button]:first-of-type' );
+	
+	// Listen for events on the button
+	button.addEventListener( 'click', doButtonClick );
+	
+	// Map implementation differences to single reference
+	window.WebSocket = window.WebSocket || window.MozWebSocket;		
+	
+	// Instantiate the web socket
+	// Attach event handlers
+	socket = new WebSocket( 'ws://localhost:8080' );
+	socket.onopen = doSocketOpen;
+	socket.onerror = doSocketError;	
+	
+	// Layout user interface
+	doWindowResize();	
+}
+
+// Called to layout the document content
+function doWindowResize()
+{
+
+}
+
+// Event hooks the get it all started
+window.addEventListener( 'load', doWindowLoad );
+window.addEventListener( 'resize', doWindowResize );
+</script>
+
+</head>
+<body>
+
+<!-- The button -->
+<input type="button">
+
+</body>
+</html>

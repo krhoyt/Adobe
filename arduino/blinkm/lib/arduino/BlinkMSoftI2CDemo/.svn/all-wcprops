@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/119/trunk/blinkm_examples/arduino/BlinkMSoftI2CDemo
+END
+BlinkMSoftI2CDemo.ino
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/128/trunk/blinkm_examples/arduino/BlinkMSoftI2CDemo/BlinkMSoftI2CDemo.ino
+END
+SoftI2CMaster.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/128/trunk/blinkm_examples/arduino/BlinkMSoftI2CDemo/SoftI2CMaster.cpp
+END
+BlinkM_funcs_soft.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/124/trunk/blinkm_examples/arduino/BlinkMSoftI2CDemo/BlinkM_funcs_soft.h
+END
+SoftI2CMaster.h
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/128/trunk/blinkm_examples/arduino/BlinkMSoftI2CDemo/SoftI2CMaster.h
+END

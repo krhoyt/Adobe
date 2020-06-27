@@ -1,0 +1,8 @@
+Vcc (3V3), red
+Gnd, white
+Clock, blue, 13
+Command,orange, 11
+Attention, yellow, 10
+Data, brown, 12
+
+* 10k between Vcc and Data

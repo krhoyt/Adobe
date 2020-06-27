@@ -1,0 +1,16 @@
+pin 1: ground
+pin 2: 5V
+pin 3: 3.3kΩ resistor (orange/orange/red) to ground
+pin 4: digital pin 12
+pin 5: ground
+pin 6: digital pin 11
+pin 7: nothing
+pin 8: nothing
+pin 9: nothing
+pin 10: nothing
+pin 11: digital pin 5
+pin 12: digital pin 4
+pin 13: digital pin 3
+pin 14: digital pin 2
+pin 15: 5V
+pin 16: 47Ω resistor (yellow/purple/black) to 47Ω resistor (yellow/purple/black) to ground

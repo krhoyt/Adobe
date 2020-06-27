@@ -1,0 +1,26 @@
+// Expect comma-separated color values
+// Could be any string really
+// Data is arbitrary to Imp
+// Parsed and handled at Arduino
+class ColorIn extends InputPort
+{
+    function set( colors ) 
+    {
+        // Send incoming to the Arduino
+        // Terminate with newline
+        // Tells Arduino that all data has arrived
+        hardware.uart57.write( colors + "\n" );
+        
+        // Show in the planner just to see it working
+        server.show( colors );        
+    }
+}
+
+// Configure the Imp program
+// Use input class from above
+imp.configure( "QR Light", [ColorIn], [] );
+
+// Configure the Imp to talk over serual (UART technically)
+// Baud rate here must match baud rate for software serial in Arduino
+hardware.configure( UART_57 );
+hardware.uart57.configure( 19200, 8, PARITY_NONE, 1, NO_CTSRTS );

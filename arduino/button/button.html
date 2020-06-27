@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>Push Button</title>
+
+<!-- Styles -->
+<style type="text/css">
+body {
+	background-color: #000;	
+}
+
+#lives {
+	bottom: 5px;
+	height: 50px;
+	left: 0px;
+	position: absolute;
+}
+
+#lives > img {
+	float: left;
+	padding-left: 5px;	
+}
+
+#player {
+	background-image: url( galaga.png );
+	background-repeat: no-repeat;	
+	bottom: 60px;
+	height: 50px;
+	left: 5px;
+	position: absolute;
+	visibility: hidden;	
+	width: 42px;
+}
+
+.bullet {
+	background-color: #FF0;
+	/* bottom: 111px; */
+	height: 5px;
+	left: 25px;
+	position: absolute;
+	width: 2px;	
+}
+</style>
+
+<!-- Polyfill for requestAnimationFrame function -->
+<script src="rAF.js" type="text/javascript"></script>
+
+<!-- Game logic -->
+<script type="text/javascript">
+// Constants
+var FIRE_MESSAGE = 'Pressed';
+var FRAME_RATE = 16;
+var GUTTER_BOTTOM = 110;
+var GUTTER_SIDES = 5;
+var OFFSET_NEGATIVE = -5;
+var OFFSET_POSITIVE = 5;
+
+// Global variables
+var bullets = new Array();
+var direction = 5;
+var game = null;
+var playerLast = 0;
+var playerSprite = null;
+var socket = null;
+
+// Called by the browser when going to repaint
+// Moves items on screen to be in sync with repaint
+// The end result is smoother animation
+// There is room for optimization in this code
+// Move from frame-based to time-based positioning
+function frame( timestamp )
+{
+	// See how long since the last repaint
+	// If a frame has elapsed then update sprite positions
+	if( ( timestamp - playerLast ) > FRAME_RATE )
+	{
+		// Determine wether to move player sprite left or right
+		// End effect is to bounce automatically from side to side
+		if( ( playerSprite.offsetLeft + playerSprite.clientWidth ) >= ( window.innerWidth - GUTTER_SIDES ) ) 
+		{
+			direction = OFFSET_NEGATIVE;
+		}
+	
+		if( playerSprite.offsetLeft <= GUTTER_SIDES )
+		{
+			direction = OFFSET_POSITIVE;	
+		}
+		
+		// Update player sprite location
+		playerSprite.style.left = ( playerSprite.offsetLeft + direction ) + 'px';
+		
+		// Iterate through the bullets and update their positions
+		for( var b = 0; b < bullets.length; b++ )
+		{
+			if( bullets[b].offsetTop <= 0 )
+			{
+				// Remove bullets once off the screen
+				document.body.removeChild( bullets[b] );
+				bullets.splice( b, 1 );
+			} else {
+				bullets[b].style.top = ( bullets[b].offsetTop + OFFSET_NEGATIVE ) + 'px';
+			}
+		}
+		
+		// Update last time since update
+		playerLast = timestamp;
+	}
+	
+	// Request another repaint to keep the animation going
+	game = window.requestAnimationFrame( frame );
+}
+
+// Called when there is an error connecting to the socket
+// Logs the message to the console
+function doSocketError( evt )
+{
+	console.log( 'Socket error' );		
+}
+
+// Called when a message arrives from the socket
+// Creates a bullet sprite and positions it
+function doSocketMessage( mess )
+{
+	var bullet = null;
+	
+	// If the button has been pressed
+	// Alternative also sent is for released
+	if( mess.data.trim() == FIRE_MESSAGE )
+	{
+		// Create the bullet and position it at the player sprite
+		bullet = document.createElement( 'div' );
+		bullet.className = 'bullet';
+		bullet.style.left = ( playerSprite.offsetLeft + Math.round( playerSprite.clientWidth /2 ) ) + 'px';
+		bullet.style.top = ( window.innerHeight - GUTTER_BOTTOM ) + 'px';
+		
+		// Put the bullet into an array for reference
+		// Put the bullet on the screen
+		bullets.push( bullet );
+		document.body.appendChild( bullet );
+		
+		// Log the message for reference
+		console.log( FIRE_MESSAGE );	
+	}
+}
+
+// Called when the socket connection is open
+// Starts the game
+function doSocketOpen( evt )
+{
+	// Store a reference to the player sprite
+	// Make the player sprite visible
+	playerSprite = document.querySelector( '#player' );
+	playerSprite.style.visibility = 'visible';
+	
+	// Start animating the game
+	game = window.requestAnimationFrame( frame );	
+}
+
+// Called when the window finishes loading
+// Kicks off socket connection
+function doWindowLoad()
+{
+	// Map implementation differences to single reference
+	window.WebSocket = 
+		window.WebSocket || 
+		window.MozWebSocket;		
+		
+	// Instantiate the web socket
+	// Attach event handlers
+	socket = new WebSocket( 'ws://localhost:8080' );
+	socket.onopen = doSocketOpen;
+	socket.onmessage = doSocketMessage;
+	socket.onerror = doSocketError;		
+}
+
+// Kicks the whole thing off
+window.onload = doWindowLoad;
+</script>
+
+</head>
+<body>
+
+<!-- Player sprite -->
+<div id="player"></div>
+
+<!-- Some extra lives just for decoration -->
+<div id="lives">
+	<img src="galaga.png" width="42" height="50">
+	<img src="galaga.png" width="42" height="50">    
+</div>
+
+</body>
+</html>

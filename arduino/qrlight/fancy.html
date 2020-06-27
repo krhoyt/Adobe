@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">	
+<title>QR Light</title>
+
+<style type="text/css">
+body {
+	background-image: url( img/corkboard.jpg );
+	background-repeat: repeat;	
+	font-family: short-stack, sans-serif;
+	margin: 0px;
+	overflow: hidden;
+	padding: 0px;
+}
+
+#camera {
+	border: 10px solid #FFF;
+	box-shadow: 
+		5px 5px 7px rgba( 33, 33, 33, 0.70 ),
+		0px 0px 8px rgba( 33, 33, 33, 0.50 );	
+	height: 394px;
+	position: absolute;
+	right: 50px;	
+	top: 50px;	
+	width: 480px;
+}
+
+#holder {
+	position: absolute;
+	width: 1024px;
+}
+
+.adobe {
+	padding-left: 10px; 
+	padding-bottom: 40px; 
+	padding-top: 10px;
+	position: absolute; 
+	left: 80px; 
+	bottom: 0px; 
+	background-color: #F00; 
+	width: 40px; 
+	height: 40px;
+}
+
+.note {
+	background-color: #ffc;
+	box-shadow: 
+		5px 5px 7px rgba( 33, 33, 33, 0.70 ),
+		0px 0px 8px rgba( 33, 33, 33, 0.50 );
+	font-size: 1.3em;
+	height: 240px;
+	padding-left: 30px;
+	padding-right: 30px;
+	position: absolute;
+	width: 230px;
+}
+
+.note > img {
+	margin-left: 90px;
+	margin-top: -40px;
+}
+
+.note > p {
+	margin-top: 15px;
+}
+</style>
+	
+<!-- SWFObject for Flash content -->
+<script type="text/javascript" src="script/swfobject/swfobject.js"></script>
+<script type="text/javascript">
+swfobject.registerObject( 'dropcam', '9.0.0' );
+</script>
+
+<!-- Adobe Edge Web Fonts -->
+<script src="http://use.edgefonts.net/short-stack.js"></script>
+
+<!-- Parse for cross domain call to Electric Imp -->
+<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.7.min.js"></script>
+
+<!-- Pull it all together -->
+<script type="text/javascript">
+var IMP_URL = 'https://api.electricimp.com/v1/134045bb5c6addca/30da96b7da1e4861';
+var PARSE_APP = 'i6ZrNJo3GRcMhMOWKOJkHm5DgBwoppGgz90nlOD7';
+var PARSE_KEY = 'jR0U21OvuoT5xGZMW4fMFvBMqRfBizaMdaD6ufgm';
+
+var touch = false;
+
+function doPinClick()
+{
+	var color = null;
+	
+	color = this.getAttribute( 'data-color' );
+	
+	Parse.Cloud.run( 'imp', {
+		value: color,
+		url: IMP_URL
+	}, {
+		success: function( result ) {
+			console.log( 'Parse call successful.' );
+	  	},
+	  	error: function( error ) {
+			console.log( 'Error calling Parse.' );
+	  	}
+	} );		
+}
+
+function doWindowLoad()
+{
+	var pins = null;
+	
+	// Check to see if there is a touch event handler
+	touch = ( 'ontouchstart' in document.documentElement ) ? true : false;	
+	
+	pins = document.querySelectorAll( '.pin' );
+
+	for( var p = 0; p < pins.length; p++ )
+	{
+		pins[p].addEventListener( touch ? 'touchstart' : 'click', doPinClick );	
+	}
+	
+	doWindowResize();
+}
+
+function doWindowResize()
+{
+	var holder = null;
+	
+	holder = document.querySelector( '#holder' );
+	holder.style.left = Math.round( ( window.innerWidth - holder.clientWidth ) / 2 ) + 'px';
+}
+
+Parse.initialize( PARSE_APP, PARSE_KEY );
+
+window.addEventListener( 'load', doWindowLoad );
+window.addEventListener( 'resize', doWindowResize );
+</script>
+
+</head>
+<body>
+		
+<a href="http://www.adobe.com" target="_blank">
+    <div class="adobe">
+        <img src="img/adobe-logo.svg" width="30" height="40">
+    </div>
+</a>        
+        
+<div id="holder">
+               
+    <div id="camera">
+        <object 
+            classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
+            width="480" 
+            height="394" 
+            id="dropcam">
+            <param 
+                name="movie" 
+                value="https://www.dropcam.com/e/7fb467e7ba6f4a86a4094b070d5444f7?autoplay=true">
+            <!--[if !IE]>-->
+            <object 
+                type="application/x-shockwave-flash" 
+                data="https://www.dropcam.com/e/7fb467e7ba6f4a86a4094b070d5444f7?autoplay=true" 
+                width="480" 
+                height="394">
+            <!--<![endif]-->
+                <a href="http://www.adobe.com/go/getflashplayer">
+                    <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player">
+                </a>
+            <!--[if !IE]>-->
+            </object>
+            <!--<![endif]-->
+        </object>
+    </div>
+    
+    <div class="note" style="left: 100px; top: 80px; -webkit-transform: rotate( 15deg );">
+        <img class="pin" src="img/push-pin-red.png" width="50" height="81" data-color="255,0,0">
+        <p>This is a live video stream of my man cave ... well, a wall in my man cave ...</p>
+    </div>
+    
+    <div class="note" style="left: 100px; top: 300px; -webkit-transform: rotate( -10deg );">
+        <img class="pin" src="img/push-pin-purple.png" width="50" height="81" data-color="230,230,250">	
+        <p>On that wall hangs an interactive QR code ...</p>
+    </div>
+    
+    <div class="note" style="left: 350px; top: 360px; -webkit-transform: rotate( 10deg );">
+        <img class="pin" src="img/push-pin-blue.png" width="50" height="81" data-color="0,0,255">	
+        <p>Click (or tap) one of the colored push pins on this page to change the color of the QR code.</p>
+    </div>
+    
+    <div class="note" style="left: 650px; top: 410px; -webkit-transform: rotate( -15deg );">
+        <img class="pin" src="img/push-pin-green.png" width="50" height="81" data-color="0,255,0">
+        <p>Like it? Hate it? Want more information? Hit me up on Twitter at <a href="http://www.twitter.com/krhoyt" target="_blank">@krhoyt</a></p>
+    </div>
+
+<div>
+
+</body>
+</html>

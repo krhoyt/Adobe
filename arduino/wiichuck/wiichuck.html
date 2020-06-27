@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>Wii Ninja</title>
+
+<style type="text/css">
+body {
+	background-color: #0CF;
+	padding: 0px;
+	margin: 0px;	
+}
+
+#wiichuck {
+	left: 0px;
+	position: absolute;	
+	top: 0px;
+}
+</style>
+
+<script src="http://code.createjs.com/preloadjs-0.3.0.min.js" type="text/javascript"></script>
+<script src="http://code.createjs.com/easeljs-0.6.0.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+var JOY_CENTER = 133;
+var STANDING_HEIGHT = 192;
+var STANDING_WIDTH = 149;
+
+var canvas = null;
+var ninja = null;
+var socket = null;
+var stage = null;
+var queue = null;
+
+var cbutton = 0;
+var walking = 0;
+var zbutton = 0;
+
+function doNinjaEnd( evt )
+{
+	if( walking > ( JOY_CENTER - 5 ) && 
+		walking < ( JOY_CENTER + 5 ) )
+	{
+		ninja.gotoAndPlay( 'standing' );
+	}
+	
+	if( evt.name == 'throwing' )
+	{
+		ninja.gotoAndPlay( 'standing' );	
+	}
+	
+	if( evt.name == 'striking' )
+	{
+		ninja.gotoAndPlay( 'standing' );	
+	}	
+}
+
+function doQueueComplete() {
+	var shape = null;
+	var sheet = null;
+
+	shape = new createjs.Shape();
+ 	shape.graphics
+		.beginBitmapFill( queue.getResult( 'grass' ), 'repeat-x' )
+		.drawRect( 0, 0, canvas.width, 171 )
+		.endFill();
+	
+	shape.y = canvas.height - 161;
+	stage.addChild( shape );
+
+	sheet = new createjs.SpriteSheet( {
+		images: [queue.getResult( 'ninja' )],
+		frames: [
+			// x, y, width, height, imageIndex, regX, regY
+			[455, 390, 149, 192],  // Stand
+			[455, 586, 133, 198],  // Strike
+			[606, 390, 171, 194],				
+			[2, 2, 131, 188],
+			[135, 2, 131, 190],
+			[584, 2, 181, 192],
+			[401, 2, 181, 192],
+			[165, 196, 159, 192],
+			[294, 586, 159, 196],
+			[304, 390, 149, 192],  // Throw	
+			[632, 196, 149, 192],
+			[153, 390, 149, 192],
+			[783, 196, 149, 192],
+			[481, 196, 149, 192],
+			[2, 390, 149, 192],
+			[767, 2, 171, 192],
+			[151, 586, 141, 194], // Walk																																																																	
+			[779, 390, 149, 194],
+			[268, 2, 131, 190],
+			[326, 196, 153, 192],
+			[2, 586, 147, 194],
+			[2, 196, 161, 192]																												
+		],
+		animations: {
+			// start, end, next, frequency
+			standing: 0,		
+			striking: [1, 8],
+			throwing: [9, 15],
+			walking: [16, 21]
+		}
+	} );
+
+	createjs.SpriteSheetUtils.addFlippedFrames( sheet, true, false, false );
+
+	ninja = new createjs.BitmapAnimation( sheet );
+	ninja.addEventListener( 'animationend', doNinjaEnd );
+	ninja.gotoAndPlay( 'standing' );
+	ninja.x = Math.round( ( canvas.width - STANDING_WIDTH ) / 2 );
+	ninja.y = canvas.height - STANDING_HEIGHT - 70;
+	stage.addChild( ninja );
+
+	createjs.Ticker.setFPS( 7 );
+	createjs.Ticker.addEventListener( 'tick', doTick );	 
+}	
+
+function doSocketError( evt )
+{
+	console.log( 'Socket error' );	
+}
+
+function doSocketMessage( mess )
+{
+	var parts = mess.data.split( ',' );
+	
+	cbutton = parseInt( parts[6] );
+	zbutton = parseInt( parts[5] );
+	walking = parseInt( parts[3] );
+}
+
+function doSocketOpen( evt )
+{
+	console.log( 'Socket open' );	
+}
+
+function doTick() 
+{
+	if( walking > ( JOY_CENTER + 5 ) && ninja.currentAnimation != 'walking' )
+	{
+		ninja.gotoAndPlay( 'walking' );	
+	}	
+	
+	if( cbutton == 1 && ninja.currentAnimation != 'throwing' )
+	{
+		ninja.gotoAndPlay( 'throwing' );	
+	}
+	
+	if( zbutton == 1 && ninja.currentAnimation != 'striking' )
+	{
+		ninja.gotoAndPlay( 'striking' );	
+	}	
+		
+	stage.update();
+}
+
+function doWindowLoad() 
+{
+	canvas = document.querySelector( '#wiichuck' );
+	stage = new createjs.Stage( canvas );
+
+	queue = new createjs.LoadQueue();
+	queue.addEventListener( 'complete', doQueueComplete );
+	queue.loadManifest( [
+		{id: 'ninja', src: 'ninja.png'},
+		{id: 'grass', src: 'grass.png'}
+	] );
+	
+	socket = new WebSocket( 'ws://localhost:8080' );
+	socket.onopen = doSocketOpen;
+	socket.onmessage = doSocketMessage;
+	socket.onerror = doSocketError;		
+	
+	doWindowResize();
+}
+
+function doWindowResize()
+{
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+}
+
+window.addEventListener( 'load', doWindowLoad );
+window.addEventListener( 'resize', doWindowResize );
+</script>
+
+</head>
+<body>
+
+<canvas id="wiichuck"></canvas>
+
+</body>
+</html>

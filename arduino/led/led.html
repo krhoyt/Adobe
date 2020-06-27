@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>LED</title>
+
+<!-- Styles -->
+<style type="text/css">
+body {
+	margin: 0px;
+	padding: 0px;	
+}
+
+input[type=button] {
+	background-image: url( button.png );
+	background-position: 0px;	
+	background-repeat: no-repeat;
+	border: none;
+	height: 283px;
+	width: 298px;
+}
+
+input[type=button]:active {
+	background-position: -298px;
+}
+</style>
+
+<!-- Code -->
+<script type="text/javascript">
+// Constants
+var BUTTON_DOWN = 1;
+var BUTTON_UP = 0;
+
+// Web Socket connection
+var socket = null;
+
+// Called when the mouse is down on the button
+// Sends a command across the socket to indicate state
+function doButtonDown()
+{
+	socket.send( BUTTON_DOWN );	
+}
+
+// Called when the mouse is released from the button
+// Sends a command across the socket to indicate state
+function doButtonUp()
+{
+	socket.send( BUTTON_UP );	
+}
+
+// Called when there is an error with the socket
+// Sends a message to the console for debugging
+function doSocketError( evt )
+{
+	console.log( 'Socket error' );	
+}
+
+// Called when the socket has been opened
+// Send a message to the console for debugging
+function doSocketOpen( evt )
+{
+	console.log( 'Socket open' );	
+}
+
+// Called when the document loads
+// Setup user interface and socket
+function doWindowLoad()
+{
+	var button = document.querySelector( 'input[type=button]:first-of-type' );
+	
+	// Listen for events on the button
+	button.addEventListener( 'mousedown', doButtonDown );
+	button.addEventListener( 'mouseup', doButtonUp );
+	
+	// Map implementation differences to single reference
+	window.WebSocket = window.WebSocket || window.MozWebSocket;		
+	
+	// Instantiate the web socket
+	// Attach event handlers
+	socket = new WebSocket( 'ws://localhost:8080' );
+	socket.onopen = doSocketOpen;
+	socket.onerror = doSocketError;	
+	
+	// Layout user interface
+	doWindowResize();	
+}
+
+// Called to layout the document content
+// Vertically and horizontally centers the button
+function doWindowResize()
+{
+	var button = document.querySelector( 'input[type=button]:first-of-type' );
+	
+	button.style.marginLeft = Math.round( ( window.innerWidth - button.clientWidth ) / 2 ) + 'px';
+	button.style.marginTop = Math.round( ( window.innerHeight - button.clientHeight ) / 2 ) + 'px';		
+}
+
+// Event hooks the get it all started
+window.onload = doWindowLoad;
+window.onresize = doWindowResize;
+</script>
+
+</head>
+<body>
+
+<!-- The button -->
+<input type="button">
+
+</body>
+</html>

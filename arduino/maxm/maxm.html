@@ -1,0 +1,241 @@
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>ThingM MaxM RGB LED</title>
+
+<!-- Styles -->
+<style type="text/css">
+body {
+	cursor: default;	
+	overflow: hidden;	
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+
+#picker {
+	left: 0px;
+	position: absolute;	
+	top: 0px;
+}
+
+#swatch {
+	border-radius: 50px;
+	height: 100px;	
+	left: 0px;
+	position: absolute;
+	top: 0px;
+	visibility: hidden;		
+	width: 100px;
+}
+</style>
+
+<!-- Code -->
+<script type="text/javascript">
+// Global variables
+var canvas = null;
+var color = null;
+var context = null;
+var interval = null;
+var socket = null;
+var swatch = null;
+var touch = null;
+
+// Called to position the color swatch
+// Keeps it inside the viewport boundaries
+function position( x, y )
+{
+	// Swatch nearing the far let or right sides
+	// Flip to other side of mouse cursor
+	if( ( x + 50 + swatch.clientWidth + 10 ) > window.innerWidth )
+	{
+		swatch.style.left = ( x - 50 - swatch.clientWidth ) + 'px';		
+	} else {
+		swatch.style.left = ( x + 50 ) + 'px';		
+	}
+
+	// Swatch nearing the top or bottom sides
+	// Flip position to be on top or bottom of the cursor
+	if( ( y - Math.ceil( swatch.clientHeight / 2 ) - 10 ) < 0 )
+	{
+		swatch.style.top = '10px';		
+	} else if( ( y + Math.ceil( swatch.clientHeight / 2 ) + 10 ) > window.innerHeight ) {
+		swatch.style.top = ( window.innerHeight - 10 - swatch.clientHeight ) + 'px';
+	} else {
+		swatch.style.top = ( y - 50 ) + 'px';
+	}	
+}
+
+// Called to redraw the viewport sized color swatch
+// Called once on initial load, and then on resizing
+function redraw()
+{
+	var horizontal = null;
+	var hue = null;
+	var lightness = null;
+	var saturation = null;
+	var vertical = null;
+	
+	// Clear the canvas
+	context.clearRect( 0, 0, canvas.width, canvas.height );
+	
+	// Determine the number of color stops to make
+	// Based on the size of the canvas
+	vertical = Math.ceil( canvas.height / 360 );
+	horizontal = Math.ceil( canvas.width / 100 );
+
+	// Keep saturation a constant
+	saturation = 100;
+
+	// Cycle through hue and lightness
+	// HSL is a CSS3 option for specifying color
+	for( hue = 0; hue < 360; hue++ )
+	{
+		for( lightness = 0; lightness < 100; lightness++ )
+		{
+			// Draw the individual color stop
+			context.fillStyle = 'hsl( ' + hue + ', ' + saturation + '%, ' + ( 100 - lightness ) + '% )';
+			context.fillRect( lightness * horizontal, hue * vertical, horizontal, vertical );
+		}
+	}
+}
+
+// Called when the mouse is down on the canvas
+function doCanvasDown( evt )
+{
+	var rgb = null;	
+	
+	// While mouse down, track movement and mouse release
+	canvas.addEventListener( touch ? 'touchmove' : 'mousemove', doCanvasMove );
+	canvas.addEventListener( touch ? 'touchend' : 'mouseup', doCanvasUp );	
+	
+	// Get the pixel color where the mouse is located
+	// Get an RGB color value for the swatch
+	// Store the comma-separated value for the socket
+	color = context.getImageData( evt.clientX, evt.clientY, 1, 1 );
+	rgb = 'rgb( ' + color.data[0] + ', ' + color.data[1] + ', ' + color.data[2] + ' )';	
+	color = color.data[0] + ',' + color.data[1] + ',' + color.data[2];
+	
+	// Update the color of the swatch
+	swatch = document.querySelector( '#swatch' );
+	swatch.style.backgroundColor = rgb;
+
+	// Position the swatch around the mouse
+	position( evt.clientX, evt.clientY );
+	
+	// Make swatch visible
+	swatch.style.visibility = 'visible';
+	
+	// Start sending updates to Web Socket server
+	// Done on a separate process to keep from flooding Arduino
+	interval = setInterval( doColorChange, 100 );
+}
+
+// Called when the mouse moves over the canvas while down
+// Updates the color and position of the swatch
+function doCanvasMove( evt )
+{
+	var rgb = null;
+
+	// Get pixel color where mouse is located
+	// Build RGB color value reference for swatch
+	// Store latest color to be send to the socket
+	color = context.getImageData( evt.clientX, evt.clientY, 1, 1 );
+	rgb = 'rgb( ' + color.data[0] + ', ' + color.data[1] + ', ' + color.data[2] + ' )';	
+	color = color.data[0] + ',' + color.data[1] + ',' + color.data[2];	
+	
+	// Update swatch color
+	swatch.style.backgroundColor = rgb;
+	
+	// Update swatch position
+	position( evt.clientX, evt.clientY );
+}
+
+// Called when the canvas is released
+// Cleans up any tracking
+function doCanvasUp( evt )
+{
+	// Remove mouse event listeners
+	canvas.removeEventListener( touch ? 'touchmove' : 'mousemove', doCanvasMove );
+	canvas.removeEventListener( touch ? 'touchend' : 'mouseup', doCanvasUp );		
+
+	// Hide the swatch	
+	swatch.style.visibility = 'hidden';	
+	swatch = null;
+	
+	// Stop sending updates to the socket
+	clearInterval( interval );
+	interval = null;
+}
+
+// Called incrementally while the mouse is down
+// Sends the latest color value across the socket
+function doColorChange()
+{
+	socket.send( color );	
+}
+
+// Called when there is a problem opening the socket
+function doSocketError( evt )
+{
+	console.log( 'Socket error.' );	
+}
+
+// Called when the socket has successfully opened
+function doSocketOpen( evt )
+{
+	console.log( 'Socket open.' );	
+}
+
+// Called when the document has loaded
+// Configures canvas color pallette
+// Opens the Web Socket
+function doWindowLoad()
+{
+	// Map Web Socket based on browser differences
+	// Handle mouse or touch events depending on the device
+	window.WebSocket = window.WebSocket || window.MozWebSocket;	
+	touch = ( 'ontouchstart' in document.documentElement ) ? true : false;	
+	
+	// Get a reference to the canvas
+	// Listen for the mouse down 
+	canvas = document.querySelector( '#picker' );
+	context = canvas.getContext( '2d' );
+	canvas.addEventListener( touch ? 'touchstart' : 'mousedown', doCanvasDown );
+
+	// Open up the Web Socket connection
+	socket = new WebSocket( 'ws://localhost:8080' );
+	socket.onopen = doSocketOpen;
+	socket.onerror = doSocketError;
+	
+	// Perform initial resizing
+	// Also draws initial pallette
+	doWindowResize();	
+}
+
+// Called when the window resizes
+// Sizes the canvas to fit the viewport
+// Draws the color pallette
+function doWindowResize()
+{
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;	
+
+	redraw();
+}
+
+// Event listeners that get it all started
+window.onload = doWindowLoad;
+window.onresize = doWindowResize;
+</script>
+
+</head>
+<body>
+
+<!-- Canvas is the color pallette -->
+<!-- Show color where the mouse is with a swatch -->
+<canvas id="picker"></canvas>
+<div id="swatch"></div>
+
+</body>
+</html>

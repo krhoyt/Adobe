@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/13/trunk/blinkm_examples/arduino/BlinkMChuck
+END
+BlinkM_funcs.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/13/trunk/blinkm_examples/arduino/BlinkMChuck/BlinkM_funcs.h
+END
+nunchuck_funcs.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/127/trunk/blinkm_examples/arduino/BlinkMChuck/nunchuck_funcs.h
+END
+BlinkMChuck.ino
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/127/trunk/blinkm_examples/arduino/BlinkMChuck/BlinkMChuck.ino
+END

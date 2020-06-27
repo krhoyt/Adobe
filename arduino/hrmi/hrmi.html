@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Heart Rate Monitor Interface</title>
+
+<!-- Styles -->
+<style type="text/css">
+#rate {
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 14em;
+	left: 0px;
+	position: absolute;
+	right: 0px;
+	text-align: center;
+}
+</style>
+
+<!-- Code -->
+<script type="text/javascript">
+// Web Socket connection
+var socket = null;
+
+// Called when there is an error with the socket
+// Sends a message to the console for debugging
+function doSocketError( evt )
+{
+	console.log( 'Socket error' );	
+}
+
+// Called when a message has arrived on the socket
+// Displays the data in the document
+function doSocketMessage( mess )
+{
+	var rate = null;
+	
+	rate = document.querySelector( '#rate' );
+	rate.innerHTML = mess.data;
+}
+
+// Called when the socket has been opened
+// Send a message to the console for debugging
+function doSocketOpen( evt )
+{
+	console.log( 'Socket open' );	
+}
+
+// Called when the document loads
+// Setup the Web Socket
+// Layout
+function doWindowLoad()
+{
+	// Map implementation differences to single reference
+	window.WebSocket = window.WebSocket || window.MozWebSocket;		
+	
+	// Instantiate the web socket
+	// Attach event handlers
+	socket = new WebSocket( 'ws://localhost:8080' );
+	socket.onopen = doSocketOpen;
+	socket.onmessage = doSocketMessage;
+	socket.onerror = doSocketError;	
+	
+	// Layout
+	doWindowResize();	
+}
+
+// Called to layout the document content
+// Vertically centers the data display area
+function doWindowResize()
+{
+	var rate = document.querySelector( '#rate' );
+	
+	rate.style.top = Math.round( ( window.innerHeight - rate.clientHeight ) / 2 ) + 'px';		
+}
+
+// Event hooks the get it all started
+window.addEventListener( 'load', doWindowLoad );
+window.addEventListener( 'resize', doWindowResize );
+</script>
+
+</head>
+<body>
+
+<!-- Display heart rate -->
+<div id="rate">0</div>
+
+</body>
+</html>

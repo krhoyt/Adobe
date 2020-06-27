@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/13/trunk/blinkm_examples/processing/BlinkMSequencer
+END
+BlinkMComm.pde
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/13/trunk/blinkm_examples/processing/BlinkMSequencer/BlinkMComm.pde
+END
+ConnectDialog.pde
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/13/trunk/blinkm_examples/processing/BlinkMSequencer/ConnectDialog.pde
+END
+DurationPullDown.pde
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/13/trunk/blinkm_examples/processing/BlinkMSequencer/DurationPullDown.pde
+END
+Util.pde
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/13/trunk/blinkm_examples/processing/BlinkMSequencer/Util.pde
+END
+RightPanel.pde
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/13/trunk/blinkm_examples/processing/BlinkMSequencer/RightPanel.pde
+END
+MainFrame.pde
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/13/trunk/blinkm_examples/processing/BlinkMSequencer/MainFrame.pde
+END
+ColorPreview.pde
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/13/trunk/blinkm_examples/processing/BlinkMSequencer/ColorPreview.pde
+END
+Log.pde
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/13/trunk/blinkm_examples/processing/BlinkMSequencer/Log.pde
+END
+PlayButton.pde
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/13/trunk/blinkm_examples/processing/BlinkMSequencer/PlayButton.pde
+END
+TopPanel.pde
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/13/trunk/blinkm_examples/processing/BlinkMSequencer/TopPanel.pde
+END
+TimeLine.pde
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/13/trunk/blinkm_examples/processing/BlinkMSequencer/TimeLine.pde
+END
+BurnDialog.pde
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/13/trunk/blinkm_examples/processing/BlinkMSequencer/BurnDialog.pde
+END
+BlinkMSequencer.pde
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/13/trunk/blinkm_examples/processing/BlinkMSequencer/BlinkMSequencer.pde
+END
